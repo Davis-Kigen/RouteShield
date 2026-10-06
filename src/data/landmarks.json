@@ -1,0 +1,134 @@
+[
+  {
+    "id": "afya-centre",
+    "name": "Afya Centre",
+    "category": "Commercial Hub / Terminus",
+    "cbd_area": "Tom Mboya / Haile Selassie",
+    "lat": -1.2864,
+    "lng": 36.8290,
+    "nearest_safe_zone": "Afya Centre Security & Posta Police Station (80m)",
+    "nearest_stage": "Afya Centre Matatu Stage (Kajiado, Kitengela, Machakos)",
+    "advisory": "High crowd volume. Keep backpacks in front. Well-lit at night with ongoing patrols."
+  },
+  {
+    "id": "national-archives",
+    "name": "Kenya National Archives",
+    "category": "Cultural Landmark",
+    "cbd_area": "Moi Avenue / Tom Mboya",
+    "lat": -1.2840,
+    "lng": 36.8260,
+    "nearest_safe_zone": "Central Police Station Walkway & Odeon Lighted Bay (140m North)",
+    "nearest_stage": "Odeon / Ambassadeur Stage",
+    "advisory": "Well-known central meeting point. 24-hour public street illumination and constant security presence."
+  },
+  {
+    "id": "kencom-house",
+    "name": "Kencom House / KCB Bank",
+    "category": "Banking / Transit Hub",
+    "cbd_area": "City Hall Way / Moi Avenue",
+    "lat": -1.2855,
+    "lng": 36.8236,
+    "nearest_safe_zone": "City Hall Annex / Supreme Court 24/7 Guard Post (100m South)",
+    "nearest_stage": "Kencom Stage (Westlands, Kikuyu, Karen)",
+    "advisory": "Secure transit terminal with floodlights and continuous county CCTV cameras."
+  },
+  {
+    "id": "odeon-cinema",
+    "name": "Odeon Cinema / Latema",
+    "category": "Entertainment / Landmark",
+    "cbd_area": "Tom Mboya Street",
+    "lat": -1.2842,
+    "lng": 36.8273,
+    "nearest_safe_zone": "Central Police Station Walkway & Odeon Lighted Bay (80m)",
+    "nearest_stage": "Odeon / Ronald Ngala (Thika, Githurai 45)",
+    "advisory": "Busy at evening peak. Stay inside steel queue barriers."
+  },
+  {
+    "id": "railways-station",
+    "name": "Nairobi Railways Central Station",
+    "category": "Transit Terminus",
+    "cbd_area": "Haile Selassie Avenue",
+    "lat": -1.2917,
+    "lng": 36.8258,
+    "nearest_safe_zone": "Co-op Bank House / Green Park Walkway Police Post (160m West)",
+    "nearest_stage": "Railways Bus Station (Rongai, Ngong, Langata)",
+    "advisory": "Use illuminated overhead pedestrian bridge. Never cross open rail tracks."
+  },
+  {
+    "id": "coop-bank-house",
+    "name": "Co-operative Bank House",
+    "category": "Bank Headquarters",
+    "cbd_area": "Haile Selassie Avenue",
+    "lat": -1.2905,
+    "lng": 36.8242,
+    "nearest_safe_zone": "Co-op Bank House Armed Security & Police Post (Onsite)",
+    "nearest_stage": "Railways Bus Station / Haile Selassie",
+    "advisory": "Permanent armed bank guards and high-mast solar lighting active 24/7."
+  },
+  {
+    "id": "supreme-court",
+    "name": "Supreme Court of Kenya",
+    "category": "Judiciary / Government",
+    "cbd_area": "City Hall Way",
+    "lat": -1.2868,
+    "lng": 36.8228,
+    "nearest_safe_zone": "Supreme Court 24/7 Police Guard Post (Onsite)",
+    "nearest_stage": "Kencom / Ambassadeur",
+    "advisory": "Maximum security zone with continuous armed administration police."
+  },
+  {
+    "id": "central-police",
+    "name": "Central Police Station",
+    "category": "Police Headquarters",
+    "cbd_area": "University Way / Harry Thuku Rd",
+    "lat": -1.2805,
+    "lng": 36.8185,
+    "nearest_safe_zone": "Central Police Station (Onsite 24/7)",
+    "nearest_stage": "Khoja Roundabout / University Way",
+    "advisory": "Full police division headquarters. Walk in anytime if in distress."
+  },
+  {
+    "id": "gpo-nairobi",
+    "name": "General Post Office (GPO)",
+    "category": "Public Services",
+    "cbd_area": "Kenyatta Avenue",
+    "lat": -1.2858,
+    "lng": 36.8192,
+    "nearest_safe_zone": "Teleposta / GPO Armed Guard Station (Onsite)",
+    "nearest_stage": "Kenyatta Avenue Stage",
+    "advisory": "Wide, well-lit avenue. Banking halls with security guards on every block."
+  },
+  {
+    "id": "nyayo-house",
+    "name": "Nyayo House",
+    "category": "Government Complex",
+    "cbd_area": "Kenyatta Ave / Uhuru Highway",
+    "lat": -1.2872,
+    "lng": 36.8175,
+    "nearest_safe_zone": "Nyayo House Security Garrison & Kenya Police Post (Onsite)",
+    "nearest_stage": "Kenyatta / Uhuru Highway Stage",
+    "advisory": "Extensively guarded perimeter with continuous floodlighting."
+  },
+  {
+    "id": "khoja-mosque",
+    "name": "Khoja Mosque (Darkhana)",
+    "category": "Religious / Heritage",
+    "cbd_area": "Moi Avenue / River Road Roundabout",
+    "lat": -1.2818,
+    "lng": 36.8229,
+    "nearest_safe_zone": "Central Police Station (200m North)",
+    "nearest_stage": "Khoja Stage (Ruaka, Kikuyu, Waiyaki)",
+    "advisory": "Major northern CBD transit node. Well-lit perimeter."
+  },
+  {
+    "id": "city-market",
+    "name": "City Market",
+    "category": "Marketplace / Cultural",
+    "cbd_area": "Market Street / Muindi Mbingu",
+    "lat": -1.2835,
+    "lng": 36.8208,
+    "nearest_safe_zone": "City Market Police Post & Security Patrols (Onsite)",
+    "nearest_stage": "Muindi Mbingu / University Way",
+    "advisory": "Crowded during daytime; well-illuminated dining strip at night."
+  }
+]

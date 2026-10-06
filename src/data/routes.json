@@ -1,0 +1,81 @@
+[
+  {
+    "id": "125",
+    "route_name": "Route 125",
+    "corridor": "CBD to Ongata Rongai (via Lang'ata Road)",
+    "cbd_stage": "Railways Bus Station / Haile Selassie Roundabout",
+    "safe_zone": "Co-op Bank House / Green Park Walkway Police Post (24/7 Lit)",
+    "off_peak_min": 70,
+    "off_peak_max": 100,
+    "peak_min": 120,
+    "peak_max": 200,
+    "safety_status": "Secure Patrols Active",
+    "advisory": "Board exclusively inside Railways terminal bays after dusk. Security patrols operate along Haile Selassie until 11:30 PM.",
+    "cbd_lat": -1.2917,
+    "cbd_lng": 36.8258,
+    "safe_zone_lat": -1.2905,
+    "safe_zone_lng": 36.8242,
+    "crowdsourced": {
+      "avgFare": 90,
+      "reportCount": 18,
+      "lastReportTime": "2026-10-01 00:30:00",
+      "recentReports": [
+        { "id": 1, "reported_fare": 90, "stage_name": "Railways", "created_at": "15 mins ago" },
+        { "id": 2, "reported_fare": 100, "stage_name": "Railways", "created_at": "42 mins ago" }
+      ]
+    }
+  },
+  {
+    "id": "45",
+    "route_name": "Route 45",
+    "corridor": "CBD to Githurai 45 (via Thika Superhighway)",
+    "cbd_stage": "Tuskys Ronald Ngala / Odeon Cinema Stage",
+    "safe_zone": "Central Police Station Walkway & Odeon Lighted Bay",
+    "off_peak_min": 50,
+    "off_peak_max": 80,
+    "peak_min": 100,
+    "peak_max": 160,
+    "safety_status": "High Vigilance Required",
+    "advisory": "High foot-traffic rush hour surge between 6:00 PM and 8:30 PM. Keep personal belongings zipped; queue in designated floodlit lane.",
+    "cbd_lat": -1.2842,
+    "cbd_lng": 36.8273,
+    "safe_zone_lat": -1.2835,
+    "safe_zone_lng": 36.8265,
+    "crowdsourced": {
+      "avgFare": 70,
+      "reportCount": 32,
+      "lastReportTime": "2026-10-01 00:20:00",
+      "recentReports": [
+        { "id": 3, "reported_fare": 70, "stage_name": "Ronald Ngala", "created_at": "10 mins ago" },
+        { "id": 4, "reported_fare": 80, "stage_name": "Odeon", "created_at": "25 mins ago" }
+      ]
+    }
+  },
+  {
+    "id": "105",
+    "route_name": "Route 105",
+    "corridor": "CBD to Kikuyu / Westlands (via Waiyaki Way)",
+    "cbd_stage": "Kencom / Ambassadeur / Khoja Roundabout Stage",
+    "safe_zone": "City Hall Annex / Supreme Court 24/7 Guard Post",
+    "off_peak_min": 60,
+    "off_peak_max": 90,
+    "peak_min": 100,
+    "peak_max": 170,
+    "safety_status": "Safe & Monitored",
+    "advisory": "Continuously active CCTV coverage. Evening queues are orderly; verify conductor matatu Sacco badge before boarding.",
+    "cbd_lat": -1.2855,
+    "cbd_lng": 36.8236,
+    "safe_zone_lat": -1.2868,
+    "safe_zone_lng": 36.8228,
+    "crowdsourced": {
+      "avgFare": 80,
+      "reportCount": 24,
+      "lastReportTime": "2026-10-01 00:15:00",
+      "recentReports": [
+        { "id": 5, "reported_fare": 80, "stage_name": "Kencom", "created_at": "12 mins ago" },
+        { "id": 6, "reported_fare": 70, "stage_name": "Khoja", "created_at": "35 mins ago" }
+      ]
+    }
+  }
+]
+
