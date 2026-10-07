@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Circle, Polyline, Tooltip, useMap } from 'react-leaflet';
 import L from 'leaflet';
+import { Crosshair, Loader2 } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
 
 const createStageIcon = (label) => {
@@ -37,6 +38,20 @@ const createSafeZoneIcon = (label) => {
   });
 };
 
+const createUserLocationIcon = () => {
+  return L.divIcon({
+    className: 'custom-user-marker',
+    html: `
+      <div style="position:relative; width:22px; height:22px; transform: translate(-50%, -50%); display:flex; align-items:center; justify-content:center;">
+        <div style="position:absolute; width:22px; height:22px; border-radius:50%; background:#000000; opacity:0.25; animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;"></div>
+        <div style="width:14px; height:14px; border-radius:50%; background:#000000; border:3px solid #facc15; box-shadow:0 0 10px rgba(0,0,0,0.5);"></div>
+      </div>
+    `,
+    iconSize: [0, 0],
+    iconAnchor: [0, 0]
+  });
+};
+
 function MapController({ targetCenter, targetZoom }) {
   const map = useMap();
 
@@ -60,7 +75,11 @@ export default function MapView({
   focusedLocation
 }) {
   const defaultCenter = [-1.286389, 36.823611];
-  const currentCenter = focusedLocation || (
+  const [userLocation, setUserLocation] = useState(null);
+  const [isLocating, setIsLocating] = useState(false);
+  const [locationError, setLocationError] = useState(null);
+
+  const currentCenter = userLocation || focusedLocation || (
     selectedRoute ? [selectedRoute.cbd_lat, selectedRoute.cbd_lng] : defaultCenter
   );
 
@@ -72,6 +91,48 @@ export default function MapView({
     }
   }, [selectedRoute, focusedLocation]);
 
+  const handleLocateMe = () => {
+    if (!navigator.geolocation) {
+      setLocationError('Geolocation not supported by this browser.');
+      return;
+    }
+
+    setIsLocating(true);
+    setLocationError(null);
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const coords = [pos.coords.latitude, pos.coords.longitude];
+        setUserLocation(coords);
+        setIsLocating(false);
+
+        // Find nearest route CBD stage
+        let nearest = null;
+        let minDistance = Infinity;
+
+        routes.forEach((r) => {
+          if (r.cbd_lat && r.cbd_lng) {
+            const d = Math.hypot(r.cbd_lat - coords[0], r.cbd_lng - coords[1]);
+            if (d < minDistance) {
+              minDistance = d;
+              nearest = r;
+            }
+          }
+        });
+
+        if (nearest && onSelectRoute) {
+          onSelectRoute(nearest);
+        }
+      },
+      (err) => {
+        console.warn('Geolocation error:', err.message);
+        setLocationError('Could not fetch GPS. Ensure location access is allowed.');
+        setIsLocating(false);
+      },
+      { enableHighAccuracy: true, timeout: 8000 }
+    );
+  };
+
   return (
     <div className="relative w-full h-[540px] lg:h-[580px] rounded-2xl overflow-hidden border-2 border-black shadow-xl bg-zinc-100">
       <MapContainer
@@ -81,13 +142,38 @@ export default function MapView({
         style={{ width: '100%', height: '100%' }}
         className="w-full h-full z-10"
       >
-        <MapController targetCenter={currentCenter} targetZoom={focusedLocation ? 16 : 15} />
+        <MapController targetCenter={currentCenter} targetZoom={userLocation ? 16 : (focusedLocation ? 16 : 15)} />
 
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           maxZoom={19}
         />
+
+        {/* Current User GPS Marker */}
+        {userLocation && (
+          <>
+            <Marker position={userLocation} icon={createUserLocationIcon()}>
+              <Popup>
+                <div className="p-1 font-sans text-xs">
+                  <strong className="text-black block mb-0.5 font-black">Your Current Location</strong>
+                  <span className="text-zinc-600">Showing nearest transit corridor & lit stage</span>
+                </div>
+              </Popup>
+            </Marker>
+            <Circle
+              center={userLocation}
+              radius={80}
+              pathOptions={{
+                color: '#000000',
+                fillColor: '#facc15',
+                fillOpacity: 0.15,
+                weight: 1.5,
+                dashArray: '3, 3'
+              }}
+            />
+          </>
+        )}
 
         {routes.map((route) => {
           const isSelected = selectedRoute?.id === route.id;
@@ -166,10 +252,9 @@ export default function MapView({
                 </Marker>
               )}
 
-              {/* Connected Corridor Path & Radial Zone for Selected Route */}
+              {/* Connected Corridor Path & Radial Zone */}
               {isSelected && hasBothCoords && (
                 <>
-                  {/* Outer Glow Polyline */}
                   <Polyline
                     positions={[
                       [route.cbd_lat, route.cbd_lng],
@@ -181,8 +266,6 @@ export default function MapView({
                       opacity: 0.85
                     }}
                   />
-
-                  {/* Inner Signal Yellow Dashed Corridor */}
                   <Polyline
                     positions={[
                       [route.cbd_lat, route.cbd_lng],
@@ -199,8 +282,6 @@ export default function MapView({
                       Safe Lit Transit Walkway
                     </Tooltip>
                   </Polyline>
-
-                  {/* Safe Zone Radial Buffer */}
                   <Circle
                     center={[route.safe_zone_lat, route.safe_zone_lng]}
                     radius={160}
@@ -218,6 +299,29 @@ export default function MapView({
           );
         })}
       </MapContainer>
+
+      {/* Floating GPS 'Locate Me' Button */}
+      <div className="absolute top-4 right-4 z-[400] flex flex-col items-end gap-2">
+        <button
+          onClick={handleLocateMe}
+          disabled={isLocating}
+          className="flex items-center gap-2 bg-white hover:bg-zinc-100 text-black font-black text-xs px-3.5 py-2.5 rounded-xl border-2 border-black shadow-lg transition active:scale-95 disabled:opacity-75"
+          title="Find nearest safe stage using current GPS"
+        >
+          {isLocating ? (
+            <Loader2 className="w-4 h-4 animate-spin text-black" />
+          ) : (
+            <Crosshair className="w-4 h-4 text-black stroke-[2.5]" />
+          )}
+          <span>{isLocating ? 'Locating...' : 'Locate Me'}</span>
+        </button>
+
+        {locationError && (
+          <div className="bg-black text-white text-[10px] px-2.5 py-1 rounded-lg border border-yellow-400 max-w-[200px] text-right font-medium">
+            {locationError}
+          </div>
+        )}
+      </div>
 
       {/* Floating High-Contrast Legend */}
       <div className="absolute bottom-4 left-4 z-[400] bg-white/95 backdrop-blur-md border-2 border-black rounded-xl px-4 py-2.5 text-xs shadow-lg flex items-center gap-4">
