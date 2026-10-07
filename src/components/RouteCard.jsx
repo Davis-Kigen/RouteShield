@@ -1,217 +1,116 @@
 import React from 'react';
 import { 
-  Bus, 
-  MapPin, 
-  ShieldCheck, 
-  AlertCircle, 
-  TrendingUp, 
   Clock, 
-  PlusCircle, 
-  Users, 
-  Navigation,
-  Compass,
-  Lightbulb,
-  Camera,
-  CheckCircle2
+  MapPin, 
+  ShieldAlert, 
+  Zap, 
+  Coins, 
+  CheckCircle2, 
+  AlertCircle,
+  ExternalLink 
 } from 'lucide-react';
 
 export default function RouteCard({ 
   route, 
   onOpenReportModal, 
-  onFocusMap,
+  onFocusMap, 
   isOnline 
 }) {
-  if (!route) {
-    return (
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 text-center text-slate-400">
-        <Bus className="w-10 h-10 mx-auto mb-2 text-slate-600" />
-        <p className="text-sm font-semibold">Select a transit corridor to inspect stage security and fares</p>
-      </div>
-    );
-  }
-
-  // Safety status badge styling
-  const getSafetyBadge = (status) => {
-    const s = (status || '').toLowerCase();
-    if (s.includes('safe') || s.includes('secure')) {
-      return {
-        bg: 'bg-emerald-950/70 border-emerald-500/40 text-emerald-300',
-        dot: 'bg-emerald-400'
-      };
-    }
-    if (s.includes('vigilance') || s.includes('surge') || s.includes('warning')) {
-      return {
-        bg: 'bg-amber-950/70 border-amber-500/40 text-amber-300',
-        dot: 'bg-amber-400 animate-ping'
-      };
-    }
-    return {
-      bg: 'bg-blue-950/70 border-blue-500/40 text-blue-300',
-      dot: 'bg-blue-400'
-    };
-  };
-
-  const badgeStyle = getSafetyBadge(route.safety_status);
-  const crowdsourced = route.crowdsourced || {};
+  if (!route) return null;
 
   return (
-    <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl transition-all">
-      {/* Top Header: Route Name & Safety Status Badge */}
-      <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
-        <div className="flex items-center space-x-3">
-          <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-slate-800 border border-emerald-500/30 text-emerald-400 shadow-md">
-            <Bus className="w-6 h-6" />
+    <div className="bg-[#121215] border border-zinc-800 rounded-2xl p-5 sm:p-6 text-zinc-200 shadow-xl space-y-6">
+      {/* Header Info */}
+      <div className="flex flex-wrap items-start justify-between gap-3 pb-4 border-b border-zinc-800/80">
+        <div>
+          <div className="flex items-center space-x-2.5 mb-1.5">
+            <span className="px-2.5 py-0.5 rounded-md bg-zinc-800 text-zinc-100 font-mono text-xs font-bold border border-zinc-700">
+              {route.route_name}
+            </span>
+            <span className="text-xs text-zinc-400 uppercase tracking-wider font-medium">
+              Verified Corridor
+            </span>
           </div>
-          <div>
-            <div className="flex items-center space-x-2">
-              <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-                {route.route_name}
-              </span>
-              <span className="text-xs text-slate-400">Nairobi Corridor</span>
-            </div>
-            <h3 className="text-base sm:text-lg font-bold text-white mt-0.5">
-              {route.corridor}
-            </h3>
-          </div>
+          <h2 className="text-lg sm:text-xl font-bold text-white tracking-tight">
+            {route.corridor}
+          </h2>
         </div>
 
         {/* Safety Badge */}
-        <div className={`flex items-center space-x-2 text-xs font-semibold px-3 py-1.5 rounded-full border ${badgeStyle.bg}`}>
-          <span className={`w-2 h-2 rounded-full ${badgeStyle.dot}`}></span>
+        <div className="px-3 py-1 rounded-lg bg-zinc-900 border border-zinc-700 text-xs font-medium text-zinc-300 flex items-center space-x-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-zinc-300"></span>
           <span>{route.safety_status}</span>
         </div>
       </div>
 
-      {/* CBD Stage & Safe Zone Locations */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
-        {/* CBD Boarding Stage */}
-        <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800/80">
-          <div className="flex items-center space-x-2 text-slate-400 text-xs font-semibold uppercase tracking-wider mb-1">
-            <MapPin className="w-3.5 h-3.5 text-cyan-400" />
-            <span>CBD Boarding Stage</span>
+      {/* Fare Comparison Grid */}
+      <div className="grid grid-cols-2 gap-3 sm:gap-4">
+        {/* Off Peak */}
+        <div className="bg-zinc-900/80 border border-zinc-800 p-3.5 sm:p-4 rounded-xl">
+          <div className="text-[11px] font-mono uppercase tracking-wider text-zinc-400 mb-1">
+            Off-Peak Fare
           </div>
-          <p className="text-sm font-bold text-slate-100">{route.cbd_stage}</p>
+          <div className="text-xl sm:text-2xl font-bold text-white">
+            KES {route.off_peak_min}–{route.off_peak_max}
+          </div>
+          <div className="text-[11px] text-zinc-500 mt-1">Normal CBD transit flow</div>
         </div>
 
-        {/* Lit Safe Zone */}
-        <div className="p-3.5 rounded-xl bg-slate-950/60 border border-emerald-900/30">
-          <div className="flex items-center space-x-2 text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-1">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Nearest Verified Safe Zone</span>
+        {/* Peak Surge Ceiling */}
+        <div className="bg-zinc-900/80 border border-zinc-800 p-3.5 sm:p-4 rounded-xl">
+          <div className="text-[11px] font-mono uppercase tracking-wider text-amber-400/90 mb-1">
+            Peak Ceiling Guard
           </div>
-          <p className="text-sm font-bold text-emerald-200">{route.safe_zone}</p>
+          <div className="text-xl sm:text-2xl font-bold text-amber-200">
+            KES {route.peak_min}–{route.peak_max}
+          </div>
+          <div className="text-[11px] text-zinc-500 mt-1">Max allowable surge rate</div>
         </div>
       </div>
 
-      {/* Physical DRM Stage Infrastructure Badges */}
-      <div className="flex flex-wrap gap-2 mb-4">
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700/60 text-[11px] font-medium text-slate-300">
-          <Lightbulb className="w-3.5 h-3.5 text-amber-400" />
-          24/7 Mast Lighting Active
-        </span>
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700/60 text-[11px] font-medium text-slate-300">
-          <Camera className="w-3.5 h-3.5 text-cyan-400" />
-          CCTV Corridor Surveillance
-        </span>
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700/60 text-[11px] font-medium text-slate-300">
-          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-          Police Post Proximity (&lt;150m)
-        </span>
+      {/* Primary Key Locations */}
+      <div className="space-y-3">
+        <div className="bg-zinc-900/50 border border-zinc-800/80 p-3.5 rounded-xl flex items-start space-x-3">
+          <MapPin className="w-4 h-4 text-zinc-400 shrink-0 mt-0.5" />
+          <div className="text-xs">
+            <span className="text-zinc-400 font-medium block mb-0.5">Boarding Stage (CBD)</span>
+            <span className="text-zinc-200 font-semibold">{route.cbd_stage}</span>
+          </div>
+        </div>
+
+        <div className="bg-zinc-900/50 border border-zinc-800/80 p-3.5 rounded-xl flex items-start space-x-3">
+          <ShieldAlert className="w-4 h-4 text-amber-400/80 shrink-0 mt-0.5" />
+          <div className="text-xs">
+            <span className="text-zinc-400 font-medium block mb-0.5">Nearest Monitored Haven</span>
+            <span className="text-zinc-200 font-semibold">{route.safe_zone}</span>
+          </div>
+        </div>
       </div>
 
-      {/* Fare Information Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
-        {/* Off Peak Fare */}
-        <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-700/50">
-          <div className="flex items-center space-x-1.5 text-slate-400 text-xs font-medium mb-1">
-            <Clock className="w-3.5 h-3.5 text-slate-400" />
-            <span>Off-Peak Fare</span>
-          </div>
-          <p className="text-base sm:text-lg font-black text-slate-100">
-            KES {route.off_peak_min} - {route.off_peak_max}
-          </p>
-          <span className="text-[10px] text-slate-400">Regular daytime</span>
-        </div>
-
-        {/* Peak Surge Fare */}
-        <div className="p-3 rounded-xl bg-amber-950/30 border border-amber-500/30">
-          <div className="flex items-center space-x-1.5 text-amber-400 text-xs font-medium mb-1">
-            <TrendingUp className="w-3.5 h-3.5 text-amber-400" />
-            <span>Peak Surge Fare</span>
-          </div>
-          <p className="text-base sm:text-lg font-black text-amber-200">
-            KES {route.peak_min} - {route.peak_max}
-          </p>
-          <span className="text-[10px] text-amber-400/80">Rush hour surge</span>
-        </div>
-
-        {/* Crowdsourced Real-Time Live Fare */}
-        <div className="col-span-2 sm:col-span-1 p-3 rounded-xl bg-emerald-950/30 border border-emerald-500/30">
-          <div className="flex items-center justify-between text-emerald-400 text-xs font-medium mb-1">
-            <div className="flex items-center space-x-1.5">
-              <Users className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Live Commuter Avg</span>
-            </div>
-            <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-emerald-900/60 text-emerald-300">
-              {crowdsourced.reportCount || 0} reports
-            </span>
-          </div>
-          <p className="text-base sm:text-lg font-black text-emerald-300">
-            {crowdsourced.avgFare ? `KES ${crowdsourced.avgFare}` : 'Pending Reports'}
-          </p>
-          <span className="text-[10px] text-slate-400">
-            {crowdsourced.lastReportTime ? `Updated ${crowdsourced.lastReportTime}` : 'Be first to report'}
+      {/* Official Advisory */}
+      {route.advisory && (
+        <div className="p-3.5 rounded-xl bg-zinc-900/80 border-l-2 border-amber-500/70 text-xs text-zinc-300 leading-relaxed">
+          <span className="text-amber-400/90 font-bold block mb-1 uppercase tracking-wider text-[10px]">
+            Stage Advisory
           </span>
+          {route.advisory}
         </div>
-      </div>
+      )}
 
-      {/* Stage Advisory Notes */}
-      <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs leading-relaxed text-slate-300 mb-4">
-        <div className="flex items-center space-x-1.5 text-amber-400 font-bold uppercase tracking-wide text-[11px] mb-1">
-          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-          <span>Stage Safety & Boarding Advisory</span>
-        </div>
-        <p>{route.advisory}</p>
-      </div>
-
-      {/* Safety Provenance & Audit Metadata Bar */}
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-t border-b border-slate-800/80 py-2.5 text-[11px] text-slate-400">
-        <div className="flex items-center gap-1.5">
-          <ShieldCheck className="w-4 h-4 text-emerald-400" />
-          <span>
-            Audit: <strong className="text-slate-300">{route.audit_source || 'County Transit Watch & Crowd Verification'}</strong>
-          </span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span>Confidence:</span>
-          <span className="rounded bg-emerald-950 border border-emerald-500/30 px-2 py-0.5 font-mono text-emerald-400 font-bold text-[10px]">
-            {route.confidence_score || '96% High'}
-          </span>
-          <span className="text-slate-500">•</span>
-          <span className="text-slate-400">{route.last_verified || 'Verified today, 18:30 EAT'}</span>
-        </div>
-      </div>
-
-      {/* Action Footer: Report Live Fare & Map Center */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
-        <div className="flex items-center gap-2">
-          {onFocusMap && (
-            <button
-              onClick={() => onFocusMap(route)}
-              className="flex items-center space-x-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 transition active:scale-95"
-            >
-              <Compass className="w-4 h-4 text-emerald-400" />
-              <span>Focus on Map</span>
-            </button>
-          )}
-        </div>
+      {/* Action Footer */}
+      <div className="flex items-center gap-3 pt-2">
+        <button
+          onClick={onFocusMap}
+          className="flex-1 py-2.5 px-4 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-700 text-xs font-semibold tracking-wide transition active:scale-95 text-center"
+        >
+          View On Map
+        </button>
 
         <button
-          onClick={() => onOpenReportModal(route)}
-          className="flex items-center space-x-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-bold shadow-lg shadow-emerald-900/30 transition active:scale-95"
+          onClick={onOpenReportModal}
+          className="flex-1 py-2.5 px-4 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-bold tracking-wide transition active:scale-95 text-center shadow-md"
         >
-          <PlusCircle className="w-4 h-4" />
-          <span>Report Live Fare</span>
+          Report Live Fare
         </button>
       </div>
     </div>
