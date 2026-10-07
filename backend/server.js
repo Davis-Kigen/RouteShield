@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const db = require('./db');
+const { init, db } = require('./db');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -19,8 +19,7 @@ app.get('/api/health', (req, res) => {
 app.get('/api/routes', (req, res) => {
   try {
     const routes = db.prepare('SELECT * FROM routes').all();
-    
-    // Attach crowdsourced fare stats for each route
+
     const enrichedRoutes = routes.map((route) => {
       const fareStats = db.prepare(`
         SELECT 
@@ -42,9 +41,9 @@ app.get('/api/routes', (req, res) => {
       return {
         ...route,
         crowdsourced: {
-          avgFare: fareStats.avg_fare ? Math.round(fareStats.avg_fare) : null,
-          reportCount: fareStats.report_count || 0,
-          lastReportTime: fareStats.last_report_time,
+          avgFare: fareStats && fareStats.avg_fare ? Math.round(fareStats.avg_fare) : null,
+          reportCount: fareStats ? fareStats.report_count || 0 : 0,
+          lastReportTime: fareStats ? fareStats.last_report_time : null,
           recentReports: recentReports || []
         }
       };
@@ -57,7 +56,7 @@ app.get('/api/routes', (req, res) => {
   }
 });
 
-// POST /api/fares/report: Log crowdsourced fare entries into fare_reports
+// POST /api/fares/report: Log crowdsourced fare entries
 app.post('/api/fares/report', (req, res) => {
   try {
     const { route_id, reported_fare, stage_name } = req.body;
@@ -71,21 +70,18 @@ app.post('/api/fares/report', (req, res) => {
       return res.status(400).json({ error: 'reported_fare must be a positive integer' });
     }
 
-    // Check if route exists
     const route = db.prepare('SELECT id, route_name FROM routes WHERE id = ?').get(route_id);
     if (!route) {
       return res.status(404).json({ error: `Route ${route_id} not found` });
     }
 
-    const stmt = db.prepare(`
+    const info = db.prepare(`
       INSERT INTO fare_reports (route_id, reported_fare, stage_name)
       VALUES (?, ?, ?)
-    `);
-    const info = stmt.run(route_id, fareNumber, stage_name || route.cbd_stage);
+    `).run(route_id, fareNumber, stage_name || route.cbd_stage);
 
     console.log(`[FARE REPORT] Logged KES ${fareNumber} for ${route.route_name} (ID: ${info.lastInsertRowid})`);
 
-    // Return the updated route statistics
     const stats = db.prepare(`
       SELECT AVG(reported_fare) as avg_fare, COUNT(*) as count 
       FROM fare_reports WHERE route_id = ?
@@ -104,16 +100,15 @@ app.post('/api/fares/report', (req, res) => {
   }
 });
 
-// POST /api/emergency/alert: Web emergency dispatch endpoint
+// POST /api/emergency/alert
 app.post('/api/emergency/alert', (req, res) => {
   try {
     const { phone_number, route_id, latitude, longitude, details } = req.body;
 
-    const stmt = db.prepare(`
+    const info = db.prepare(`
       INSERT INTO emergency_alerts (phone_number, route_id, latitude, longitude, details)
       VALUES (?, ?, ?, ?, ?)
-    `);
-    const info = stmt.run(
+    `).run(
       phone_number || 'COMMUTER_WEB_DISPATCH',
       route_id || 'UNKNOWN_STAGE',
       latitude || -1.2864,
@@ -135,23 +130,18 @@ app.post('/api/emergency/alert', (req, res) => {
   }
 });
 
-// POST /ussd: Handle Africa's Talking USSD protocol (*384*123#)
+// POST /ussd: Africa's Talking USSD protocol (*384*123#)
 app.post('/ussd', (req, res) => {
   try {
-    const { sessionId, serviceCode, phoneNumber, text } = req.body;
+    const { phoneNumber, text } = req.body;
     let response = '';
 
     const input = (text || '').trim();
     const parts = input === '' ? [] : input.split('*');
 
     if (parts.length === 0) {
-      // Main Menu
-      response = `CON Welcome to RouteShield Nairobi
-1. Check Route & Fares
-2. Safe Stage Finder
-3. Report Emergency`;
+      response = `CON Welcome to RouteShield Nairobi\n1. Check Route & Fares\n2. Safe Stage Finder\n3. Report Emergency`;
     } else if (parts[0] === '1') {
-      // Dynamic route query from SQLite
       const routes = db.prepare('SELECT id, route_name, corridor FROM routes ORDER BY id ASC').all();
 
       if (parts.length === 1) {
@@ -165,18 +155,10 @@ app.post('/ussd', (req, res) => {
         }
       } else if (parts.length === 2) {
         const selectedIndex = parseInt(parts[1], 10) - 1;
-
         if (!Number.isNaN(selectedIndex) && selectedIndex >= 0 && selectedIndex < routes.length) {
-          const selectedSummary = routes[selectedIndex];
-          const route = db.prepare('SELECT * FROM routes WHERE id = ?').get(selectedSummary.id);
-
+          const route = db.prepare('SELECT * FROM routes WHERE id = ?').get(routes[selectedIndex].id);
           if (route) {
-            response = `END ${route.route_name}: ${route.corridor}
-Stage: ${route.cbd_stage}
-Off-Peak: KES ${route.off_peak_min}-${route.off_peak_max}
-Peak Surge: KES ${route.peak_min}-${route.peak_max}
-Safe Zone: ${route.safe_zone}
-Status: ${route.safety_status}`;
+            response = `END ${route.route_name}: ${route.corridor}\nStage: ${route.cbd_stage}\nOff-Peak: KES ${route.off_peak_min}-${route.off_peak_max}\nPeak Surge: KES ${route.peak_min}-${route.peak_max}\nSafe Zone: ${route.safe_zone}\nStatus: ${route.safety_status}`;
           } else {
             response = `END Route details unavailable at this time.`;
           }
@@ -187,32 +169,19 @@ Status: ${route.safety_status}`;
         response = `END Invalid input. Dial *384*123# to restart.`;
       }
     } else if (parts[0] === '2') {
-      // Safe Stage Finder dynamically sourced from routes table
       const safeStages = db.prepare('SELECT route_name, safe_zone FROM routes ORDER BY id ASC').all();
-
       if (safeStages.length === 0) {
         response = `END No safe havens recorded yet. Dial 999 for emergency.`;
       } else {
-        const safeList = safeStages
-          .map((r, i) => `${i + 1}. ${r.route_name}: ${r.safe_zone}`)
-          .join('\n');
+        const safeList = safeStages.map((r, i) => `${i + 1}. ${r.route_name}: ${r.safe_zone}`).join('\n');
         response = `END RouteShield 24/7 Lit Safe Zones:\n${safeList}\nEmergency: 999 / 112`;
       }
     } else if (parts[0] === '3') {
       const callerPhone = phoneNumber || 'ANONYMOUS_USSD';
-      const stmt = db.prepare(`
-        INSERT INTO emergency_alerts (phone_number, route_id, details)
-        VALUES (?, ?, ?)
-      `);
-      stmt.run(callerPhone, 'USSD_CBD_DIRECT', 'USSD Option 3 Commuter SOS Dial');
-
+      db.prepare(`INSERT INTO emergency_alerts (phone_number, route_id, details) VALUES (?, ?, ?)`)
+        .run(callerPhone, 'USSD_CBD_DIRECT', 'USSD Option 3 Commuter SOS Dial');
       console.warn(`[USSD EMERGENCY] SOS logged from phone: ${callerPhone}`);
-
-      response = `END EMERGENCY ALERT LOGGED!
-Distress signal flagged for ${callerPhone}.
-Move to nearest lit safe post immediately.
-National Police: 999 or 112
-Nairobi County Emergency: 020 2222181`;
+      response = `END EMERGENCY ALERT LOGGED!\nDistress signal flagged for ${callerPhone}.\nMove to nearest lit safe post immediately.\nNational Police: 999 or 112\nNairobi County Emergency: 020 2222181`;
     } else {
       response = `END Invalid selection. Please dial *384*123# to restart.`;
     }
@@ -226,9 +195,16 @@ Nairobi County Emergency: 020 2222181`;
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`RouteShield Backend running on http://localhost:${PORT}`);
-  console.log(`- Routes API: http://localhost:${PORT}/api/routes`);
-  console.log(`- USSD Endpoint: http://localhost:${PORT}/ussd (*384*123#)`);
+// ---------------------------------------------------------------------------
+// Start — wait for DB to initialise before accepting requests
+// ---------------------------------------------------------------------------
+init().then(() => {
+  app.listen(PORT, () => {
+    console.log(`RouteShield Backend running on http://localhost:${PORT}`);
+    console.log(`- Routes API:    http://localhost:${PORT}/api/routes`);
+    console.log(`- USSD Endpoint: http://localhost:${PORT}/ussd (*384*123#)`);
+  });
+}).catch((err) => {
+  console.error('Failed to initialise database:', err);
+  process.exit(1);
 });
-
