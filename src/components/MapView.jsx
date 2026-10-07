@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -41,10 +41,9 @@ function MapController({ targetCenter, targetZoom }) {
   const map = useMap();
 
   useEffect(() => {
-    // Invalidate size immediately so tiles never render blank
     map.invalidateSize();
     if (targetCenter && targetCenter[0] && targetCenter[1]) {
-      map.flyTo(targetCenter, targetZoom || 15, {
+      map.flyTo(targetCenter, targetZoom || 16, {
         duration: 1.0,
         easeLinearity: 0.25
       });
@@ -65,8 +64,17 @@ export default function MapView({
     selectedRoute ? [selectedRoute.cbd_lat, selectedRoute.cbd_lng] : defaultCenter
   );
 
+  const markerRefs = useRef({});
+
+  // Auto-open active route stage popup when focused
+  useEffect(() => {
+    if (selectedRoute && markerRefs.current[selectedRoute.id]) {
+      markerRefs.current[selectedRoute.id].openPopup();
+    }
+  }, [selectedRoute, focusedLocation]);
+
   return (
-    <div className="relative w-full h-[580px] rounded-2xl overflow-hidden border-2 border-zinc-900 shadow-xl bg-zinc-100">
+    <div className="relative w-full h-[540px] lg:h-[580px] rounded-2xl overflow-hidden border-2 border-zinc-900 shadow-xl bg-zinc-100">
       <MapContainer
         center={defaultCenter}
         zoom={14}
@@ -76,7 +84,6 @@ export default function MapView({
       >
         <MapController targetCenter={currentCenter} targetZoom={focusedLocation ? 16 : 15} />
 
-        {/* High-reliability public OSM tile provider */}
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -88,8 +95,12 @@ export default function MapView({
 
           return (
             <React.Fragment key={route.id}>
+              {/* CBD Boarding Stage Marker */}
               {route.cbd_lat && route.cbd_lng && (
                 <Marker
+                  ref={(ref) => {
+                    if (ref) markerRefs.current[route.id] = ref;
+                  }}
                   position={[route.cbd_lat, route.cbd_lng]}
                   icon={createStageIcon(route.route_name)}
                   eventHandlers={{ click: () => onSelectRoute(route) }}
@@ -120,13 +131,14 @@ export default function MapView({
                         onClick={() => onSelectRoute(route)}
                         className="w-full py-1.5 text-xs bg-black hover:bg-zinc-800 text-yellow-400 font-black rounded-md transition shadow"
                       >
-                        Select Corridor
+                        Active Corridor
                       </button>
                     </div>
                   </Popup>
                 </Marker>
               )}
 
+              {/* Safe Boarding Point Marker */}
               {route.safe_zone_lat && route.safe_zone_lng && (
                 <Marker
                   position={[route.safe_zone_lat, route.safe_zone_lng]}
@@ -171,7 +183,7 @@ export default function MapView({
         })}
       </MapContainer>
 
-      {/* High-Contrast Floating Legend */}
+      {/* Floating High-Contrast Legend */}
       <div className="absolute bottom-4 left-4 z-[400] bg-white/95 backdrop-blur-md border-2 border-black rounded-xl px-4 py-2 text-xs shadow-lg flex items-center gap-4">
         <div className="flex items-center gap-2">
           <span className="w-3 h-3 rounded-full bg-black"></span>
@@ -179,7 +191,7 @@ export default function MapView({
         </div>
         <div className="flex items-center gap-2">
           <span className="w-3 h-3 rounded-full bg-yellow-400 border border-black"></span>
-          <span className="text-black font-black">Safe Stage (Streetlit)</span>
+          <span className="text-black font-black">Safe Stage</span>
         </div>
       </div>
     </div>

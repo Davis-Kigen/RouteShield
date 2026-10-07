@@ -22,6 +22,7 @@ export default function App() {
   const [userLocation, setUserLocation] = useState(null);
 
   const terminalRef = useRef(null);
+  const mapSectionRef = useRef(null);
 
   useEffect(() => {
     const handleOnline = () => { setIsOnline(true); syncPendingReports(); };
@@ -210,6 +211,7 @@ export default function App() {
               onFocusMap={() => {
                 if (selectedRoute?.cbd_lat && selectedRoute?.cbd_lng) {
                   setFocusedLocation([selectedRoute.cbd_lat, selectedRoute.cbd_lng]);
+                  mapSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
               }}
               isOnline={isOnline}
@@ -228,7 +230,7 @@ export default function App() {
             </div>
           </div>
 
-          <div className="lg:col-span-6 space-y-2">
+          <div ref={mapSectionRef} className="lg:col-span-6 space-y-2">
             <div className="flex items-center justify-between px-1">
               <span className="text-xs font-bold text-zinc-500 uppercase tracking-wider">
                 CBD Stage & Safe Haven Map
