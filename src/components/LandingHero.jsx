@@ -1,67 +1,61 @@
 import React from 'react';
-import { Shield, Radio, ArrowDown, MapPin, Sparkles, Lock } from 'lucide-react';
+import { ArrowDown, PhoneCall } from 'lucide-react';
 
 export default function LandingHero({ onExplore, onOpenUssd }) {
   return (
-    <section className="relative overflow-hidden pt-8 pb-12 sm:pt-14 sm:pb-16 border-b border-zinc-800/80">
+    <section className="relative bg-white pt-12 pb-14 sm:pt-16 sm:pb-20 border-b border-zinc-200">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="max-w-3xl space-y-6">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs font-medium">
-            <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-            <span>Nairobi Commuter Resilience Platform</span>
-          </div>
-
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight font-sans">
-            Predictable fares. <br />
-            Verified safe stages after dark.
+          <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-black leading-[1.08] font-sans">
+            Fair fares. <br />
+            Safe stages <span className="underline decoration-yellow-400 decoration-4">after dark.</span>
           </h1>
 
-          <p className="text-base sm:text-lg text-zinc-400 leading-relaxed font-normal max-w-2xl">
-            RouteShield protects daily Nairobi commuters from arbitrary peak surge pricing and unlit boarding risks. Sourced across major corridors, accessible online or completely offline via USSD.
+          <p className="text-base sm:text-lg text-zinc-600 leading-relaxed max-w-2xl font-normal">
+            Real-time price caps and verified boarding points with streetlights, patrols, and CCTV across Nairobi. Available on the web or free via USSD.
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <button
               onClick={onExplore}
-              className="px-6 py-3 rounded-xl bg-white hover:bg-zinc-100 text-zinc-950 font-bold text-sm tracking-wide transition active:scale-95 flex items-center space-x-2 shadow-lg"
+              className="px-6 py-3.5 rounded-xl bg-black hover:bg-zinc-800 text-white font-extrabold text-sm tracking-wide transition active:scale-95 flex items-center space-x-2 shadow-md"
             >
-              <span>Explore Corridors</span>
-              <ArrowDown className="w-4 h-4 text-zinc-900" />
+              <span>View Route Fares & Map</span>
+              <ArrowDown className="w-4 h-4 text-yellow-400 stroke-[2.5]" />
             </button>
 
             <button
               onClick={onOpenUssd}
-              className="px-5 py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-700/80 font-mono text-sm font-semibold transition active:scale-95 flex items-center space-x-2"
+              className="px-5 py-3.5 rounded-xl bg-yellow-400 hover:bg-yellow-300 text-black font-mono text-sm font-bold transition active:scale-95 flex items-center space-x-2.5 shadow-sm"
             >
-              <Radio className="w-4 h-4 text-amber-400" />
-              <span>Dial *384*123# (Zero Data)</span>
+              <PhoneCall className="w-4 h-4 text-black stroke-[2.5]" />
+              <span>Dial *384*123# (Free)</span>
             </button>
           </div>
         </div>
 
-        {/* 3 Pillar Value Propositions */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-12 pt-8 border-t border-zinc-800/60">
-          <div className="space-y-1.5 p-4 rounded-xl bg-zinc-900/40 border border-zinc-800/70">
-            <div className="text-amber-400 font-bold text-sm font-mono">01. Surge Ceiling</div>
-            <div className="text-white font-semibold text-sm">Anti-Gouging Caps</div>
-            <p className="text-xs text-zinc-400 leading-normal">
-              Verified fare corridors so conductors cannot arbitrarily hike prices when rain strikes.
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-12 pt-8 border-t border-zinc-200">
+          <div className="p-5 rounded-2xl bg-zinc-50 border border-zinc-200">
+            <div className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-500 mb-1">01 / Price Guard</div>
+            <div className="text-black font-bold text-base mb-1">Peak & Off-Peak Limits</div>
+            <p className="text-xs text-zinc-600 leading-normal">
+              Official fare ranges so conductors cannot double prices during evening rush hours or rain.
             </p>
           </div>
 
-          <div className="space-y-1.5 p-4 rounded-xl bg-zinc-900/40 border border-zinc-800/70">
-            <div className="text-amber-400 font-bold text-sm font-mono">02. Safe Havens</div>
-            <div className="text-white font-semibold text-sm">Illuminated Boarding</div>
-            <p className="text-xs text-zinc-400 leading-normal">
-              24/7 floodlit pickup zones anchored near police booths and CCTV coverage.
+          <div className="p-5 rounded-2xl bg-zinc-50 border border-zinc-200">
+            <div className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-500 mb-1">02 / Physical Safety</div>
+            <div className="text-black font-bold text-base mb-1">Streetlit Boarding Zones</div>
+            <p className="text-xs text-zinc-600 leading-normal">
+              Verified stages under 24/7 high-mast streetlights, close to police posts and CCTV cameras.
             </p>
           </div>
 
-          <div className="space-y-1.5 p-4 rounded-xl bg-zinc-900/40 border border-zinc-800/70">
-            <div className="text-amber-400 font-bold text-sm font-mono">03. Dual Channel</div>
-            <div className="text-white font-semibold text-sm">Inclusive USSD Dial</div>
-            <p className="text-xs text-zinc-400 leading-normal">
-              Works instantly on basic feature phones (Kabambe) with no active data bundles.
+          <div className="p-5 rounded-2xl bg-zinc-50 border border-zinc-200">
+            <div className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-500 mb-1">03 / Zero Data Required</div>
+            <div className="text-black font-bold text-base mb-1">Kabambe USSD Support</div>
+            <p className="text-xs text-zinc-600 leading-normal">
+              Dial *384*123# on any mobile phone without an internet connection or airtime.
             </p>
           </div>
         </div>

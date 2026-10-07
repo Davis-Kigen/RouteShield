@@ -1,17 +1,18 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from 'react-leaflet';
 import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 const createStageIcon = (label) => {
   return L.divIcon({
     className: 'custom-stage-marker',
     html: `
       <div style="display:flex; flex-direction:column; align-items:center; transform: translate(-50%, -100%);">
-        <div style="background:#18191f; color:#ffffff; border:1px solid #3f3f46; border-radius:6px; padding:3px 8px; font-weight:700; font-size:11px; font-family:system-ui, sans-serif; white-space:nowrap; box-shadow:0 6px 20px rgba(0,0,0,0.85); display:flex; align-items:center; gap:5px;">
-          <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#ffffff;"></span>
+        <div style="background:#000000; color:#ffffff; border:2px solid #000000; border-radius:6px; padding:4px 9px; font-weight:800; font-size:11px; font-family:monospace; white-space:nowrap; box-shadow:0 6px 16px rgba(0,0,0,0.25); display:flex; align-items:center; gap:6px;">
+          <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#facc15;"></span>
           <span>${label}</span>
         </div>
-        <div style="width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-top:6px solid #3f3f46;"></div>
+        <div style="width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-top:6px solid #000000;"></div>
       </div>
     `,
     iconSize: [0, 0],
@@ -24,11 +25,11 @@ const createSafeZoneIcon = (label) => {
     className: 'custom-safe-marker',
     html: `
       <div style="display:flex; flex-direction:column; align-items:center; transform: translate(-50%, -100%);">
-        <div style="background:#18191f; color:#fbbf24; border:1px solid #d97706; border-radius:6px; padding:3px 8px; font-weight:700; font-size:11px; font-family:system-ui, sans-serif; white-space:nowrap; box-shadow:0 6px 20px rgba(0,0,0,0.85); display:flex; align-items:center; gap:5px;">
-          <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#fbbf24;"></span>
-          <span>HAVEN: ${label}</span>
+        <div style="background:#facc15; color:#000000; border:2px solid #000000; border-radius:6px; padding:4px 9px; font-weight:900; font-size:11px; font-family:monospace; white-space:nowrap; box-shadow:0 6px 16px rgba(250,204,21,0.35); display:flex; align-items:center; gap:5px;">
+          <span>★</span>
+          <span>SAFE: ${label}</span>
         </div>
-        <div style="width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-top:6px solid #d97706;"></div>
+        <div style="width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-top:6px solid #000000;"></div>
       </div>
     `,
     iconSize: [0, 0],
@@ -40,9 +41,11 @@ function MapController({ targetCenter, targetZoom }) {
   const map = useMap();
 
   useEffect(() => {
+    // Invalidate size immediately so tiles never render blank
+    map.invalidateSize();
     if (targetCenter && targetCenter[0] && targetCenter[1]) {
       map.flyTo(targetCenter, targetZoom || 15, {
-        duration: 1.2,
+        duration: 1.0,
         easeLinearity: 0.25
       });
     }
@@ -63,18 +66,20 @@ export default function MapView({
   );
 
   return (
-    <div className="relative w-full h-[520px] lg:h-[580px] rounded-2xl overflow-hidden border border-zinc-800 shadow-2xl bg-[#0d0e12]">
+    <div className="relative w-full h-[580px] rounded-2xl overflow-hidden border-2 border-zinc-900 shadow-xl bg-zinc-100">
       <MapContainer
         center={defaultCenter}
         zoom={14}
         scrollWheelZoom={true}
+        style={{ width: '100%', height: '100%' }}
         className="w-full h-full z-10"
       >
         <MapController targetCenter={currentCenter} targetZoom={focusedLocation ? 16 : 15} />
 
+        {/* High-reliability public OSM tile provider */}
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           maxZoom={19}
         />
 
@@ -83,44 +88,37 @@ export default function MapView({
 
           return (
             <React.Fragment key={route.id}>
-              {/* CBD Boarding Stage Marker */}
               {route.cbd_lat && route.cbd_lng && (
                 <Marker
                   position={[route.cbd_lat, route.cbd_lng]}
                   icon={createStageIcon(route.route_name)}
-                  eventHandlers={{
-                    click: () => onSelectRoute(route)
-                  }}
+                  eventHandlers={{ click: () => onSelectRoute(route) }}
                 >
                   <Popup>
-                    <div className="p-1 min-w-[210px] bg-[#18191f] text-zinc-100 rounded-lg">
+                    <div className="p-1 min-w-[210px] bg-white text-zinc-900 font-sans">
                       <div className="flex items-center justify-between gap-2 mb-1.5">
-                        <span className="text-xs font-mono font-bold text-white">
+                        <span className="text-xs font-mono font-black text-black bg-yellow-400 px-1.5 py-0.5 rounded">
                           {route.route_name}
                         </span>
-                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400 font-semibold">
+                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-800 font-bold border border-zinc-300">
                           CBD Pickup
                         </span>
                       </div>
-                      <h4 className="text-sm font-bold text-white mb-1">
-                        {route.cbd_stage}
-                      </h4>
-                      <p className="text-xs text-zinc-400 mb-2">
-                        {route.corridor}
-                      </p>
-                      <div className="text-xs bg-zinc-900 border border-zinc-800 p-2.5 rounded-lg mb-2 space-y-1">
-                        <div className="text-zinc-400 flex justify-between">
+                      <h4 className="text-sm font-black text-black mb-1">{route.cbd_stage}</h4>
+                      <p className="text-xs text-zinc-600 mb-2">{route.corridor}</p>
+                      <div className="text-xs bg-zinc-100 border border-zinc-300 p-2.5 rounded-lg mb-2 space-y-1">
+                        <div className="text-zinc-700 flex justify-between">
                           <span>Off-Peak:</span>
-                          <b className="text-white">KES {route.off_peak_min}–{route.off_peak_max}</b>
+                          <b className="text-black">KES {route.off_peak_min}–{route.off_peak_max}</b>
                         </div>
-                        <div className="text-amber-400 flex justify-between">
+                        <div className="text-zinc-950 flex justify-between font-bold">
                           <span>Peak Ceiling:</span>
-                          <b>KES {route.peak_min}–{route.peak_max}</b>
+                          <b className="text-black">KES {route.peak_min}–{route.peak_max}</b>
                         </div>
                       </div>
                       <button
                         onClick={() => onSelectRoute(route)}
-                        className="w-full py-1.5 text-xs bg-white hover:bg-zinc-100 text-zinc-950 font-bold rounded-md transition shadow"
+                        className="w-full py-1.5 text-xs bg-black hover:bg-zinc-800 text-yellow-400 font-black rounded-md transition shadow"
                       >
                         Select Corridor
                       </button>
@@ -129,31 +127,26 @@ export default function MapView({
                 </Marker>
               )}
 
-              {/* Safe Haven Marker */}
               {route.safe_zone_lat && route.safe_zone_lng && (
                 <Marker
                   position={[route.safe_zone_lat, route.safe_zone_lng]}
                   icon={createSafeZoneIcon(route.route_name)}
-                  eventHandlers={{
-                    click: () => onSelectRoute(route)
-                  }}
+                  eventHandlers={{ click: () => onSelectRoute(route) }}
                 >
                   <Popup>
-                    <div className="p-1 min-w-[220px] bg-[#18191f] text-zinc-100 rounded-lg">
-                      <div className="flex items-center space-x-1.5 text-amber-400 text-xs font-mono font-bold mb-1">
-                        <span className="w-2 h-2 rounded-full bg-amber-400"></span>
-                        <span>MONITORED SAFE HAVEN</span>
+                    <div className="p-1 min-w-[220px] bg-white text-zinc-900 font-sans">
+                      <div className="flex items-center space-x-1.5 text-black text-xs font-black mb-1">
+                        <span className="w-2.5 h-2.5 rounded-full bg-yellow-400 border border-black"></span>
+                        <span>VERIFIED SAFE BOARDING POINT</span>
                       </div>
-                      <h4 className="text-sm font-bold text-white mb-1">
-                        {route.safe_zone}
-                      </h4>
-                      <p className="text-xs text-zinc-400 mb-2">
+                      <h4 className="text-sm font-black text-black mb-1">{route.safe_zone}</h4>
+                      <p className="text-xs text-zinc-600 mb-2">
                         Designated refuge zone for {route.route_name} commuters.
                       </p>
-                      <div className="text-[11px] text-zinc-400 space-y-1 border-t border-zinc-800 pt-2 font-medium">
-                        <div>✓ 24/7 Floodlight Lighting</div>
-                        <div>✓ Proximity to Active Patrol Post</div>
-                        <div>✓ Public Street Surveillance</div>
+                      <div className="text-[11px] text-zinc-700 space-y-1 border-t border-zinc-200 pt-2 font-semibold">
+                        <div>✓ High-Mast Floodlight Coverage</div>
+                        <div>✓ Active Police / Patrol Point</div>
+                        <div>✓ 24-Hour Public Visibility</div>
                       </div>
                     </div>
                   </Popup>
@@ -165,11 +158,11 @@ export default function MapView({
                   center={[route.safe_zone_lat, route.safe_zone_lng]}
                   radius={180}
                   pathOptions={{
-                    color: '#f59e0b',
-                    fillColor: '#f59e0b',
-                    fillOpacity: 0.12,
-                    weight: 1.5,
-                    dashArray: '4, 6'
+                    color: '#000000',
+                    fillColor: '#facc15',
+                    fillOpacity: 0.25,
+                    weight: 2,
+                    dashArray: '5, 5'
                   }}
                 />
               )}
@@ -178,15 +171,15 @@ export default function MapView({
         })}
       </MapContainer>
 
-      {/* Floating Legend */}
-      <div className="absolute bottom-3 left-3 z-[400] bg-[#14151a]/95 backdrop-blur-md border border-zinc-800/90 rounded-xl px-3.5 py-2 text-xs shadow-2xl flex items-center gap-4">
-        <div className="flex items-center gap-1.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-white"></span>
-          <span className="text-zinc-200 font-medium">CBD Stage</span>
+      {/* High-Contrast Floating Legend */}
+      <div className="absolute bottom-4 left-4 z-[400] bg-white/95 backdrop-blur-md border-2 border-black rounded-xl px-4 py-2 text-xs shadow-lg flex items-center gap-4">
+        <div className="flex items-center gap-2">
+          <span className="w-3 h-3 rounded-full bg-black"></span>
+          <span className="text-black font-black">CBD Stage</span>
         </div>
-        <div className="flex items-center gap-1.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-          <span className="text-zinc-200 font-medium">Safe Haven</span>
+        <div className="flex items-center gap-2">
+          <span className="w-3 h-3 rounded-full bg-yellow-400 border border-black"></span>
+          <span className="text-black font-black">Safe Stage (Streetlit)</span>
         </div>
       </div>
     </div>

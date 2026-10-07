@@ -1,114 +1,92 @@
 import React from 'react';
-import { 
-  Clock, 
-  MapPin, 
-  ShieldAlert, 
-  Zap, 
-  Coins, 
-  CheckCircle2, 
-  AlertCircle,
-  ExternalLink 
-} from 'lucide-react';
+import { MapPin, ShieldCheck } from 'lucide-react';
 
-export default function RouteCard({ 
-  route, 
-  onOpenReportModal, 
-  onFocusMap, 
-  isOnline 
-}) {
+export default function RouteCard({ route, onOpenReportModal, onFocusMap }) {
   if (!route) return null;
 
   return (
-    <div className="bg-[#121215] border border-zinc-800 rounded-2xl p-5 sm:p-6 text-zinc-200 shadow-xl space-y-6">
-      {/* Header Info */}
-      <div className="flex flex-wrap items-start justify-between gap-3 pb-4 border-b border-zinc-800/80">
+    <div className="bg-white border-2 border-zinc-900 rounded-2xl p-6 text-zinc-900 shadow-xl space-y-5 h-full flex flex-col justify-between">
+      <div className="flex flex-wrap items-start justify-between gap-3 pb-4 border-b border-zinc-200">
         <div>
-          <div className="flex items-center space-x-2.5 mb-1.5">
-            <span className="px-2.5 py-0.5 rounded-md bg-zinc-800 text-zinc-100 font-mono text-xs font-bold border border-zinc-700">
+          <div className="flex items-center space-x-2 mb-1.5">
+            <span className="px-2.5 py-0.5 rounded-md bg-yellow-400 text-black font-mono text-xs font-extrabold">
               {route.route_name}
             </span>
-            <span className="text-xs text-zinc-400 uppercase tracking-wider font-medium">
-              Verified Corridor
+            <span className="text-xs text-zinc-500 uppercase tracking-wider font-bold">
+              Nairobi Transit Corridor
             </span>
           </div>
-          <h2 className="text-lg sm:text-xl font-bold text-white tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-black text-black tracking-tight">
             {route.corridor}
           </h2>
         </div>
 
-        {/* Safety Badge */}
-        <div className="px-3 py-1 rounded-lg bg-zinc-900 border border-zinc-700 text-xs font-medium text-zinc-300 flex items-center space-x-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-zinc-300"></span>
+        <div className="px-3 py-1 rounded-lg bg-zinc-100 border border-zinc-200 text-xs font-bold text-zinc-700 flex items-center space-x-1.5">
+          <span className="w-2 h-2 rounded-full bg-yellow-400"></span>
           <span>{route.safety_status}</span>
         </div>
       </div>
 
-      {/* Fare Comparison Grid */}
       <div className="grid grid-cols-2 gap-3 sm:gap-4">
-        {/* Off Peak */}
-        <div className="bg-zinc-900/80 border border-zinc-800 p-3.5 sm:p-4 rounded-xl">
-          <div className="text-[11px] font-mono uppercase tracking-wider text-zinc-400 mb-1">
+        <div className="bg-zinc-50 border border-zinc-200 p-4 rounded-xl">
+          <div className="text-[11px] font-mono uppercase tracking-wider text-zinc-500 mb-1 font-bold">
             Off-Peak Fare
           </div>
-          <div className="text-xl sm:text-2xl font-bold text-white">
+          <div className="text-2xl sm:text-3xl font-black text-black">
             KES {route.off_peak_min}–{route.off_peak_max}
           </div>
-          <div className="text-[11px] text-zinc-500 mt-1">Normal CBD transit flow</div>
+          <div className="text-[11px] text-zinc-500 mt-1">Normal daily hours</div>
         </div>
 
-        {/* Peak Surge Ceiling */}
-        <div className="bg-zinc-900/80 border border-zinc-800 p-3.5 sm:p-4 rounded-xl">
-          <div className="text-[11px] font-mono uppercase tracking-wider text-amber-400/90 mb-1">
-            Peak Ceiling Guard
+        <div className="bg-yellow-50 border border-yellow-300 p-4 rounded-xl">
+          <div className="text-[11px] font-mono uppercase tracking-wider text-zinc-800 mb-1 font-bold">
+            Peak Ceiling
           </div>
-          <div className="text-xl sm:text-2xl font-bold text-amber-200">
+          <div className="text-2xl sm:text-3xl font-black text-black">
             KES {route.peak_min}–{route.peak_max}
           </div>
-          <div className="text-[11px] text-zinc-500 mt-1">Max allowable surge rate</div>
+          <div className="text-[11px] text-zinc-600 mt-1 font-medium">Maximum surge rate</div>
         </div>
       </div>
 
-      {/* Primary Key Locations */}
       <div className="space-y-3">
-        <div className="bg-zinc-900/50 border border-zinc-800/80 p-3.5 rounded-xl flex items-start space-x-3">
-          <MapPin className="w-4 h-4 text-zinc-400 shrink-0 mt-0.5" />
+        <div className="bg-zinc-50 border border-zinc-200 p-3.5 rounded-xl flex items-start space-x-3">
+          <MapPin className="w-4 h-4 text-black shrink-0 mt-0.5" />
           <div className="text-xs">
-            <span className="text-zinc-400 font-medium block mb-0.5">Boarding Stage (CBD)</span>
-            <span className="text-zinc-200 font-semibold">{route.cbd_stage}</span>
+            <span className="text-zinc-500 font-semibold block mb-0.5">CBD Boarding Stage</span>
+            <span className="text-black font-bold text-sm">{route.cbd_stage}</span>
           </div>
         </div>
 
-        <div className="bg-zinc-900/50 border border-zinc-800/80 p-3.5 rounded-xl flex items-start space-x-3">
-          <ShieldAlert className="w-4 h-4 text-amber-400/80 shrink-0 mt-0.5" />
+        <div className="bg-zinc-50 border border-zinc-200 p-3.5 rounded-xl flex items-start space-x-3">
+          <ShieldCheck className="w-4 h-4 text-yellow-600 shrink-0 mt-0.5" />
           <div className="text-xs">
-            <span className="text-zinc-400 font-medium block mb-0.5">Nearest Monitored Haven</span>
-            <span className="text-zinc-200 font-semibold">{route.safe_zone}</span>
+            <span className="text-zinc-500 font-semibold block mb-0.5">Nearest Monitored Haven</span>
+            <span className="text-black font-bold text-sm">{route.safe_zone}</span>
           </div>
         </div>
       </div>
 
-      {/* Official Advisory */}
       {route.advisory && (
-        <div className="p-3.5 rounded-xl bg-zinc-900/80 border-l-2 border-amber-500/70 text-xs text-zinc-300 leading-relaxed">
-          <span className="text-amber-400/90 font-bold block mb-1 uppercase tracking-wider text-[10px]">
+        <div className="p-4 rounded-xl bg-zinc-50 border-l-4 border-yellow-400 text-xs text-zinc-800 leading-relaxed">
+          <span className="text-black font-bold block mb-1 uppercase tracking-wider text-[10px]">
             Stage Advisory
           </span>
           {route.advisory}
         </div>
       )}
 
-      {/* Action Footer */}
       <div className="flex items-center gap-3 pt-2">
         <button
           onClick={onFocusMap}
-          className="flex-1 py-2.5 px-4 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-700 text-xs font-semibold tracking-wide transition active:scale-95 text-center"
+          className="flex-1 py-3 px-4 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-black border border-zinc-300 text-xs font-bold tracking-wide transition active:scale-95 text-center"
         >
           View On Map
         </button>
 
         <button
           onClick={onOpenReportModal}
-          className="flex-1 py-2.5 px-4 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-bold tracking-wide transition active:scale-95 text-center shadow-md"
+          className="flex-1 py-3 px-4 rounded-xl bg-black hover:bg-zinc-800 text-yellow-400 text-xs font-black tracking-wide transition active:scale-95 text-center shadow-sm"
         >
           Report Live Fare
         </button>
