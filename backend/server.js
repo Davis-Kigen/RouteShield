@@ -146,26 +146,30 @@ app.post('/ussd', (req, res) => {
 
     if (parts.length === 0) {
       // Main Menu
-      response = `CON Welcome to RouteShield Nairobi Commuter Safety
+      response = `CON Welcome to RouteShield Nairobi
 1. Check Route & Fares
 2. Safe Stage Finder
 3. Report Emergency`;
     } else if (parts[0] === '1') {
-      if (parts.length === 1) {
-        // Submenu: Choose corridor
-        response = `CON Select Nairobi Corridor:
-1. Route 125 (Ongata Rongai via Langata)
-2. Route 45 (Githurai 45 via Thika Hwy)
-3. Route 105 (Kikuyu/Westlands via Waiyaki)`;
-      } else if (parts.length === 2) {
-        const option = parts[1];
-        let routeId = null;
-        if (option === '1') routeId = '125';
-        else if (option === '2') routeId = '45';
-        else if (option === '3') routeId = '105';
+      // Dynamic route query from SQLite
+      const routes = db.prepare('SELECT id, route_name, corridor FROM routes ORDER BY id ASC').all();
 
-        if (routeId) {
-          const route = db.prepare('SELECT * FROM routes WHERE id = ?').get(routeId);
+      if (parts.length === 1) {
+        if (routes.length === 0) {
+          response = `END No routes currently registered in RouteShield database.`;
+        } else {
+          const menuItems = routes
+            .map((r, i) => `${i + 1}. ${r.route_name} (${r.corridor.split('(')[0].trim()})`)
+            .join('\n');
+          response = `CON Select Corridor:\n${menuItems}`;
+        }
+      } else if (parts.length === 2) {
+        const selectedIndex = parseInt(parts[1], 10) - 1;
+
+        if (!Number.isNaN(selectedIndex) && selectedIndex >= 0 && selectedIndex < routes.length) {
+          const selectedSummary = routes[selectedIndex];
+          const route = db.prepare('SELECT * FROM routes WHERE id = ?').get(selectedSummary.id);
+
           if (route) {
             response = `END ${route.route_name}: ${route.corridor}
 Stage: ${route.cbd_stage}
@@ -183,14 +187,18 @@ Status: ${route.safety_status}`;
         response = `END Invalid input. Dial *384*123# to restart.`;
       }
     } else if (parts[0] === '2') {
-      // Safe Stage Finder
-      const routes = db.prepare('SELECT route_name, cbd_stage, safe_zone FROM routes').all();
-      let safeList = routes.map((r, i) => `${i + 1}. ${r.route_name}: ${r.safe_zone}`).join('\n');
-      response = `END RouteShield 24/7 Lit Safe Zones (CBD):
-${safeList}
-Emergency Hotlines: 999 / 112`;
+      // Safe Stage Finder dynamically sourced from routes table
+      const safeStages = db.prepare('SELECT route_name, safe_zone FROM routes ORDER BY id ASC').all();
+
+      if (safeStages.length === 0) {
+        response = `END No safe havens recorded yet. Dial 999 for emergency.`;
+      } else {
+        const safeList = safeStages
+          .map((r, i) => `${i + 1}. ${r.route_name}: ${r.safe_zone}`)
+          .join('\n');
+        response = `END RouteShield 24/7 Lit Safe Zones:\n${safeList}\nEmergency: 999 / 112`;
+      }
     } else if (parts[0] === '3') {
-      // Option 3: Report Emergency
       const callerPhone = phoneNumber || 'ANONYMOUS_USSD';
       const stmt = db.prepare(`
         INSERT INTO emergency_alerts (phone_number, route_id, details)
@@ -209,7 +217,6 @@ Nairobi County Emergency: 020 2222181`;
       response = `END Invalid selection. Please dial *384*123# to restart.`;
     }
 
-    // Africa's Talking expects plain text response
     res.set('Content-Type', 'text/plain');
     res.send(response);
   } catch (error) {
