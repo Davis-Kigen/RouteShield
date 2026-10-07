@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, ShieldAlert, PhoneCall, Wifi, WifiOff, Radio } from 'lucide-react';
+import { Shield, ShieldCheck, PhoneCall, Wifi, WifiOff, Radio } from 'lucide-react';
 
 export default function Navbar({
   isOnline,
@@ -24,37 +24,37 @@ export default function Navbar({
               <h1 className="text-xl font-black tracking-tight text-white">
                 Route<span className="text-emerald-400">Shield</span>
               </h1>
-              <span className="hidden sm:inline-block text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-800 text-emerald-400 border border-emerald-500/30">
-                NAIROBI
+              <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">
+                DRM Verified
               </span>
             </div>
-            <p className="text-xs text-slate-400 font-medium flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+            <p className="text-xs text-slate-400 flex items-center gap-1.5">
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
               Verified Safe Corridors & Fares
             </p>
           </div>
         </div>
 
-        {/* Status Indicators & Action Buttons */}
-        <div className="flex items-center flex-wrap gap-2">
-          {/* Online/Offline Badge */}
+        {/* Action Controls */}
+        <div className="flex items-center space-x-2 sm:space-x-3">
+          {/* Online/Offline Status Indicator */}
           <div
-            className={`flex items-center space-x-1.5 text-xs px-2.5 py-1 rounded-full font-medium border ${
+            className={`flex items-center space-x-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${
               isOnline
-                ? 'bg-emerald-950/40 text-emerald-300 border-emerald-700/50'
-                : 'bg-amber-950/40 text-amber-300 border-amber-700/50'
+                ? 'bg-slate-800/80 border-slate-700 text-slate-300'
+                : 'bg-amber-950/60 border-amber-600/50 text-amber-300'
             }`}
-            title={isOnline ? 'Connected to live Nairobi transit server' : 'Offline mode active - using local cached data'}
+            title={isOnline ? 'Online mode active' : 'Offline cache mode active'}
           >
             {isOnline ? (
               <>
                 <Wifi className="w-3.5 h-3.5 text-emerald-400" />
-                <span className="hidden xs:inline">ONLINE</span>
+                <span className="hidden sm:inline">Online</span>
               </>
             ) : (
               <>
                 <WifiOff className="w-3.5 h-3.5 text-amber-400" />
-                <span className="hidden xs:inline">OFFLINE MODE</span>
+                <span>Offline Cache</span>
               </>
             )}
           </div>
@@ -62,25 +62,25 @@ export default function Navbar({
           {/* USSD *384*123# Button */}
           <button
             onClick={onOpenUssd}
-            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 active:scale-95 transition-all text-xs font-semibold text-emerald-300 border border-emerald-500/30 shadow-sm"
-            title="Dial USSD gateway for basic phones"
+            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 transition-all text-xs font-semibold text-emerald-300 border border-emerald-500/30 shadow-sm"
+            title="Dial USSD gateway for zero-data access"
           >
             <Radio className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
             <span className="font-mono tracking-wider">*384*123#</span>
           </button>
 
-          {/* Emergency SOS Button */}
+          {/* Guardian Safe Haven Guide Button */}
           <button
             onClick={onToggleEmergency}
-            className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-lg font-bold text-xs sm:text-sm tracking-wide transition-all shadow-md active:scale-95 ${
+            className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-xl font-bold text-xs sm:text-sm tracking-wide transition-all shadow-md active:scale-95 ${
               emergencyActive
-                ? 'bg-amber-500 hover:bg-amber-600 text-slate-950 ring-2 ring-amber-300 animate-bounce'
-                : 'bg-rose-600 hover:bg-rose-500 text-white shadow-rose-900/50 hover:shadow-rose-600/30 ring-1 ring-rose-400/50'
+                ? 'bg-slate-800 hover:bg-slate-700 text-teal-300 border border-teal-500/50'
+                : 'bg-teal-600 hover:bg-teal-500 text-white shadow-teal-950/50 border border-teal-400/40'
             }`}
           >
-            <ShieldAlert className="w-4 h-4 shrink-0" />
-            <span className="uppercase">
-              {emergencyActive ? 'Dismiss SOS' : "I'M LOST / UNSAFE AREA"}
+            <ShieldCheck className="w-4 h-4 shrink-0" />
+            <span>
+              {emergencyActive ? 'Close Haven Guide' : 'Safe Haven Guide'}
             </span>
           </button>
         </div>
@@ -88,4 +88,3 @@ export default function Navbar({
     </header>
   );
 }
-
