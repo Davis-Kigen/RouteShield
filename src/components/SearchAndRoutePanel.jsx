@@ -97,7 +97,7 @@ export default function SearchAndRoutePanel({
   };
 
   return (
-    <div className="glass-card rounded-3xl p-5 sm:p-6 shadow-2xl border border-slate-700/80 space-y-4">
+    <div className="glass-card rounded-3xl p-5 sm:p-6 shadow-2xl border border-zinc-700/80 space-y-4">
       
       {/* Panel Header */}
       <div className="flex items-center justify-between">
@@ -107,14 +107,14 @@ export default function SearchAndRoutePanel({
           </div>
           <div>
             <h3 className="text-base sm:text-lg font-black text-white">Plan Your Commute</h3>
-            <p className="text-[11px] text-slate-400">Enter your starting point and destination</p>
+            <p className="text-[11px] text-zinc-400">Enter your starting point and destination</p>
           </div>
         </div>
 
         {(origin || destination || matchedRoute) && (
           <button
             onClick={handleClear}
-            className="text-xs text-slate-400 hover:text-white flex items-center gap-1 transition"
+            className="text-xs text-zinc-400 hover:text-white flex items-center gap-1 transition"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Reset</span>
@@ -126,7 +126,7 @@ export default function SearchAndRoutePanel({
       <form onSubmit={handleFindRoute} className="space-y-3">
         {/* Starting Point (Origin) */}
         <div className="relative">
-          <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">
+          <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-400 mb-1">
             Where from? (Starting Point)
           </label>
           <div className="relative">
@@ -136,13 +136,13 @@ export default function SearchAndRoutePanel({
               value={origin}
               onChange={(e) => setOrigin(e.target.value)}
               placeholder="e.g. Kencom, Railways, Odeon, or GPS..."
-              className="w-full bg-slate-950 border border-slate-800 rounded-2xl pl-10 pr-24 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 shadow-inner font-medium"
+              className="w-full bg-black border border-zinc-800 rounded-2xl pl-10 pr-24 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 shadow-inner font-medium"
             />
             {/* GPS Button */}
             <button
               type="button"
               onClick={handleUseMyLocation}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] font-bold px-2 py-1 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/30 flex items-center gap-1 transition"
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] font-bold px-2 py-1 rounded-xl bg-[#18181b] hover:bg-slate-700 text-cyan-300 border border-cyan-500/30 flex items-center gap-1 transition"
             >
               <Crosshair className="w-3 h-3 text-cyan-400" />
               <span>GPS Me</span>
@@ -152,7 +152,7 @@ export default function SearchAndRoutePanel({
 
         {/* Destination */}
         <div className="relative">
-          <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">
+          <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-400 mb-1">
             Where to? (Destination)
           </label>
           <div className="relative">
@@ -162,7 +162,7 @@ export default function SearchAndRoutePanel({
               value={destination}
               onChange={(e) => setDestination(e.target.value)}
               placeholder="e.g. Ongata Rongai, Githurai 45, Kikuyu, Ngong..."
-              className="w-full bg-slate-950 border border-slate-800 rounded-2xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 shadow-inner font-medium"
+              className="w-full bg-black border border-zinc-800 rounded-2xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 shadow-inner font-medium"
             />
           </div>
         </div>
@@ -170,7 +170,7 @@ export default function SearchAndRoutePanel({
         {/* Popular Destination Quick Chips */}
         {!matchedRoute && (
           <div className="pt-1">
-            <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider block mb-1.5">
+            <span className="text-[10px] text-zinc-400 uppercase font-bold tracking-wider block mb-1.5">
               Quick Select Destination:
             </span>
             <div className="flex flex-wrap gap-1.5">
@@ -193,7 +193,7 @@ export default function SearchAndRoutePanel({
                   className={`text-xs px-2.5 py-1 rounded-xl border transition ${
                     destination === dest 
                       ? 'bg-emerald-600 text-white border-emerald-500' 
-                      : 'bg-slate-950 text-slate-300 border-slate-800 hover:bg-slate-800'
+                      : 'bg-black text-zinc-300 border-zinc-800 hover:bg-[#18181b]'
                   }`}
                 >
                   {dest}
@@ -224,14 +224,14 @@ export default function SearchAndRoutePanel({
 
       {/* Matched Route Preview & Start Journey Trigger */}
       {matchedRoute && (
-        <div className="pt-3 border-t border-slate-800 space-y-3">
+        <div className="pt-3 border-t border-zinc-800 space-y-3">
           
-          <div className="p-3.5 rounded-2xl bg-slate-950/80 border border-emerald-500/40 space-y-2">
+          <div className="p-3.5 rounded-2xl bg-black/80 border border-emerald-500/40 space-y-2">
             <div className="flex items-center justify-between text-xs">
               <span className="font-mono font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
                 {matchedRoute.route_name}
               </span>
-              <span className="text-[11px] text-slate-400 font-semibold">
+              <span className="text-[11px] text-zinc-400 font-semibold">
                 Corridor Safety: <b className="text-emerald-400">{matchedRoute.safety_score}%</b>
               </span>
             </div>
@@ -240,13 +240,13 @@ export default function SearchAndRoutePanel({
               {matchedRoute.corridor}
             </h4>
 
-            <div className="grid grid-cols-2 gap-2 text-xs pt-1 border-t border-slate-800/80 text-slate-300">
+            <div className="grid grid-cols-2 gap-2 text-xs pt-1 border-t border-zinc-800/80 text-zinc-300">
               <div>
-                <span className="text-slate-400 block text-[10px]">Boarding Stage:</span>
+                <span className="text-zinc-400 block text-[10px]">Boarding Stage:</span>
                 <strong className="text-white text-xs">{matchedRoute.cbd_stage}</strong>
               </div>
               <div>
-                <span className="text-slate-400 block text-[10px]">Lit Safe Refuge:</span>
+                <span className="text-zinc-400 block text-[10px]">Lit Safe Refuge:</span>
                 <strong className="text-emerald-300 text-xs">{matchedRoute.safe_zone}</strong>
               </div>
             </div>

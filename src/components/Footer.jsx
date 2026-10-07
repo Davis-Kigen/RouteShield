@@ -8,7 +8,7 @@ export default function Footer({ onOpenUssd, onOpenReportModal }) {
   };
 
   return (
-    <footer className="border-t border-slate-800/80 bg-slate-950 pt-12 pb-16 text-slate-400 text-xs">
+    <footer className="border-t border-zinc-800/80 bg-black pt-12 pb-16 text-zinc-400 text-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-10">
         
         {/* Top 4-Column Grid */}
@@ -24,7 +24,7 @@ export default function Footer({ onOpenUssd, onOpenReportModal }) {
                 Route<span className="text-emerald-400">Shield</span>
               </span>
             </div>
-            <p className="text-slate-400 text-xs leading-relaxed">
+            <p className="text-zinc-400 text-xs leading-relaxed">
               Open Nairobi commuter protection, bounded peak fare telemetry, and spatial safe-zone routing built for Kenyan transit reality.
             </p>
             <div className="pt-1 flex items-center gap-2 text-[11px] text-emerald-400 font-semibold font-mono">
@@ -75,7 +75,7 @@ export default function Footer({ onOpenUssd, onOpenReportModal }) {
               </li>
               <li className="flex items-center justify-between">
                 <span>Nairobi County Emergency:</span>
-                <a href="tel:0202222181" className="text-slate-200 hover:underline font-mono">020 2222181</a>
+                <a href="tel:0202222181" className="text-zinc-200 hover:underline font-mono">020 2222181</a>
               </li>
               <li className="flex items-center justify-between">
                 <span>Gender Violence Helpline:</span>
@@ -83,7 +83,7 @@ export default function Footer({ onOpenUssd, onOpenReportModal }) {
               </li>
               <li className="flex items-center justify-between">
                 <span>St. John Ambulance:</span>
-                <a href="tel:0721225285" className="text-slate-200 hover:underline font-mono">0721 225 285</a>
+                <a href="tel:0721225285" className="text-zinc-200 hover:underline font-mono">0721 225 285</a>
               </li>
             </ul>
           </div>
@@ -91,10 +91,10 @@ export default function Footer({ onOpenUssd, onOpenReportModal }) {
           {/* Column 4: Innovation & Regulatory Disclaimers */}
           <div className="space-y-3">
             <h5 className="font-bold text-white uppercase tracking-wider text-xs">Innovation & Disclaimers</h5>
-            <p className="text-[11px] leading-relaxed text-slate-400">
+            <p className="text-[11px] leading-relaxed text-zinc-400">
               Developed as a transit safety and fair-fare initiative in collaboration with Cooperative University of Kenya (CUK) transit innovation researchers.
             </p>
-            <p className="text-[11px] leading-relaxed text-slate-400">
+            <p className="text-[11px] leading-relaxed text-zinc-400">
               Complies with NTSA commuter safety guidelines and Africa's Talking USSD protocol. Fares represent real-time commuter averages and standard Sacco tariffs.
             </p>
           </div>
@@ -102,7 +102,7 @@ export default function Footer({ onOpenUssd, onOpenReportModal }) {
         </div>
 
         {/* Bottom Bar: Copyright & Telemetry */}
-        <div className="pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-500">
+        <div className="pt-6 border-t border-zinc-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-zinc-500">
           <div>
             &copy; {new Date().getFullYear()} RouteShield Nairobi Transit. Built for Kenyan Commuters.
           </div>

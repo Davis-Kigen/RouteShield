@@ -208,11 +208,11 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/85 backdrop-blur-md animate-fadeIn">
-      <div className="relative w-full max-w-5xl max-h-[92vh] bg-slate-900 border border-slate-700/80 rounded-3xl shadow-2xl flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/85 backdrop-blur-md animate-fadeIn">
+      <div className="relative w-full max-w-5xl max-h-[92vh] bg-[#09090b] border border-zinc-700/80 rounded-3xl shadow-2xl flex flex-col overflow-hidden">
         
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/90 shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800 bg-[#09090b]/90 shrink-0">
           <div className="flex items-center space-x-3">
             <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-500 text-slate-950 font-black shadow-md shadow-cyan-900/30">
               <Database className="w-5 h-5 stroke-[2.5]" />
@@ -224,7 +224,7 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
                   SQLite Local Engine
                 </span>
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-zinc-400">
                 Manage transit corridors, offline landmarks, Africa's Talking USSD protocol, and database telemetry.
               </p>
             </div>
@@ -233,7 +233,7 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
           <div className="flex items-center gap-2">
             <button
               onClick={handleExportData}
-              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-300 border border-slate-700 transition"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#18181b] hover:bg-slate-700 text-xs font-semibold text-zinc-300 border border-zinc-700 transition"
               title="Download entire database as JSON"
             >
               <Download className="w-3.5 h-3.5 text-cyan-400" />
@@ -241,14 +241,14 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
             </button>
             <button
               onClick={loadAdminData}
-              className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition"
+              className="p-2 rounded-xl bg-[#18181b] hover:bg-slate-700 text-zinc-300 transition"
               title="Refresh telemetry"
             >
               <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin text-emerald-400' : ''}`} />
             </button>
             <button
               onClick={onClose}
-              className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition"
+              className="p-2 rounded-xl bg-[#18181b] hover:bg-slate-700 text-zinc-400 hover:text-white transition"
             >
               <X className="w-5 h-5" />
             </button>
@@ -266,13 +266,13 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
         )}
 
         {/* Tab Navigation */}
-        <div className="flex items-center gap-1 px-6 pt-3 border-b border-slate-800 bg-slate-900/60 overflow-x-auto shrink-0">
+        <div className="flex items-center gap-1 px-6 pt-3 border-b border-zinc-800 bg-[#09090b]/60 overflow-x-auto shrink-0">
           <button
             onClick={() => setActiveTab('overview')}
             className={`px-4 py-2.5 text-xs font-bold rounded-t-xl transition border-b-2 whitespace-nowrap flex items-center gap-2 ${
               activeTab === 'overview'
-                ? 'border-emerald-400 text-emerald-300 bg-slate-800/60'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                ? 'border-emerald-400 text-emerald-300 bg-[#18181b]/60'
+                : 'border-transparent text-zinc-400 hover:text-zinc-200'
             }`}
           >
             <Server className="w-3.5 h-3.5" />
@@ -282,8 +282,8 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
             onClick={() => setActiveTab('corridors')}
             className={`px-4 py-2.5 text-xs font-bold rounded-t-xl transition border-b-2 whitespace-nowrap flex items-center gap-2 ${
               activeTab === 'corridors'
-                ? 'border-emerald-400 text-emerald-300 bg-slate-800/60'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                ? 'border-emerald-400 text-emerald-300 bg-[#18181b]/60'
+                : 'border-transparent text-zinc-400 hover:text-zinc-200'
             }`}
           >
             <Bus className="w-3.5 h-3.5" />
@@ -293,8 +293,8 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
             onClick={() => setActiveTab('landmarks')}
             className={`px-4 py-2.5 text-xs font-bold rounded-t-xl transition border-b-2 whitespace-nowrap flex items-center gap-2 ${
               activeTab === 'landmarks'
-                ? 'border-emerald-400 text-emerald-300 bg-slate-800/60'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                ? 'border-emerald-400 text-emerald-300 bg-[#18181b]/60'
+                : 'border-transparent text-zinc-400 hover:text-zinc-200'
             }`}
           >
             <MapPin className="w-3.5 h-3.5" />
@@ -304,8 +304,8 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
             onClick={() => setActiveTab('alerts')}
             className={`px-4 py-2.5 text-xs font-bold rounded-t-xl transition border-b-2 whitespace-nowrap flex items-center gap-2 ${
               activeTab === 'alerts'
-                ? 'border-emerald-400 text-emerald-300 bg-slate-800/60'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                ? 'border-emerald-400 text-emerald-300 bg-[#18181b]/60'
+                : 'border-transparent text-zinc-400 hover:text-zinc-200'
             }`}
           >
             <ShieldAlert className="w-3.5 h-3.5" />
@@ -315,8 +315,8 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
             onClick={() => setActiveTab('developer_guide')}
             className={`px-4 py-2.5 text-xs font-bold rounded-t-xl transition border-b-2 whitespace-nowrap flex items-center gap-2 ${
               activeTab === 'developer_guide'
-                ? 'border-emerald-400 text-emerald-300 bg-slate-800/60'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                ? 'border-emerald-400 text-emerald-300 bg-[#18181b]/60'
+                : 'border-transparent text-zinc-400 hover:text-zinc-200'
             }`}
           >
             <Code className="w-3.5 h-3.5 text-cyan-400" />
@@ -332,46 +332,46 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
             <div className="space-y-6">
               {/* Stat Cards Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-                <div className="p-4 rounded-2xl bg-slate-800/60 border border-slate-700/60">
-                  <span className="text-[11px] text-slate-400 uppercase font-semibold">Corridors</span>
+                <div className="p-4 rounded-2xl bg-[#18181b]/60 border border-zinc-700/60">
+                  <span className="text-[11px] text-zinc-400 uppercase font-semibold">Corridors</span>
                   <p className="text-2xl font-black text-white mt-1">{stats?.totalRoutes ?? corridors.length}</p>
                   <span className="text-[10px] text-emerald-400">Arterials mapped</span>
                 </div>
-                <div className="p-4 rounded-2xl bg-slate-800/60 border border-slate-700/60">
-                  <span className="text-[11px] text-slate-400 uppercase font-semibold">Landmarks</span>
+                <div className="p-4 rounded-2xl bg-[#18181b]/60 border border-zinc-700/60">
+                  <span className="text-[11px] text-zinc-400 uppercase font-semibold">Landmarks</span>
                   <p className="text-2xl font-black text-cyan-400 mt-1">{stats?.totalLandmarks ?? landmarks.length}</p>
                   <span className="text-[10px] text-cyan-300">Offline rescue pins</span>
                 </div>
-                <div className="p-4 rounded-2xl bg-slate-800/60 border border-slate-700/60">
-                  <span className="text-[11px] text-slate-400 uppercase font-semibold">Fare Reports</span>
+                <div className="p-4 rounded-2xl bg-[#18181b]/60 border border-zinc-700/60">
+                  <span className="text-[11px] text-zinc-400 uppercase font-semibold">Fare Reports</span>
                   <p className="text-2xl font-black text-amber-400 mt-1">{stats?.totalReports ?? 0}</p>
                   <span className="text-[10px] text-amber-300">Crowdsourced fares</span>
                 </div>
-                <div className="p-4 rounded-2xl bg-slate-800/60 border border-slate-700/60">
-                  <span className="text-[11px] text-slate-400 uppercase font-semibold">SOS Alerts</span>
+                <div className="p-4 rounded-2xl bg-[#18181b]/60 border border-zinc-700/60">
+                  <span className="text-[11px] text-zinc-400 uppercase font-semibold">SOS Alerts</span>
                   <p className="text-2xl font-black text-rose-400 mt-1">{stats?.totalAlerts ?? alerts.length}</p>
                   <span className="text-[10px] text-rose-300">Active rescue logs</span>
                 </div>
-                <div className="p-4 rounded-2xl bg-slate-800/60 border border-slate-700/60">
-                  <span className="text-[11px] text-slate-400 uppercase font-semibold">USSD Users</span>
+                <div className="p-4 rounded-2xl bg-[#18181b]/60 border border-zinc-700/60">
+                  <span className="text-[11px] text-zinc-400 uppercase font-semibold">USSD Users</span>
                   <p className="text-2xl font-black text-emerald-400 mt-1">{stats?.totalSubscribers ?? 1}</p>
                   <span className="text-[10px] text-emerald-300">Enrolled phones</span>
                 </div>
-                <div className="p-4 rounded-2xl bg-slate-800/60 border border-slate-700/60">
-                  <span className="text-[11px] text-slate-400 uppercase font-semibold">Overcharges</span>
+                <div className="p-4 rounded-2xl bg-[#18181b]/60 border border-zinc-700/60">
+                  <span className="text-[11px] text-zinc-400 uppercase font-semibold">Overcharges</span>
                   <p className="text-2xl font-black text-purple-400 mt-1">{stats?.totalOvercharges ?? overcharges.length}</p>
                   <span className="text-[10px] text-purple-300">Conductor flags</span>
                 </div>
               </div>
 
               {/* Data Ingestion Status Banner */}
-              <div className="p-5 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 border border-slate-700 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+              <div className="p-5 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 border border-zinc-700 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
                     <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping"></span>
                     <h3 className="text-sm font-bold text-white">RouteShield Production Database Status</h3>
                   </div>
-                  <p className="text-xs text-slate-300">
+                  <p className="text-xs text-zinc-300">
                     Database: <code className="font-mono text-cyan-300">backend/routeshield.db</code> (SQLite 3 WAL Mode).
                     Supports concurrent Africa's Talking USSD sessions, real-time Web PWA requests, and offline sync reconciliation.
                   </p>
@@ -385,7 +385,7 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
                   </button>
                   <button
                     onClick={() => setActiveTab('developer_guide')}
-                    className="px-3.5 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold text-xs transition"
+                    className="px-3.5 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-zinc-200 font-bold text-xs transition"
                   >
                     Read Dev Architecture
                   </button>
@@ -394,28 +394,28 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
 
               {/* Live Alerts Stream */}
               <div className="space-y-3">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
                   <ShieldAlert className="w-4 h-4 text-rose-400" />
                   <span>Recent Emergency SOS Dispatches</span>
                 </h4>
                 {alerts.length === 0 ? (
-                  <p className="text-xs text-slate-500 italic p-4 rounded-xl bg-slate-950/60 border border-slate-800 text-center">
+                  <p className="text-xs text-zinc-500 italic p-4 rounded-xl bg-black/60 border border-zinc-800 text-center">
                     No active SOS dispatches logged yet. The distress beacon is operational.
                   </p>
                 ) : (
                   <div className="space-y-2">
                     {alerts.slice(0, 5).map((alert, i) => (
-                      <div key={i} className="p-3 rounded-xl bg-slate-950/80 border border-rose-900/40 flex items-center justify-between text-xs">
+                      <div key={i} className="p-3 rounded-xl bg-black/80 border border-rose-900/40 flex items-center justify-between text-xs">
                         <div className="flex items-center gap-3">
                           <span className="px-2 py-0.5 rounded bg-rose-950 text-rose-300 font-mono text-[10px] font-bold border border-rose-700">
                             SOS #{alert.id}
                           </span>
                           <div>
                             <span className="font-bold text-white">{alert.phone_number}</span>
-                            <span className="text-slate-400 text-[11px] ml-2">({alert.details || 'Distress Call'})</span>
+                            <span className="text-zinc-400 text-[11px] ml-2">({alert.details || 'Distress Call'})</span>
                           </div>
                         </div>
-                        <span className="text-[11px] font-mono text-slate-400">
+                        <span className="text-[11px] font-mono text-zinc-400">
                           {alert.timestamp || 'Just now'}
                         </span>
                       </div>
@@ -432,7 +432,7 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-base font-black text-white">Transit Corridors & Stage Termini</h3>
-                  <p className="text-xs text-slate-400">View, edit, or register new commuter corridors into SQLite.</p>
+                  <p className="text-xs text-zinc-400">View, edit, or register new commuter corridors into SQLite.</p>
                 </div>
                 <button
                   onClick={() => setShowAddCorridor(true)}
@@ -445,134 +445,134 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
 
               {/* Add Corridor Form Modal */}
               {showAddCorridor && (
-                <form onSubmit={handleCreateCorridor} className="p-5 rounded-2xl bg-slate-950 border border-emerald-500/40 space-y-4 animate-fadeIn">
-                  <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+                <form onSubmit={handleCreateCorridor} className="p-5 rounded-2xl bg-black border border-emerald-500/40 space-y-4 animate-fadeIn">
+                  <div className="flex items-center justify-between pb-2 border-b border-zinc-800">
                     <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Register New Nairobi Transit Corridor</span>
-                    <button type="button" onClick={() => setShowAddCorridor(false)} className="text-slate-400 hover:text-white">
+                    <button type="button" onClick={() => setShowAddCorridor(false)} className="text-zinc-400 hover:text-white">
                       <X className="w-4 h-4" />
                     </button>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
                     <div>
-                      <label className="text-slate-400 font-semibold block mb-1">Route ID (e.g. 111)</label>
+                      <label className="text-zinc-400 font-semibold block mb-1">Route ID (e.g. 111)</label>
                       <input
                         type="text"
                         required
                         value={newCorridor.id}
                         onChange={e => setNewCorridor({...newCorridor, id: e.target.value})}
                         placeholder="111"
-                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white"
+                        className="w-full bg-[#09090b] border border-zinc-700 rounded-xl px-3 py-2 text-white"
                       />
                     </div>
                     <div>
-                      <label className="text-slate-400 font-semibold block mb-1">Route Name</label>
+                      <label className="text-zinc-400 font-semibold block mb-1">Route Name</label>
                       <input
                         type="text"
                         required
                         value={newCorridor.route_name}
                         onChange={e => setNewCorridor({...newCorridor, route_name: e.target.value})}
                         placeholder="Route 111"
-                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white"
+                        className="w-full bg-[#09090b] border border-zinc-700 rounded-xl px-3 py-2 text-white"
                       />
                     </div>
                     <div>
-                      <label className="text-slate-400 font-semibold block mb-1">Destination</label>
+                      <label className="text-zinc-400 font-semibold block mb-1">Destination</label>
                       <input
                         type="text"
                         required
                         value={newCorridor.destination}
                         onChange={e => setNewCorridor({...newCorridor, destination: e.target.value})}
                         placeholder="Ngong Town"
-                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white"
+                        className="w-full bg-[#09090b] border border-zinc-700 rounded-xl px-3 py-2 text-white"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                     <div>
-                      <label className="text-slate-400 font-semibold block mb-1">Corridor Description</label>
+                      <label className="text-zinc-400 font-semibold block mb-1">Corridor Description</label>
                       <input
                         type="text"
                         required
                         value={newCorridor.corridor}
                         onChange={e => setNewCorridor({...newCorridor, corridor: e.target.value})}
                         placeholder="CBD to Ngong Town (via Ngong Rd & Dagoretti)"
-                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white"
+                        className="w-full bg-[#09090b] border border-zinc-700 rounded-xl px-3 py-2 text-white"
                       />
                     </div>
                     <div>
-                      <label className="text-slate-400 font-semibold block mb-1">CBD Boarding Stage & Bay</label>
+                      <label className="text-zinc-400 font-semibold block mb-1">CBD Boarding Stage & Bay</label>
                       <input
                         type="text"
                         required
                         value={newCorridor.cbd_stage}
                         onChange={e => setNewCorridor({...newCorridor, cbd_stage: e.target.value})}
                         placeholder="Railways Bus Terminus Bay 5"
-                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white"
+                        className="w-full bg-[#09090b] border border-zinc-700 rounded-xl px-3 py-2 text-white"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
                     <div>
-                      <label className="text-slate-400 font-semibold block mb-1">Off-Peak Min (KES)</label>
+                      <label className="text-zinc-400 font-semibold block mb-1">Off-Peak Min (KES)</label>
                       <input
                         type="number"
                         value={newCorridor.off_peak_min}
                         onChange={e => setNewCorridor({...newCorridor, off_peak_min: parseInt(e.target.value)})}
-                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white"
+                        className="w-full bg-[#09090b] border border-zinc-700 rounded-xl px-3 py-2 text-white"
                       />
                     </div>
                     <div>
-                      <label className="text-slate-400 font-semibold block mb-1">Off-Peak Max (KES)</label>
+                      <label className="text-zinc-400 font-semibold block mb-1">Off-Peak Max (KES)</label>
                       <input
                         type="number"
                         value={newCorridor.off_peak_max}
                         onChange={e => setNewCorridor({...newCorridor, off_peak_max: parseInt(e.target.value)})}
-                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white"
+                        className="w-full bg-[#09090b] border border-zinc-700 rounded-xl px-3 py-2 text-white"
                       />
                     </div>
                     <div>
-                      <label className="text-slate-400 font-semibold block mb-1">Peak Min (KES)</label>
+                      <label className="text-zinc-400 font-semibold block mb-1">Peak Min (KES)</label>
                       <input
                         type="number"
                         value={newCorridor.peak_min}
                         onChange={e => setNewCorridor({...newCorridor, peak_min: parseInt(e.target.value)})}
-                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white"
+                        className="w-full bg-[#09090b] border border-zinc-700 rounded-xl px-3 py-2 text-white"
                       />
                     </div>
                     <div>
-                      <label className="text-slate-400 font-semibold block mb-1">Peak Cap (KES)</label>
+                      <label className="text-zinc-400 font-semibold block mb-1">Peak Cap (KES)</label>
                       <input
                         type="number"
                         value={newCorridor.peak_max}
                         onChange={e => setNewCorridor({...newCorridor, peak_max: parseInt(e.target.value)})}
-                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white"
+                        className="w-full bg-[#09090b] border border-zinc-700 rounded-xl px-3 py-2 text-white"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                     <div>
-                      <label className="text-slate-400 font-semibold block mb-1">Active Saccos (comma separated)</label>
+                      <label className="text-zinc-400 font-semibold block mb-1">Active Saccos (comma separated)</label>
                       <input
                         type="text"
                         value={newCorridor.saccos_text}
                         onChange={e => setNewCorridor({...newCorridor, saccos_text: e.target.value})}
                         placeholder="Super Metro, City Shuttle, Metro Trans"
-                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white"
+                        className="w-full bg-[#09090b] border border-zinc-700 rounded-xl px-3 py-2 text-white"
                       />
                     </div>
                     <div>
-                      <label className="text-slate-400 font-semibold block mb-1">Nearest Safe Haven Post</label>
+                      <label className="text-zinc-400 font-semibold block mb-1">Nearest Safe Haven Post</label>
                       <input
                         type="text"
                         required
                         value={newCorridor.safe_zone}
                         onChange={e => setNewCorridor({...newCorridor, safe_zone: e.target.value})}
                         placeholder="Railways Police Post (24/7 Lit)"
-                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white"
+                        className="w-full bg-[#09090b] border border-zinc-700 rounded-xl px-3 py-2 text-white"
                       />
                     </div>
                   </div>
@@ -581,7 +581,7 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
                     <button
                       type="button"
                       onClick={() => setShowAddCorridor(false)}
-                      className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold"
+                      className="px-4 py-2 rounded-xl bg-[#18181b] text-zinc-300 text-xs font-semibold"
                     >
                       Cancel
                     </button>
@@ -596,9 +596,9 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
               )}
 
               {/* Corridors Table */}
-              <div className="overflow-x-auto rounded-2xl border border-slate-800 bg-slate-950/70">
+              <div className="overflow-x-auto rounded-2xl border border-zinc-800 bg-black/70">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-slate-900 text-slate-400 uppercase font-semibold border-b border-slate-800 text-[10px]">
+                  <thead className="bg-[#09090b] text-zinc-400 uppercase font-semibold border-b border-zinc-800 text-[10px]">
                     <tr>
                       <th className="px-4 py-3">Route</th>
                       <th className="px-4 py-3">Destination</th>
@@ -608,16 +608,16 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
                       <th className="px-4 py-3 text-right">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-800/80 text-slate-300">
+                  <tbody className="divide-y divide-slate-800/80 text-zinc-300">
                     {corridors.map((r) => (
-                      <tr key={r.id} className="hover:bg-slate-900/50 transition">
+                      <tr key={r.id} className="hover:bg-[#09090b]/50 transition">
                         <td className="px-4 py-3 font-mono font-bold text-emerald-400">
                           {r.route_name}
                         </td>
                         <td className="px-4 py-3 font-semibold text-white">
                           {r.destination || r.corridor}
                         </td>
-                        <td className="px-4 py-3 text-slate-300">
+                        <td className="px-4 py-3 text-zinc-300">
                           {r.cbd_stage}
                         </td>
                         <td className="px-4 py-3 font-mono">
@@ -649,7 +649,7 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-base font-black text-white">Recognizable Nairobi Landmarks & Safe Zones</h3>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-zinc-400">
                     Used by the offline "I'm Lost" engine to pinpoint location without GPS or mobile data.
                   </p>
                 </div>
@@ -664,87 +664,87 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
 
               {/* Add Landmark Form */}
               {showAddLandmark && (
-                <form onSubmit={handleCreateLandmark} className="p-5 rounded-2xl bg-slate-950 border border-cyan-500/40 space-y-4 animate-fadeIn">
-                  <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+                <form onSubmit={handleCreateLandmark} className="p-5 rounded-2xl bg-black border border-cyan-500/40 space-y-4 animate-fadeIn">
+                  <div className="flex items-center justify-between pb-2 border-b border-zinc-800">
                     <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider">Register Recognizable Nairobi Structure</span>
-                    <button type="button" onClick={() => setShowAddLandmark(false)} className="text-slate-400 hover:text-white">
+                    <button type="button" onClick={() => setShowAddLandmark(false)} className="text-zinc-400 hover:text-white">
                       <X className="w-4 h-4" />
                     </button>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
                     <div>
-                      <label className="text-slate-400 font-semibold block mb-1">Landmark Name</label>
+                      <label className="text-zinc-400 font-semibold block mb-1">Landmark Name</label>
                       <input
                         type="text"
                         required
                         value={newLandmark.name}
                         onChange={e => setNewLandmark({...newLandmark, name: e.target.value})}
                         placeholder="e.g. Afya Centre"
-                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white"
+                        className="w-full bg-[#09090b] border border-zinc-700 rounded-xl px-3 py-2 text-white"
                       />
                     </div>
                     <div>
-                      <label className="text-slate-400 font-semibold block mb-1">Category</label>
+                      <label className="text-zinc-400 font-semibold block mb-1">Category</label>
                       <input
                         type="text"
                         value={newLandmark.category}
                         onChange={e => setNewLandmark({...newLandmark, category: e.target.value})}
                         placeholder="Transit Hub / Landmark"
-                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white"
+                        className="w-full bg-[#09090b] border border-zinc-700 rounded-xl px-3 py-2 text-white"
                       />
                     </div>
                     <div>
-                      <label className="text-slate-400 font-semibold block mb-1">CBD Sector / Area</label>
+                      <label className="text-zinc-400 font-semibold block mb-1">CBD Sector / Area</label>
                       <input
                         type="text"
                         value={newLandmark.cbd_area}
                         onChange={e => setNewLandmark({...newLandmark, cbd_area: e.target.value})}
                         placeholder="Tom Mboya St / Haile Selassie"
-                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white"
+                        className="w-full bg-[#09090b] border border-zinc-700 rounded-xl px-3 py-2 text-white"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
                     <div>
-                      <label className="text-slate-400 font-semibold block mb-1">Latitude</label>
+                      <label className="text-zinc-400 font-semibold block mb-1">Latitude</label>
                       <input
                         type="number"
                         step="0.000001"
                         value={newLandmark.lat}
                         onChange={e => setNewLandmark({...newLandmark, lat: parseFloat(e.target.value)})}
-                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white"
+                        className="w-full bg-[#09090b] border border-zinc-700 rounded-xl px-3 py-2 text-white"
                       />
                     </div>
                     <div>
-                      <label className="text-slate-400 font-semibold block mb-1">Longitude</label>
+                      <label className="text-zinc-400 font-semibold block mb-1">Longitude</label>
                       <input
                         type="number"
                         step="0.000001"
                         value={newLandmark.lng}
                         onChange={e => setNewLandmark({...newLandmark, lng: parseFloat(e.target.value)})}
-                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white"
+                        className="w-full bg-[#09090b] border border-zinc-700 rounded-xl px-3 py-2 text-white"
                       />
                     </div>
                     <div>
-                      <label className="text-slate-400 font-semibold block mb-1">Nearest Safe Haven</label>
+                      <label className="text-zinc-400 font-semibold block mb-1">Nearest Safe Haven</label>
                       <input
                         type="text"
                         value={newLandmark.nearest_safe_zone}
                         onChange={e => setNewLandmark({...newLandmark, nearest_safe_zone: e.target.value})}
                         placeholder="Central Police Station"
-                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white"
+                        className="w-full bg-[#09090b] border border-zinc-700 rounded-xl px-3 py-2 text-white"
                       />
                     </div>
                     <div>
-                      <label className="text-slate-400 font-semibold block mb-1">Nearest Stage</label>
+                      <label className="text-zinc-400 font-semibold block mb-1">Nearest Stage</label>
                       <input
                         type="text"
                         value={newLandmark.nearest_stage}
                         onChange={e => setNewLandmark({...newLandmark, nearest_stage: e.target.value})}
                         placeholder="Kencom Stage"
-                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white"
+                        className="w-full bg-[#09090b] border border-zinc-700 rounded-xl px-3 py-2 text-white"
                       />
                     </div>
                   </div>
@@ -753,7 +753,7 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
                     <button
                       type="button"
                       onClick={() => setShowAddLandmark(false)}
-                      className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold"
+                      className="px-4 py-2 rounded-xl bg-[#18181b] text-zinc-300 text-xs font-semibold"
                     >
                       Cancel
                     </button>
@@ -770,17 +770,17 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
               {/* Landmarks Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {landmarks.map((l) => (
-                  <div key={l.id} className="p-3.5 rounded-2xl bg-slate-950/70 border border-slate-800 space-y-1.5">
+                  <div key={l.id} className="p-3.5 rounded-2xl bg-black/70 border border-zinc-800 space-y-1.5">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white text-xs">{l.name}</span>
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-cyan-300 border border-slate-700">
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#18181b] text-cyan-300 border border-zinc-700">
                         {l.category}
                       </span>
                     </div>
-                    <p className="text-[11px] text-slate-400">{l.cbd_area}</p>
-                    <div className="pt-1.5 border-t border-slate-800/80 text-[10px] space-y-0.5">
-                      <p className="text-emerald-400">🛡️ Safe Haven: <span className="text-slate-300">{l.nearest_safe_zone}</span></p>
-                      <p className="text-cyan-400">🚏 Nearest Stage: <span className="text-slate-300">{l.nearest_stage}</span></p>
+                    <p className="text-[11px] text-zinc-400">{l.cbd_area}</p>
+                    <div className="pt-1.5 border-t border-zinc-800/80 text-[10px] space-y-0.5">
+                      <p className="text-emerald-400">🛡️ Safe Haven: <span className="text-zinc-300">{l.nearest_safe_zone}</span></p>
+                      <p className="text-cyan-400">🚏 Nearest Stage: <span className="text-zinc-300">{l.nearest_stage}</span></p>
                     </div>
                   </div>
                 ))}
@@ -793,7 +793,7 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
             <div className="space-y-6">
               <div>
                 <h3 className="text-base font-black text-white">Emergency SOS Beacons & Commuter Flags</h3>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-zinc-400">
                   Real-time telemetry gathered from the web app distress button and Africa's Talking USSD (*384*123#).
                 </p>
               </div>
@@ -804,9 +804,9 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
                   <ShieldAlert className="w-4 h-4" />
                   <span>SOS Distress Logs ({alerts.length})</span>
                 </span>
-                <div className="overflow-x-auto rounded-2xl border border-slate-800 bg-slate-950/70">
+                <div className="overflow-x-auto rounded-2xl border border-zinc-800 bg-black/70">
                   <table className="w-full text-left text-xs">
-                    <thead className="bg-slate-900 text-slate-400 uppercase font-semibold text-[10px]">
+                    <thead className="bg-[#09090b] text-zinc-400 uppercase font-semibold text-[10px]">
                       <tr>
                         <th className="px-4 py-3">Alert ID</th>
                         <th className="px-4 py-3">Contact</th>
@@ -815,16 +815,16 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
                         <th className="px-4 py-3">Details</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-800/80 text-slate-300">
+                    <tbody className="divide-y divide-slate-800/80 text-zinc-300">
                       {alerts.map((a) => (
-                        <tr key={a.id} className="hover:bg-slate-900/50">
+                        <tr key={a.id} className="hover:bg-[#09090b]/50">
                           <td className="px-4 py-2.5 font-mono text-rose-400 font-bold">#{a.id}</td>
                           <td className="px-4 py-2.5 font-bold text-white">{a.phone_number}</td>
-                          <td className="px-4 py-2.5 font-mono text-[11px] text-slate-400">
+                          <td className="px-4 py-2.5 font-mono text-[11px] text-zinc-400">
                             {a.latitude.toFixed(4)}, {a.longitude.toFixed(4)}
                           </td>
                           <td className="px-4 py-2.5 text-cyan-300">{a.route_id}</td>
-                          <td className="px-4 py-2.5 text-slate-300 text-[11px]">{a.details}</td>
+                          <td className="px-4 py-2.5 text-zinc-300 text-[11px]">{a.details}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -839,13 +839,13 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
                   <span>Conductor Overcharge Flags ({overcharges.length})</span>
                 </span>
                 {overcharges.length === 0 ? (
-                  <p className="text-xs text-slate-500 italic p-4 rounded-xl bg-slate-950/60 border border-slate-800 text-center">
+                  <p className="text-xs text-zinc-500 italic p-4 rounded-xl bg-black/60 border border-zinc-800 text-center">
                     No overcharge complaints filed via USSD or web yet.
                   </p>
                 ) : (
-                  <div className="overflow-x-auto rounded-2xl border border-slate-800 bg-slate-950/70">
+                  <div className="overflow-x-auto rounded-2xl border border-zinc-800 bg-black/70">
                     <table className="w-full text-left text-xs">
-                      <thead className="bg-slate-900 text-slate-400 uppercase font-semibold text-[10px]">
+                      <thead className="bg-[#09090b] text-zinc-400 uppercase font-semibold text-[10px]">
                         <tr>
                           <th className="px-4 py-3">Report ID</th>
                           <th className="px-4 py-3">Phone</th>
@@ -853,12 +853,12 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
                           <th className="px-4 py-3">Plate / Details</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-slate-800/80 text-slate-300">
+                      <tbody className="divide-y divide-slate-800/80 text-zinc-300">
                         {overcharges.map((o) => (
                           <tr key={o.id}>
                             <td className="px-4 py-2.5 font-mono text-purple-400">#{o.id}</td>
                             <td className="px-4 py-2.5 font-bold text-white">{o.phone_number}</td>
-                            <td className="px-4 py-2.5 text-slate-300">{o.route_id}</td>
+                            <td className="px-4 py-2.5 text-zinc-300">{o.route_id}</td>
                             <td className="px-4 py-2.5 text-amber-300">{o.vehicle_reg || 'N/A'}</td>
                           </tr>
                         ))}
@@ -872,10 +872,10 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
 
           {/* TAB 5: DEVELOPER & DATASET GUIDE */}
           {activeTab === 'developer_guide' && (
-            <div className="space-y-6 text-xs text-slate-300">
+            <div className="space-y-6 text-xs text-zinc-300">
               
               {/* Architecture Intro */}
-              <div className="p-5 rounded-2xl bg-slate-950 border border-cyan-500/30 space-y-3">
+              <div className="p-5 rounded-2xl bg-black border border-cyan-500/30 space-y-3">
                 <div className="flex items-center gap-2 text-cyan-400 font-bold text-sm">
                   <Terminal className="w-4 h-4" />
                   <span>RouteShield Engineering & Data Architecture</span>
@@ -893,19 +893,19 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
                   <span>1. How Data is Stored & Seeded</span>
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-2">
+                  <div className="p-4 rounded-2xl bg-black/80 border border-zinc-800 space-y-2">
                     <strong className="text-emerald-400 text-xs block">Database File Location:</strong>
-                    <code className="block p-2 rounded bg-slate-900 text-cyan-300 font-mono text-[11px]">
+                    <code className="block p-2 rounded bg-[#09090b] text-cyan-300 font-mono text-[11px]">
                       backend/routeshield.db
                     </code>
-                    <p className="text-[11px] text-slate-400">
-                      Auto-created on backend start. If missing, it automatically seeds initial routes from <code className="text-slate-300">frontend/src/data/routes.json</code> and populates 12 Nairobi landmarks.
+                    <p className="text-[11px] text-zinc-400">
+                      Auto-created on backend start. If missing, it automatically seeds initial routes from <code className="text-zinc-300">frontend/src/data/routes.json</code> and populates 12 Nairobi landmarks.
                     </p>
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-2">
+                  <div className="p-4 rounded-2xl bg-black/80 border border-zinc-800 space-y-2">
                     <strong className="text-cyan-400 text-xs block">Core Database Tables:</strong>
-                    <ul className="space-y-1 font-mono text-[11px] text-slate-300">
+                    <ul className="space-y-1 font-mono text-[11px] text-zinc-300">
                       <li>• <b className="text-white">routes</b>: Corridors, stages, fares, saccos, paths</li>
                       <li>• <b className="text-white">landmarks</b>: Recognized buildings for offline rescue</li>
                       <li>• <b className="text-white">ussd_subscribers</b>: Enrolled phones & language</li>
@@ -923,19 +923,19 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
                   <span>2. How to Add or Update Routes & Stages</span>
                 </h4>
                 <div className="space-y-2.5">
-                  <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-2">
+                  <div className="p-4 rounded-2xl bg-black/80 border border-zinc-800 space-y-2">
                     <strong className="text-amber-400 text-xs">Method A: Through this Admin UI (No code needed)</strong>
-                    <p className="text-[11px] text-slate-300">
+                    <p className="text-[11px] text-zinc-300">
                       Switch to the <strong>"Transit Corridors"</strong> tab above and click <strong>"New Corridor"</strong>. Enter the route name, destination, boarding bay, fare bounds, and active Saccos. Changes persist instantly in SQLite.
                     </p>
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-2">
+                  <div className="p-4 rounded-2xl bg-black/80 border border-zinc-800 space-y-2">
                     <strong className="text-amber-400 text-xs">Method B: Through REST API</strong>
-                    <p className="text-[11px] text-slate-300">
+                    <p className="text-[11px] text-zinc-300">
                       Send a <code className="text-cyan-300">POST /api/admin/routes</code> JSON payload:
                     </p>
-                    <pre className="p-3 rounded-xl bg-slate-900 text-slate-300 font-mono text-[10px] overflow-x-auto">
+                    <pre className="p-3 rounded-xl bg-[#09090b] text-zinc-300 font-mono text-[10px] overflow-x-auto">
 {`curl -X POST http://localhost:5000/api/admin/routes \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -962,31 +962,31 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
                   <Radio className="w-4 h-4 text-emerald-400" />
                   <span>3. Africa's Talking USSD Webhook Integration</span>
                 </h4>
-                <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-3">
+                <div className="p-4 rounded-2xl bg-black/80 border border-zinc-800 space-y-3">
                   <p className="leading-relaxed">
                     When you purchase a USSD channel (e.g. <code>*384*123#</code>) in your 
                     <a href="https://africastalking.com" target="_blank" rel="noreferrer" className="text-cyan-400 underline ml-1">
                       Africa's Talking Dashboard
                     </a>, configure the Callback URL to:
                   </p>
-                  <code className="block p-2 rounded bg-slate-900 text-emerald-400 font-mono text-[11px]">
+                  <code className="block p-2 rounded bg-[#09090b] text-emerald-400 font-mono text-[11px]">
                     https://your-public-domain.com/ussd (POST method)
                   </code>
                   <div className="space-y-1.5 text-[11px]">
                     <p><strong>Protocol Flow Enforced in <code>backend/server.js</code>:</strong></p>
-                    <ol className="list-decimal list-inside space-y-1 text-slate-400">
-                      <li><b className="text-slate-200">First Dial:</b> Opt-in prompt ("1. Opt in (Jiunge)").</li>
-                      <li><b className="text-slate-200">Language Screen:</b> Choice of (1. Kiswahili, 2. English).</li>
-                      <li><b className="text-slate-200">Main Menu:</b> (1. Find Stage, 2. Fare Estimate, 3. I'm Lost, 4. Report Overcharge, 5. Go back).</li>
-                      <li><b className="text-slate-200">Final Step:</b> Sends instructions/SMS dispatch and returns <code>END &lt;message&gt;</code>.</li>
+                    <ol className="list-decimal list-inside space-y-1 text-zinc-400">
+                      <li><b className="text-zinc-200">First Dial:</b> Opt-in prompt ("1. Opt in (Jiunge)").</li>
+                      <li><b className="text-zinc-200">Language Screen:</b> Choice of (1. Kiswahili, 2. English).</li>
+                      <li><b className="text-zinc-200">Main Menu:</b> (1. Find Stage, 2. Fare Estimate, 3. I'm Lost, 4. Report Overcharge, 5. Go back).</li>
+                      <li><b className="text-zinc-200">Final Step:</b> Sends instructions/SMS dispatch and returns <code>END &lt;message&gt;</code>.</li>
                     </ol>
                   </div>
 
                   <div className="pt-2">
-                    <span className="text-[10px] text-slate-400 block mb-1 font-semibold uppercase">
+                    <span className="text-[10px] text-zinc-400 block mb-1 font-semibold uppercase">
                       Test locally without spending airtime:
                     </span>
-                    <pre className="p-2.5 rounded-xl bg-slate-900 text-slate-300 font-mono text-[10px] overflow-x-auto">
+                    <pre className="p-2.5 rounded-xl bg-[#09090b] text-zinc-300 font-mono text-[10px] overflow-x-auto">
 {`curl -X POST http://localhost:5000/ussd \\
   -H "Content-Type: application/json" \\
   -d '{"phoneNumber": "+254712345678", "text": ""}'`}
@@ -1001,11 +1001,11 @@ export default function AdminDashboard({ isOpen, onClose, onDataUpdated }) {
         </div>
 
         {/* Modal Footer */}
-        <div className="px-6 py-3 border-t border-slate-800 bg-slate-900/90 flex items-center justify-between text-xs text-slate-500 shrink-0">
+        <div className="px-6 py-3 border-t border-zinc-800 bg-[#09090b]/90 flex items-center justify-between text-xs text-zinc-500 shrink-0">
           <span>RouteShield Engine v2.0 • Nairobi Commuter Safety Architecture</span>
           <button
             onClick={onClose}
-            className="px-4 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold transition"
+            className="px-4 py-1.5 rounded-xl bg-[#18181b] hover:bg-slate-700 text-zinc-300 font-bold transition"
           >
             Close Dashboard
           </button>

@@ -34,7 +34,7 @@ export default function ValueSections({
           <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
             Why RouteShield Outclasses Traditional Navigation Apps
           </h2>
-          <p className="text-slate-400 text-xs sm:text-base leading-relaxed">
+          <p className="text-zinc-400 text-xs sm:text-base leading-relaxed">
             Mainstream map services assume unlimited 5G data and ignore Nairobi matatu dynamics. 
             RouteShield was engineered directly for the streets of Nairobi CBD.
           </p>
@@ -50,10 +50,10 @@ export default function ValueSections({
             <h3 className="text-lg sm:text-xl font-black text-white">
               1. Offline-First PWA Architecture
             </h3>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
               Never get stranded when internet bundles deplete or signal drops along Waiyaki Way or Lang'ata. RouteShield caches OpenStreetMap tiles, transit stages, and safe zones directly into browser memory for 30-day persistence in airplane mode.
             </p>
-            <ul className="text-xs text-slate-400 space-y-1.5 pt-2 border-t border-slate-800">
+            <ul className="text-xs text-zinc-400 space-y-1.5 pt-2 border-t border-zinc-800">
               <li className="flex items-center gap-2">
                 <CheckCircle className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
                 <span>Zero data consumption on cached routes</span>
@@ -73,10 +73,10 @@ export default function ValueSections({
             <h3 className="text-lg sm:text-xl font-black text-white">
               2. Bounded Peak Fare Intelligence
             </h3>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
               Matatu conductors ruthlessly double or triple fares during sudden evening rain or rush hour gridlock. RouteShield provides verifiable off-peak bounds and peak surge ceilings, giving commuters bargaining power against extortion.
             </p>
-            <ul className="text-xs text-slate-400 space-y-1.5 pt-2 border-t border-slate-800">
+            <ul className="text-xs text-zinc-400 space-y-1.5 pt-2 border-t border-zinc-800">
               <li className="flex items-center gap-2">
                 <CheckCircle className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                 <span>Verified NTSA & Sacco benchmark caps</span>
@@ -96,10 +96,10 @@ export default function ValueSections({
             <h3 className="text-lg sm:text-xl font-black text-white">
               3. Emergency Safe-Zone Rerouting
             </h3>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
               Standard GPS algorithms route pedestrians down dark, perilous alleys like Kirinyaga Rd or unlit railway lines. RouteShield routes you exclusively through 24/7 high-mast floodlit areas with active police posts and banking hall security.
             </p>
-            <ul className="text-xs text-slate-400 space-y-1.5 pt-2 border-t border-slate-800">
+            <ul className="text-xs text-zinc-400 space-y-1.5 pt-2 border-t border-zinc-800">
               <li className="flex items-center gap-2">
                 <CheckCircle className="w-3.5 h-3.5 text-rose-400 shrink-0" />
                 <span>One-tap instant SMS location beacon</span>
@@ -126,11 +126,11 @@ export default function ValueSections({
             <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
               Keep Nairobi Fares Fair — Report What You Paid Today
             </h3>
-            <p className="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
+            <p className="text-xs sm:text-sm text-zinc-300 max-w-2xl leading-relaxed">
               Every fare entry logged by a commuter at Kencom, Odeon, or Railways recalibrates our live averages and prevents conductor overcharging. Anonymous, instantaneous, and offline-queued.
             </p>
             
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-1 text-xs text-slate-400">
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-1 text-xs text-zinc-400">
               <span className="flex items-center gap-1.5">
                 <strong className="text-emerald-400 font-mono text-sm">180+</strong> Reports Today
               </span>
@@ -156,7 +156,7 @@ export default function ValueSections({
 
             <button
               onClick={onFindRoute}
-              className="px-5 py-3.5 rounded-2xl bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 font-bold text-sm transition flex items-center justify-center gap-1.5"
+              className="px-5 py-3.5 rounded-2xl bg-[#09090b]/90 hover:bg-[#18181b] text-zinc-200 border border-zinc-700 font-bold text-sm transition flex items-center justify-center gap-1.5"
             >
               <span>Explore Corridors</span>
               <ArrowRight className="w-4 h-4" />
@@ -167,7 +167,7 @@ export default function ValueSections({
       </section>
 
       {/* SECTION 3: Africa's Talking USSD Showcase Banner */}
-      <section className="glass-card rounded-3xl p-6 sm:p-8 border border-slate-800 flex flex-col md:flex-row items-center justify-between gap-6">
+      <section className="glass-card rounded-3xl p-6 sm:p-8 border border-zinc-800 flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex items-start gap-4">
           <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center shrink-0">
             <Radio className="w-6 h-6 animate-pulse" />
@@ -177,14 +177,14 @@ export default function ValueSections({
               <span className="text-xs font-black uppercase text-emerald-400 font-mono tracking-wider">
                 *384*123#
               </span>
-              <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">
+              <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-[#18181b] text-zinc-300">
                 2G / EDGE Telemetry
               </span>
             </div>
             <h4 className="text-lg sm:text-xl font-bold text-white">
               Africa's Talking USSD Protocol for Zero-Smartphone Equity
             </h4>
-            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-2xl">
+            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed max-w-2xl">
               Equipped with a standard 'Mulika Mwizi' feature phone or out of internet bundle units? Dial our dedicated USSD code anytime on Safaricom or Airtel KE to query stages, live fares, and trigger an emergency SOS beacon.
             </p>
           </div>
@@ -192,7 +192,7 @@ export default function ValueSections({
 
         <button
           onClick={onOpenUssd}
-          className="px-5 py-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-emerald-500/30 text-xs sm:text-sm font-bold whitespace-nowrap transition active:scale-95 flex items-center gap-2 shrink-0"
+          className="px-5 py-3 rounded-2xl bg-[#18181b] hover:bg-slate-700 text-emerald-300 border border-emerald-500/30 text-xs sm:text-sm font-bold whitespace-nowrap transition active:scale-95 flex items-center gap-2 shrink-0"
         >
           <Phone className="w-4 h-4 text-emerald-400" />
           <span>Launch Interactive USSD Dialer</span>
@@ -202,7 +202,7 @@ export default function ValueSections({
       {/* SECTION 4: Verified Nairobi Sacco Fleet Standards */}
       <section className="space-y-4">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+          <span className="text-xs font-bold uppercase tracking-wider text-zinc-400">
             Monitored Nairobi Sacco Fleet Networks:
           </span>
           <span className="text-[11px] text-emerald-400 font-semibold">
@@ -220,10 +220,10 @@ export default function ValueSections({
           ].map((sacco, idx) => (
             <div 
               key={idx}
-              className="p-3.5 rounded-2xl bg-slate-900/60 border border-slate-800 text-center space-y-1 hover:border-slate-700 transition"
+              className="p-3.5 rounded-2xl bg-[#09090b]/60 border border-zinc-800 text-center space-y-1 hover:border-zinc-700 transition"
             >
               <span className="text-xs font-black text-white block">{sacco.name}</span>
-              <span className="text-[10px] text-slate-400 block truncate">{sacco.corridor}</span>
+              <span className="text-[10px] text-zinc-400 block truncate">{sacco.corridor}</span>
               <span className="text-[10px] text-amber-400 font-bold font-mono">{sacco.rating} Safety</span>
             </div>
           ))}

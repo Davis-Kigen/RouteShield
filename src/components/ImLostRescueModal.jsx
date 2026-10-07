@@ -109,14 +109,14 @@ export default function ImLostRescueModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-md animate-fadeIn">
-      <div className="relative w-full max-w-lg bg-slate-900 border-2 border-rose-500/80 rounded-3xl p-5 sm:p-6 shadow-2xl text-slate-100 overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fadeIn">
+      <div className="relative w-full max-w-lg bg-[#09090b] border-2 border-rose-500/80 rounded-3xl p-5 sm:p-6 shadow-2xl text-white overflow-hidden">
         
         {/* Glow ambient background */}
         <div className="absolute -top-16 -right-16 w-48 h-48 bg-rose-600/20 rounded-full blur-3xl pointer-events-none" />
 
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-slate-800 relative z-10">
+        <div className="flex items-center justify-between pb-3 border-b border-zinc-800 relative z-10">
           <div className="flex items-center gap-2.5">
             <div className="p-2 rounded-xl bg-rose-600 text-white shadow-lg shadow-rose-600/50 animate-pulse">
               <ShieldAlert className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -134,13 +134,13 @@ export default function ImLostRescueModal({
                   {isOnline ? 'GPS Online' : 'Zero-Data Offline'}
                 </span>
               </div>
-              <p className="text-xs text-slate-400">Emergency landmark locator & safe zone guidance</p>
+              <p className="text-xs text-zinc-400">Emergency landmark locator & safe zone guidance</p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-xl bg-slate-800 text-slate-400 hover:text-white transition"
+            className="p-1.5 rounded-xl bg-[#18181b] text-zinc-400 hover:text-white transition"
           >
             <X className="w-5 h-5" />
           </button>
@@ -160,10 +160,10 @@ export default function ImLostRescueModal({
                 </div>
                 <div>
                   <strong className="text-white text-sm block">GPS Location Acquired</strong>
-                  <p className="text-xs text-slate-300 mt-0.5">
+                  <p className="text-xs text-zinc-300 mt-0.5">
                     Your real-time GPS coordinates have been pinned on the interactive 3D map.
                   </p>
-                  <div className="mt-2 text-[11px] font-mono text-emerald-300 bg-slate-950/70 px-2.5 py-1 rounded-lg inline-block border border-emerald-500/30">
+                  <div className="mt-2 text-[11px] font-mono text-emerald-300 bg-black/70 px-2.5 py-1 rounded-lg inline-block border border-emerald-500/30">
                     {userLocation ? `Lat: ${userLocation.lat.toFixed(4)}, Lng: ${userLocation.lng.toFixed(4)}` : 'Nairobi CBD Central Grid'}
                   </div>
                 </div>
@@ -171,7 +171,7 @@ export default function ImLostRescueModal({
 
               {/* Destination Input Form */}
               <form onSubmit={handleOnlineSubmitDestination} className="space-y-3">
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-300">
+                <label className="block text-xs font-bold uppercase tracking-wider text-zinc-300">
                   Where are you trying to go?
                 </label>
                 <div className="relative">
@@ -182,7 +182,7 @@ export default function ImLostRescueModal({
                     placeholder="Enter stage or neighborhood (e.g. Rongai, Githurai, Kikuyu, Kencom)..."
                     value={destinationInput}
                     onChange={(e) => setDestinationInput(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-700 rounded-2xl pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 shadow-inner"
+                    className="w-full bg-black border border-zinc-700 rounded-2xl pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 shadow-inner"
                   />
                 </div>
 
@@ -202,7 +202,7 @@ export default function ImLostRescueModal({
                 <button
                   type="button"
                   onClick={() => setStep('offline_input')}
-                  className="text-xs text-slate-400 hover:text-white underline"
+                  className="text-xs text-zinc-400 hover:text-white underline"
                 >
                   GPS inaccurate? Search by visible buildings & shops instead
                 </button>
@@ -221,7 +221,7 @@ export default function ImLostRescueModal({
                 </div>
                 <div>
                   <strong className="text-amber-200 text-sm block">Identify Visible Landmark</strong>
-                  <p className="text-xs text-slate-300 mt-0.5">
+                  <p className="text-xs text-zinc-300 mt-0.5">
                     Look around you. Enter the name of any bank, building, supermarket, cinema, or monument you can see.
                   </p>
                 </div>
@@ -236,7 +236,7 @@ export default function ImLostRescueModal({
                   placeholder="e.g. Afya Centre, Odeon, Kencom, Co-op Bank, GPO, Archives..."
                   value={offlineSearch}
                   onChange={(e) => setOfflineSearch(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-2xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 shadow-inner"
+                  className="w-full bg-black border border-zinc-700 rounded-2xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 shadow-inner"
                 />
               </div>
 
@@ -246,28 +246,28 @@ export default function ImLostRescueModal({
                   <button
                     key={lm.id}
                     onClick={() => handleSelectLandmark(lm)}
-                    className="w-full p-2.5 rounded-xl bg-slate-950/80 hover:bg-slate-800 border border-slate-800 hover:border-amber-500/50 text-left transition flex items-center justify-between group"
+                    className="w-full p-2.5 rounded-xl bg-black/80 hover:bg-[#18181b] border border-zinc-800 hover:border-amber-500/50 text-left transition flex items-center justify-between group"
                   >
                     <div>
                       <div className="flex items-center gap-2">
                         <strong className="text-xs sm:text-sm text-white font-bold group-hover:text-amber-300">
                           {lm.name}
                         </strong>
-                        <span className="text-[10px] px-1.5 py-0.2 rounded bg-slate-800 text-slate-400">
+                        <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#18181b] text-zinc-400">
                           {lm.category}
                         </span>
                       </div>
-                      <span className="text-[11px] text-slate-400 block mt-0.5">{lm.cbd_area}</span>
+                      <span className="text-[11px] text-zinc-400 block mt-0.5">{lm.cbd_area}</span>
                     </div>
 
-                    <ArrowRight className="w-4 h-4 text-slate-500 group-hover:text-amber-400 shrink-0" />
+                    <ArrowRight className="w-4 h-4 text-zinc-500 group-hover:text-amber-400 shrink-0" />
                   </button>
                 ))}
               </div>
 
               {/* Quick Landmark Chips */}
               <div className="pt-1">
-                <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider block mb-1.5">
+                <span className="text-[10px] text-zinc-400 uppercase font-bold tracking-wider block mb-1.5">
                   Popular Nairobi CBD Landmarks:
                 </span>
                 <div className="flex flex-wrap gap-1.5">
@@ -278,7 +278,7 @@ export default function ImLostRescueModal({
                         key={name}
                         type="button"
                         onClick={() => match && handleSelectLandmark(match)}
-                        className="text-xs px-2.5 py-1 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 active:scale-95 transition"
+                        className="text-xs px-2.5 py-1 rounded-xl bg-[#18181b] hover:bg-slate-700 text-zinc-200 border border-zinc-700 active:scale-95 transition"
                       >
                         {name}
                       </button>
@@ -294,7 +294,7 @@ export default function ImLostRescueModal({
           {/* ========================================================= */}
           {step === 'offline_resolved' && selectedLandmark && (
             <div className="space-y-4">
-              <div className="p-4 rounded-2xl bg-slate-950 border border-emerald-500/40 space-y-2">
+              <div className="p-4 rounded-2xl bg-black border border-emerald-500/40 space-y-2">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5 text-emerald-400 text-xs font-bold uppercase tracking-wider">
                     <CheckCircle className="w-4 h-4" />
@@ -302,28 +302,28 @@ export default function ImLostRescueModal({
                   </div>
                   <button
                     onClick={() => setStep('offline_input')}
-                    className="text-[11px] text-slate-400 hover:text-white underline"
+                    className="text-[11px] text-zinc-400 hover:text-white underline"
                   >
                     Change Landmark
                   </button>
                 </div>
 
                 <h4 className="text-lg font-black text-white">{selectedLandmark.name}</h4>
-                <p className="text-xs text-slate-400">{selectedLandmark.cbd_area}</p>
+                <p className="text-xs text-zinc-400">{selectedLandmark.cbd_area}</p>
 
-                <div className="mt-2 pt-2 border-t border-slate-800/80 space-y-1.5 text-xs">
+                <div className="mt-2 pt-2 border-t border-zinc-800/80 space-y-1.5 text-xs">
                   <div className="flex items-start gap-2">
                     <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                     <div>
                       <strong className="text-emerald-300">Nearest 24/7 Lit Refuge:</strong>
-                      <p className="text-slate-200">{selectedLandmark.nearest_safe_zone}</p>
+                      <p className="text-zinc-200">{selectedLandmark.nearest_safe_zone}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
                     <MapPin className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
                     <div>
                       <strong className="text-cyan-300">Nearest Boarding Stage:</strong>
-                      <p className="text-slate-200">{selectedLandmark.nearest_stage}</p>
+                      <p className="text-zinc-200">{selectedLandmark.nearest_stage}</p>
                     </div>
                   </div>
                 </div>
@@ -352,7 +352,7 @@ export default function ImLostRescueModal({
 
                 <a
                   href={`sms:?body=${smsBody}`}
-                  className="py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-emerald-500/40 font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow-md active:scale-95 transition text-center"
+                  className="py-3 px-4 rounded-xl bg-[#18181b] hover:bg-slate-700 text-emerald-300 border border-emerald-500/40 font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow-md active:scale-95 transition text-center"
                 >
                   <Send className="w-4 h-4 text-emerald-400" />
                   <span>SMS Location Distress</span>
@@ -362,8 +362,8 @@ export default function ImLostRescueModal({
           )}
 
           {/* Emergency Hotlines Always Visible */}
-          <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
-            <span className="text-slate-400 font-semibold">Immediate Assistance:</span>
+          <div className="pt-3 border-t border-zinc-800 flex items-center justify-between text-xs">
+            <span className="text-zinc-400 font-semibold">Immediate Assistance:</span>
             <div className="flex items-center gap-2">
               <a
                 href="tel:999"
@@ -374,7 +374,7 @@ export default function ImLostRescueModal({
               </a>
               <a
                 href="tel:0202222181"
-                className="px-2.5 py-1.5 rounded-xl bg-slate-800 text-slate-200 border border-slate-700 font-semibold"
+                className="px-2.5 py-1.5 rounded-xl bg-[#18181b] text-zinc-200 border border-zinc-700 font-semibold"
               >
                 020 2222181
               </a>

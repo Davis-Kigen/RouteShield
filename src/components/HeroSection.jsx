@@ -21,7 +21,7 @@ export default function HeroSection({
   isOnline = true
 }) {
   return (
-    <section id="top" className="relative overflow-hidden pt-6 pb-8 sm:pt-10 sm:pb-12 border-b border-slate-800/80 bg-gradient-to-b from-slate-900/60 via-slate-950 to-slate-950">
+    <section id="top" className="relative overflow-hidden pt-6 pb-8 sm:pt-10 sm:pb-12 border-b border-zinc-800/80 bg-gradient-to-b from-slate-900/60 via-slate-950 to-slate-950">
       {/* Ambient background glow elements */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-emerald-500/10 blur-[130px] pointer-events-none rounded-full" />
       <div className="absolute top-20 right-10 w-72 h-72 bg-teal-500/10 blur-[100px] pointer-events-none rounded-full" />
@@ -30,17 +30,17 @@ export default function HeroSection({
         
         {/* Top Ticker Pill */}
         <div className="flex flex-wrap items-center justify-center gap-2 mb-4 sm:mb-6">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-emerald-500/40 text-xs font-semibold text-emerald-300 shadow-md backdrop-blur-md">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#09090b]/90 border border-emerald-500/40 text-xs font-semibold text-emerald-300 shadow-md backdrop-blur-md">
             <span className="flex h-2 w-2 relative">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
             <span className="font-bold">Nairobi Transit Shield 2.0</span>
-            <span className="text-slate-500">•</span>
-            <span className="text-slate-300">Live Peak Surge Protection & Offline Routing</span>
+            <span className="text-zinc-500">•</span>
+            <span className="text-zinc-300">Live Peak Surge Protection & Offline Routing</span>
           </div>
 
-          <div className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 text-xs text-slate-400 font-medium">
+          <div className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#09090b]/80 border border-zinc-800 text-xs text-zinc-400 font-medium">
             <Radio className="w-3 h-3 text-emerald-400" />
             <span>USSD Fallback: <b className="text-white font-mono">*384*123#</b></span>
           </div>
@@ -52,7 +52,7 @@ export default function HeroSection({
             Commute <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">Safely & Transparently</span> Across Nairobi
           </h1>
           
-          <p className="text-sm sm:text-lg md:text-xl text-slate-300 font-medium leading-relaxed max-w-3xl mx-auto">
+          <p className="text-sm sm:text-lg md:text-xl text-zinc-300 font-medium leading-relaxed max-w-3xl mx-auto">
             Say goodbye to conductor surge extortion and dark stage alleys. RouteShield delivers 
             <strong className="text-emerald-400 font-semibold"> bounded peak fares</strong>, 
             <strong className="text-teal-300 font-semibold"> 24/7 floodlit safe zones</strong>, and an 
@@ -72,7 +72,7 @@ export default function HeroSection({
 
             <button
               onClick={onOpenUssd}
-              className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-slate-900/90 hover:bg-slate-800 text-emerald-300 hover:text-white border border-emerald-500/40 hover:border-emerald-400 text-sm sm:text-base font-bold shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2.5 cursor-pointer"
+              className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-[#09090b]/90 hover:bg-[#18181b] text-emerald-300 hover:text-white border border-emerald-500/40 hover:border-emerald-400 text-sm sm:text-base font-bold shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2.5 cursor-pointer"
             >
               <Radio className="w-5 h-5 text-emerald-400 animate-pulse" />
               <span>Test USSD Fallback (*384*123#)</span>
@@ -88,7 +88,7 @@ export default function HeroSection({
               <Bus className="w-4 h-4" />
             </div>
             <div className="text-base sm:text-lg font-black text-white">{totalRoutes} Core Corridors</div>
-            <div className="text-[11px] text-slate-400">Rongai, Thika, Waiyaki & more</div>
+            <div className="text-[11px] text-zinc-400">Rongai, Thika, Waiyaki & more</div>
           </div>
 
           {/* Card 2 */}
@@ -97,7 +97,7 @@ export default function HeroSection({
               <TrendingUp className="w-4 h-4" />
             </div>
             <div className="text-base sm:text-lg font-black text-white">Bounded Fares</div>
-            <div className="text-[11px] text-slate-400">Guards against rush hour surge</div>
+            <div className="text-[11px] text-zinc-400">Guards against rush hour surge</div>
           </div>
 
           {/* Card 3 */}
@@ -106,7 +106,7 @@ export default function HeroSection({
               <ShieldCheck className="w-4 h-4" />
             </div>
             <div className="text-base sm:text-lg font-black text-white">24/7 Lit Safe Zones</div>
-            <div className="text-[11px] text-slate-400">High-mast lights & police posts</div>
+            <div className="text-[11px] text-zinc-400">High-mast lights & police posts</div>
           </div>
 
           {/* Card 4 */}
@@ -115,7 +115,7 @@ export default function HeroSection({
               <Zap className="w-4 h-4" />
             </div>
             <div className="text-base sm:text-lg font-black text-white">Zero-Data Ready</div>
-            <div className="text-[11px] text-slate-400">Offline PWA + *384*123#</div>
+            <div className="text-[11px] text-zinc-400">Offline PWA + *384*123#</div>
           </div>
         </div>
 

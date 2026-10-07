@@ -98,7 +98,7 @@ export default function MapWorkspace({
           <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
             Integrated Map & Fare Intelligence Suite
           </h2>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-zinc-400 mt-1">
             Filter corridors by Sacco, inspect bounded peak surge fares, and track illuminated safe zones.
           </p>
         </div>
@@ -108,7 +108,7 @@ export default function MapWorkspace({
           <button
             onClick={onRefreshRoutes}
             disabled={isRefreshing}
-            className="px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white text-xs font-bold transition flex items-center gap-2 active:scale-95 shadow-md"
+            className="px-3.5 py-2 rounded-xl bg-[#09090b] border border-zinc-800 hover:border-zinc-700 text-zinc-300 hover:text-white text-xs font-bold transition flex items-center gap-2 active:scale-95 shadow-md"
             title="Refresh routes and fare telemetry"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin text-emerald-400' : ''}`} />
@@ -117,7 +117,7 @@ export default function MapWorkspace({
 
           <button
             onClick={onOpenUssd}
-            className="px-3.5 py-2 rounded-xl bg-slate-900 border border-emerald-500/30 text-emerald-300 hover:text-white text-xs font-bold transition flex items-center gap-1.5 active:scale-95 shadow-md"
+            className="px-3.5 py-2 rounded-xl bg-[#09090b] border border-emerald-500/30 text-emerald-300 hover:text-white text-xs font-bold transition flex items-center gap-1.5 active:scale-95 shadow-md"
           >
             <Radio className="w-3.5 h-3.5 text-emerald-400" />
             <span>USSD: *384*123#</span>
@@ -132,11 +132,11 @@ export default function MapWorkspace({
         <div className="lg:col-span-6 space-y-4">
           
           {/* Dual Input Search Suite */}
-          <div className="glass-card rounded-3xl p-4 sm:p-5 shadow-xl space-y-3.5 border border-slate-800">
+          <div className="glass-card rounded-3xl p-4 sm:p-5 shadow-xl space-y-3.5 border border-zinc-800">
             
             {/* Starting Point Input */}
             <div className="relative">
-              <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+              <label className="block text-[11px] font-bold text-zinc-400 uppercase tracking-wider mb-1">
                 Starting Point / Pickup Stage:
               </label>
               <div className="relative">
@@ -146,7 +146,7 @@ export default function MapWorkspace({
                   value={startingPoint}
                   onChange={(e) => setStartingPoint(e.target.value)}
                   placeholder="e.g. Kencom, Railways, Odeon..."
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 shadow-inner font-medium"
+                  className="w-full bg-black border border-zinc-800 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 shadow-inner font-medium"
                 />
               </div>
 
@@ -159,7 +159,7 @@ export default function MapWorkspace({
                     className={`text-[10px] font-bold px-2 py-1 rounded-lg border whitespace-nowrap transition ${
                       startingPoint.includes(stg)
                         ? 'bg-cyan-950 text-cyan-300 border-cyan-500/50'
-                        : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-slate-200'
+                        : 'bg-[#09090b] text-zinc-400 border-zinc-800 hover:text-zinc-200'
                     }`}
                   >
                     {stg}
@@ -170,7 +170,7 @@ export default function MapWorkspace({
 
             {/* Destination / Stage Input */}
             <div className="relative pt-1">
-              <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+              <label className="block text-[11px] font-bold text-zinc-400 uppercase tracking-wider mb-1">
                 Destination / Transit Corridor:
               </label>
               <div className="relative">
@@ -180,12 +180,12 @@ export default function MapWorkspace({
                   value={destinationQuery}
                   onChange={(e) => setDestinationQuery(e.target.value)}
                   placeholder="Search Rongai, Githurai, Kikuyu, Ngong, Pipeline, Waiyaki..."
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 shadow-inner font-medium"
+                  className="w-full bg-black border border-zinc-800 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 shadow-inner font-medium"
                 />
                 {destinationQuery && (
                   <button
                     onClick={() => setDestinationQuery('')}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-white"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-zinc-400 hover:text-white"
                   >
                     Clear
                   </button>
@@ -194,13 +194,13 @@ export default function MapWorkspace({
             </div>
 
             {/* Interactive Sacco Filter Chips */}
-            <div className="pt-2 border-t border-slate-800/80">
+            <div className="pt-2 border-t border-zinc-800/80">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider flex items-center gap-1.5">
                   <Filter className="w-3 h-3 text-emerald-400" />
                   <span>Filter by Verified Sacco:</span>
                 </span>
-                <span className="text-[10px] text-slate-500">
+                <span className="text-[10px] text-zinc-500">
                   {filteredRoutes.length} Corridors Match
                 </span>
               </div>
@@ -215,7 +215,7 @@ export default function MapWorkspace({
                       className={`text-xs font-bold px-3 py-1.5 rounded-xl border whitespace-nowrap transition active:scale-95 ${
                         isSelected
                           ? 'bg-emerald-600 text-white border-emerald-500 shadow-md shadow-emerald-950'
-                          : 'bg-slate-950 text-slate-300 border-slate-800 hover:bg-slate-800'
+                          : 'bg-black text-zinc-300 border-zinc-800 hover:bg-[#18181b]'
                       }`}
                     >
                       {sacco === 'ALL' ? 'All Saccos' : sacco}
@@ -241,7 +241,7 @@ export default function MapWorkspace({
                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition active:scale-95 ${
                       isSelected
                         ? 'bg-emerald-600 text-white shadow-md shadow-emerald-900 ring-2 ring-emerald-400'
-                        : 'bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800'
+                        : 'bg-[#09090b] text-zinc-300 hover:bg-[#18181b] border border-zinc-800'
                     }`}
                   >
                     <span>{route.route_name}</span>
@@ -272,21 +272,21 @@ export default function MapWorkspace({
           />
 
           {/* Commuter Safety Checklist Quick Widget */}
-          <div className="glass-card rounded-3xl p-4 sm:p-5 border border-slate-800 text-xs">
+          <div className="glass-card rounded-3xl p-4 sm:p-5 border border-zinc-800 text-xs">
             <div className="flex items-center gap-2 text-emerald-400 font-bold mb-2.5">
               <Shield className="w-4 h-4" />
               <span className="uppercase tracking-wider">Nairobi Commuter Safety Shield Protocol</span>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-slate-300">
-              <div className="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800/80">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-zinc-300">
+              <div className="p-2.5 rounded-xl bg-black/70 border border-zinc-800/80">
                 <strong className="text-white block mb-0.5">1. Overpass Safe Path</strong>
                 <span>At Railways, use the lit overhead pedestrian bridge. Never cross rail lines.</span>
               </div>
-              <div className="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800/80">
+              <div className="p-2.5 rounded-xl bg-black/70 border border-zinc-800/80">
                 <strong className="text-white block mb-0.5">2. Barrier Queuing</strong>
                 <span>At Odeon/Ngala, stay inside steel guide rails. Keep bag zipped on your front.</span>
               </div>
-              <div className="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800/80">
+              <div className="p-2.5 rounded-xl bg-black/70 border border-zinc-800/80">
                 <strong className="text-white block mb-0.5">3. Guarded Zones</strong>
                 <span>Kencom & Supreme Court have 24/7 lit guard posts and active county CCTV.</span>
               </div>
@@ -298,11 +298,11 @@ export default function MapWorkspace({
         {/* Right Column: Full-Height Interactive Leaflet Map (Desktop) */}
         <div className="lg:col-span-6 space-y-3 sticky top-20">
           <div className="flex items-center justify-between px-1">
-            <div className="flex items-center gap-2 text-xs font-bold text-slate-300 uppercase tracking-wider">
+            <div className="flex items-center gap-2 text-xs font-bold text-zinc-300 uppercase tracking-wider">
               <MapPin className="w-4 h-4 text-emerald-400" />
               <span>Nairobi Transit Canvas</span>
             </div>
-            <div className="flex items-center gap-2 text-xs text-slate-400">
+            <div className="flex items-center gap-2 text-xs text-zinc-400">
               <span>Selected:</span>
               <strong className="text-emerald-400 font-mono">{selectedRoute?.route_name || 'All'}</strong>
             </div>

@@ -91,13 +91,13 @@ export default function BottomSheet({
   return (
     <div
       ref={sheetRef}
-      className={`fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur-2xl border-t border-slate-700/80 rounded-t-[2.2rem] shadow-2xl flex flex-col transition-all duration-300 ease-out select-none ${getHeightClasses()}`}
+      className={`fixed bottom-0 left-0 right-0 z-40 bg-[#09090b]/95 backdrop-blur-2xl border-t border-zinc-700/80 rounded-t-[2.2rem] shadow-2xl flex flex-col transition-all duration-300 ease-out select-none ${getHeightClasses()}`}
     >
       {/* Draggable Handle Bar & Header */}
       <div 
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
-        className="w-full pt-3 pb-2 cursor-grab active:cursor-grabbing flex flex-col items-center shrink-0 border-b border-slate-800/60"
+        className="w-full pt-3 pb-2 cursor-grab active:cursor-grabbing flex flex-col items-center shrink-0 border-b border-zinc-800/60"
       >
         <div className="w-12 h-1.5 rounded-full bg-slate-600/80 hover:bg-slate-500 transition-colors mb-2" />
         
@@ -118,7 +118,7 @@ export default function BottomSheet({
                 else if (snapState === 'half') setSnapState('full');
                 else setSnapState('collapsed');
               }}
-              className="p-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white"
+              className="p-1 rounded-lg bg-[#18181b] text-zinc-300 hover:text-white"
             >
               {snapState === 'full' ? (
                 <ChevronDown className="w-4 h-4" />
@@ -144,7 +144,7 @@ export default function BottomSheet({
                   className={`px-3 py-1 rounded-xl text-xs font-bold whitespace-nowrap transition active:scale-95 ${
                     isSelected
                       ? 'bg-emerald-600 text-white shadow-md shadow-emerald-950 ring-2 ring-emerald-400'
-                      : 'bg-slate-800/90 text-slate-300 border border-slate-700'
+                      : 'bg-[#18181b]/90 text-zinc-300 border border-zinc-700'
                   }`}
                 >
                   {r.route_name} ({r.destination || r.corridor.split('(')[0].replace('CBD to ', '')})
@@ -156,7 +156,7 @@ export default function BottomSheet({
           {/* Nearest Safe Stage Badge */}
           <div 
             onClick={() => setSnapState('half')}
-            className="flex items-center justify-between text-[11px] p-2 rounded-xl bg-slate-950/80 border border-emerald-900/40 text-slate-300 cursor-pointer"
+            className="flex items-center justify-between text-[11px] p-2 rounded-xl bg-black/80 border border-emerald-900/40 text-zinc-300 cursor-pointer"
           >
             <div className="flex items-center gap-1.5 truncate">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
@@ -174,13 +174,13 @@ export default function BottomSheet({
           
           {/* Search input to quickly jump between corridors */}
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search stage or destination (e.g. Rongai, Githurai, Kikuyu)..."
-              className="w-full bg-slate-950 border border-slate-700/80 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+              className="w-full bg-black border border-zinc-700/80 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
             />
           </div>
 
@@ -195,7 +195,7 @@ export default function BottomSheet({
                   className={`px-3 py-1 rounded-xl text-xs font-bold whitespace-nowrap transition active:scale-95 ${
                     isSelected
                       ? 'bg-emerald-600 text-white shadow-md shadow-emerald-950 ring-2 ring-emerald-400'
-                      : 'bg-slate-800 text-slate-300 border border-slate-700'
+                      : 'bg-[#18181b] text-zinc-300 border border-zinc-700'
                   }`}
                 >
                   {r.route_name}
@@ -206,8 +206,8 @@ export default function BottomSheet({
 
           {/* Fare Comparison Grid (Off-Peak vs Peak Surge vs Live Avg) */}
           <div className="grid grid-cols-3 gap-2">
-            <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-center">
-              <span className="text-[10px] text-slate-400 font-medium block">Off-Peak</span>
+            <div className="p-2.5 rounded-xl bg-black border border-zinc-800 text-center">
+              <span className="text-[10px] text-zinc-400 font-medium block">Off-Peak</span>
               <strong className="text-xs sm:text-sm text-white font-black block mt-0.5">
                 KES {selectedRoute?.off_peak_min}-{selectedRoute?.off_peak_max}
               </strong>
@@ -230,7 +230,7 @@ export default function BottomSheet({
 
           {/* Sacco Operator List */}
           <div className="space-y-1.5">
-            <div className="flex items-center justify-between text-xs text-slate-400 font-bold uppercase tracking-wider">
+            <div className="flex items-center justify-between text-xs text-zinc-400 font-bold uppercase tracking-wider">
               <span>Verified Saccos on Corridor</span>
               <span className="text-[10px] text-emerald-400 font-medium">Speed Governed</span>
             </div>
@@ -239,7 +239,7 @@ export default function BottomSheet({
               {saccos.map((sacco, idx) => (
                 <div 
                   key={idx}
-                  className="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between text-xs"
+                  className="p-2.5 rounded-xl bg-black/70 border border-zinc-800 flex items-center justify-between text-xs"
                 >
                   <div>
                     <div className="flex items-center gap-1.5">
@@ -249,7 +249,7 @@ export default function BottomSheet({
                         <span>{sacco.safety_rating}</span>
                       </span>
                     </div>
-                    <span className="text-[10px] text-slate-400 block">{sacco.pickup_bay}</span>
+                    <span className="text-[10px] text-zinc-400 block">{sacco.pickup_bay}</span>
                   </div>
 
                   <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
@@ -272,7 +272,7 @@ export default function BottomSheet({
 
             <button
               onClick={onFocusSafeZone}
-              className="py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-emerald-500/30 font-bold text-xs flex items-center justify-center gap-1.5 active:scale-95"
+              className="py-2.5 px-3 rounded-xl bg-[#18181b] hover:bg-slate-700 text-emerald-300 border border-emerald-500/30 font-bold text-xs flex items-center justify-center gap-1.5 active:scale-95"
             >
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
               <span>Focus Safe Zone</span>
@@ -281,13 +281,13 @@ export default function BottomSheet({
 
           {/* Snap State 3: Full-Expanded Multimodal Journey Timeline */}
           {snapState === 'full' && (
-            <div className="pt-2 border-t border-slate-800 space-y-3">
-              <div className="flex items-center justify-between text-xs font-black uppercase tracking-wider text-slate-300">
+            <div className="pt-2 border-t border-zinc-800 space-y-3">
+              <div className="flex items-center justify-between text-xs font-black uppercase tracking-wider text-zinc-300">
                 <div className="flex items-center gap-1.5 text-emerald-400">
                   <Navigation className="w-4 h-4" />
                   <span>Multimodal Journey Timeline</span>
                 </div>
-                <span className="text-[10px] text-slate-400">Step-by-Step Safe Guide</span>
+                <span className="text-[10px] text-zinc-400">Step-by-Step Safe Guide</span>
               </div>
 
               {/* Timeline steps */}
@@ -295,11 +295,11 @@ export default function BottomSheet({
                 {timeline.map((step, idx) => (
                   <div key={idx} className="relative">
                     {/* Step indicator dot */}
-                    <div className="absolute -left-6 top-0.5 w-4 h-4 rounded-full bg-slate-900 border-2 border-emerald-400 flex items-center justify-center">
+                    <div className="absolute -left-6 top-0.5 w-4 h-4 rounded-full bg-[#09090b] border-2 border-emerald-400 flex items-center justify-center">
                       <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                     </div>
 
-                    <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800/90 space-y-1">
+                    <div className="bg-black/80 p-3 rounded-xl border border-zinc-800/90 space-y-1">
                       <div className="flex items-center justify-between text-xs">
                         <strong className="text-white font-bold">{step.title}</strong>
                         {step.duration && (
@@ -308,7 +308,7 @@ export default function BottomSheet({
                           </span>
                         )}
                       </div>
-                      <p className="text-xs text-slate-300 leading-relaxed">
+                      <p className="text-xs text-zinc-300 leading-relaxed">
                         {step.instruction}
                       </p>
                     </div>
@@ -317,7 +317,7 @@ export default function BottomSheet({
               </div>
 
               {/* Full Stage Advisory */}
-              <div className="p-3 rounded-xl bg-amber-950/20 border border-amber-500/30 text-xs text-slate-300 leading-relaxed">
+              <div className="p-3 rounded-xl bg-amber-950/20 border border-amber-500/30 text-xs text-zinc-300 leading-relaxed">
                 <strong className="text-amber-400 font-bold block mb-1">
                   Stage Vigilance Note:
                 </strong>
@@ -325,7 +325,7 @@ export default function BottomSheet({
               </div>
 
               {/* Safe Zone Detailed Features */}
-              <div className="p-3 rounded-xl bg-slate-950 border border-emerald-600/30 text-xs space-y-2">
+              <div className="p-3 rounded-xl bg-black border border-emerald-600/30 text-xs space-y-2">
                 <div className="flex items-center gap-1.5 text-emerald-400 font-bold">
                   <ShieldCheck className="w-4 h-4" />
                   <span>Verified 24/7 Lit Safe Haven:</span>
@@ -349,7 +349,7 @@ export default function BottomSheet({
                 </a>
                 <button
                   onClick={onOpenUssd}
-                  className="px-4 py-2.5 rounded-xl bg-slate-800 text-emerald-300 border border-emerald-500/30 font-bold text-xs flex items-center gap-1.5 active:scale-95"
+                  className="px-4 py-2.5 rounded-xl bg-[#18181b] text-emerald-300 border border-emerald-500/30 font-bold text-xs flex items-center gap-1.5 active:scale-95"
                 >
                   <Radio className="w-3.5 h-3.5" />
                   <span>*384*123#</span>

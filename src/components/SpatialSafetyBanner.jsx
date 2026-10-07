@@ -68,7 +68,7 @@ export default function SpatialSafetyBanner({
 
             <a
               href={`sms:?body=${smsBody}`}
-              className="px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-emerald-300 border border-emerald-500/40 font-bold text-xs flex items-center gap-1.5 shadow-md active:scale-95 transition"
+              className="px-3 py-1.5 rounded-xl bg-[#09090b]/90 hover:bg-[#18181b] text-emerald-300 border border-emerald-500/40 font-bold text-xs flex items-center gap-1.5 shadow-md active:scale-95 transition"
             >
               <Send className="w-3.5 h-3.5 text-emerald-400" />
               <span>SMS GPS</span>
@@ -84,7 +84,7 @@ export default function SpatialSafetyBanner({
 
             <button
               onClick={onDismiss}
-              className="p-1.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-white transition"
+              className="p-1.5 rounded-xl bg-[#09090b]/80 hover:bg-[#18181b] text-zinc-400 hover:text-white transition"
               aria-label="Dismiss banner"
             >
               <X className="w-4 h-4" />

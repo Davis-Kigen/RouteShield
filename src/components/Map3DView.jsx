@@ -148,7 +148,7 @@ export default function Map3DView({
   };
 
   return (
-    <div className={`relative w-full ${isMobileFullBleed ? 'h-full' : 'h-[460px] sm:h-[600px] lg:h-[720px] rounded-3xl border border-slate-800 shadow-2xl'} overflow-hidden bg-slate-950`}>
+    <div className={`relative w-full ${isMobileFullBleed ? 'h-full' : 'h-[460px] sm:h-[600px] lg:h-[720px] rounded-3xl border border-zinc-800 shadow-2xl'} overflow-hidden bg-black`}>
       
       {/* 3D Perspective Tilt Wrapper */}
       <div 
@@ -186,7 +186,7 @@ export default function Map3DView({
               <Popup>
                 <div className="p-1 text-xs">
                   <strong className="text-blue-400">Your Real-Time Location</strong>
-                  <p className="text-[11px] text-slate-300 mt-0.5">RouteShield 3D Spatial Radar Active</p>
+                  <p className="text-[11px] text-zinc-300 mt-0.5">RouteShield 3D Spatial Radar Active</p>
                 </div>
               </Popup>
             </Marker>
@@ -255,14 +255,14 @@ export default function Map3DView({
             >
               <Popup>
                 <div className="p-1.5 min-w-[210px] text-xs">
-                  <div className="flex items-center gap-1.5 text-slate-400 text-[10px] font-bold uppercase mb-1">
+                  <div className="flex items-center gap-1.5 text-zinc-400 text-[10px] font-bold uppercase mb-1">
                     <span>🏛️</span>
                     <span>{lm.category}</span>
                   </div>
                   <h4 className="text-sm font-black text-white">{lm.name}</h4>
-                  <p className="text-slate-300 text-xs mt-0.5">{lm.cbd_area}</p>
+                  <p className="text-zinc-300 text-xs mt-0.5">{lm.cbd_area}</p>
                   
-                  <div className="mt-2 pt-2 border-t border-slate-800 space-y-1 text-[11px]">
+                  <div className="mt-2 pt-2 border-t border-zinc-800 space-y-1 text-[11px]">
                     <div className="text-emerald-300">
                       <strong>Safe Haven:</strong> {lm.nearest_safe_zone}
                     </div>
@@ -309,18 +309,18 @@ export default function Map3DView({
                         <h4 className="text-sm font-bold text-white leading-tight">
                           {route.cbd_stage}
                         </h4>
-                        <p className="text-xs text-slate-300 mt-1">
+                        <p className="text-xs text-zinc-300 mt-1">
                           {route.corridor}
                         </p>
                         
                         {/* Quick Sacco details */}
                         {route.saccos && route.saccos.length > 0 && (
-                          <div className="my-2 p-2 rounded-lg bg-slate-950/70 border border-slate-800 text-[11px] text-slate-300">
+                          <div className="my-2 p-2 rounded-lg bg-black/70 border border-zinc-800 text-[11px] text-zinc-300">
                             <strong>Active Saccos:</strong> {route.saccos.map(s => s.name).join(', ')}
                           </div>
                         )}
 
-                        <div className="text-[11px] flex justify-between text-slate-400">
+                        <div className="text-[11px] flex justify-between text-zinc-400">
                           <span>Off-Peak: <b className="text-white">KES {route.off_peak_min}-{route.off_peak_max}</b></span>
                           <span>Peak: <b className="text-amber-400">KES {route.peak_min}-{route.peak_max}</b></span>
                         </div>
@@ -383,7 +383,7 @@ export default function Map3DView({
           className={`px-3 py-2 rounded-2xl shadow-2xl backdrop-blur-xl border font-bold text-xs flex items-center gap-1.5 transition active:scale-95 cursor-pointer ${
             is3DMode 
               ? 'bg-gradient-to-r from-emerald-600 to-teal-500 text-slate-950 border-emerald-400 font-black shadow-emerald-950' 
-              : 'bg-slate-900/90 text-slate-200 border-slate-700 hover:bg-slate-800'
+              : 'bg-[#09090b]/90 text-zinc-200 border-zinc-700 hover:bg-[#18181b]'
           }`}
           title="Toggle Apple Maps 3D Perspective Tilt"
         >
@@ -394,7 +394,7 @@ export default function Map3DView({
         {/* Locate Me GPS */}
         <button
           onClick={handleLocateMe}
-          className="p-3 rounded-2xl bg-slate-900/90 hover:bg-slate-800 text-emerald-400 border border-slate-700 shadow-2xl backdrop-blur-xl transition active:scale-95 cursor-pointer"
+          className="p-3 rounded-2xl bg-[#09090b]/90 hover:bg-[#18181b] text-emerald-400 border border-zinc-700 shadow-2xl backdrop-blur-xl transition active:scale-95 cursor-pointer"
           title="Center GPS Location"
         >
           <LocateFixed className="w-4 h-4" />
@@ -403,7 +403,7 @@ export default function Map3DView({
         {/* Recenter CBD */}
         <button
           onClick={handleRecenterCBD}
-          className="p-3 rounded-2xl bg-slate-900/90 hover:bg-slate-800 text-cyan-400 border border-slate-700 shadow-2xl backdrop-blur-xl transition active:scale-95 cursor-pointer"
+          className="p-3 rounded-2xl bg-[#09090b]/90 hover:bg-[#18181b] text-cyan-400 border border-zinc-700 shadow-2xl backdrop-blur-xl transition active:scale-95 cursor-pointer"
           title="Recenter to Nairobi CBD"
         >
           <Compass className="w-4 h-4" />
@@ -415,7 +415,7 @@ export default function Map3DView({
           className={`p-3 rounded-2xl border shadow-2xl backdrop-blur-xl transition active:scale-95 cursor-pointer ${
             showSafeZones 
               ? 'bg-emerald-950/80 text-emerald-300 border-emerald-600/50' 
-              : 'bg-slate-900/90 text-slate-400 border-slate-700'
+              : 'bg-[#09090b]/90 text-zinc-400 border-zinc-700'
           }`}
           title="Toggle 24/7 Lit Safe Zones"
         >
@@ -424,18 +424,18 @@ export default function Map3DView({
       </div>
 
       {/* Floating Legend Bar (Bottom Left) */}
-      <div className="absolute bottom-4 left-4 z-[400] bg-slate-900/95 backdrop-blur-xl border border-slate-700/80 rounded-2xl px-3.5 py-2 text-[11px] shadow-2xl flex items-center gap-3">
+      <div className="absolute bottom-4 left-4 z-[400] bg-[#09090b]/95 backdrop-blur-xl border border-zinc-700/80 rounded-2xl px-3.5 py-2 text-[11px] shadow-2xl flex items-center gap-3">
         <div className="flex items-center gap-1.5">
           <span className="w-2.5 h-2.5 rounded-full bg-sky-500 shadow-sm shadow-sky-500/50"></span>
-          <span className="text-slate-200 font-semibold">Boarding Stage</span>
+          <span className="text-zinc-200 font-semibold">Boarding Stage</span>
         </div>
         <div className="flex items-center gap-1.5">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50"></span>
-          <span className="text-slate-200 font-semibold">Safe Haven</span>
+          <span className="text-zinc-200 font-semibold">Safe Haven</span>
         </div>
         <div className="hidden sm:flex items-center gap-1.5">
           <span className="w-2.5 h-2.5 rounded-full bg-slate-500"></span>
-          <span className="text-slate-300 font-medium">3D Landmark</span>
+          <span className="text-zinc-300 font-medium">3D Landmark</span>
         </div>
       </div>
 
