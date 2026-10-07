@@ -9,7 +9,6 @@ import {
   Navigation, 
   Lightbulb, 
   X,
-  Radio,
   Eye
 } from 'lucide-react';
 
@@ -23,15 +22,13 @@ export default function EmergencyCard({
   const [phoneInput, setPhoneInput] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Default to Route 125 safe zone or general CBD safe hub
   const safeZoneName = currentRoute?.safe_zone || 'Co-op Bank House / Green Park Walkway (Haile Selassie Ave)';
   const stageName = currentRoute?.cbd_stage || 'Railways Bus Station / Haile Selassie';
 
-  // Construct SMS distress text
   const lat = userCoords?.lat || (currentRoute?.safe_zone_lat ?? -1.2905);
   const lng = userCoords?.lng || (currentRoute?.safe_zone_lng ?? 36.8242);
   const smsBody = encodeURIComponent(
-    `ROUTE SHIELD ASSIST: I am navigating near ${stageName}. Heading toward lit Safe Haven: ${safeZoneName}. Location approx: https://maps.google.com/?q=${lat},${lng}. Sent via RouteShield Nairobi.`
+    `ROUTE SHIELD ASSIST: I am near ${stageName}. Heading toward safe stage: ${safeZoneName}. Location: https://maps.google.com/?q=${lat},${lng}. Sent via RouteShield Nairobi.`
   );
 
   const handleSendBeacon = async (e) => {
@@ -61,13 +58,13 @@ export default function EmergencyCard({
 
       setBeaconStatus({
         type: 'success',
-        message: 'Discreet signal registered with CBD safety network. Keep moving toward the lit zone.'
+        message: 'Signal logged with CBD safety network. Keep moving toward the lit zone.'
       });
       setPhoneInput('');
     } catch (err) {
       setBeaconStatus({
         type: 'error',
-        message: 'Could not reach server. Dial *384*123# immediately for zero-data offline SOS.'
+        message: 'Server unreachable. Dial *384*123# immediately for zero-data offline SOS.'
       });
     } finally {
       setIsSubmitting(false);
@@ -75,24 +72,21 @@ export default function EmergencyCard({
   };
 
   return (
-    <div className="relative overflow-hidden rounded-3xl bg-slate-900/95 border border-teal-500/30 p-6 shadow-2xl backdrop-blur-md transition-all duration-300">
-      {/* Subtle Calming Ambience Accent */}
-      <div className="absolute -top-16 -right-16 w-44 h-44 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
-
-      {/* Top Banner: Guardian Header */}
-      <div className="flex items-center justify-between gap-4 pb-4 border-b border-slate-800">
+    <div className="relative overflow-hidden rounded-3xl bg-white border-2 border-black p-6 shadow-2xl transition-all duration-300">
+      {/* Top Banner */}
+      <div className="flex items-center justify-between gap-4 pb-4 border-b-2 border-zinc-200">
         <div className="flex items-center space-x-3">
-          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/30 text-teal-400 shadow-sm">
-            <ShieldCheck className="w-5 h-5" />
+          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-yellow-400 text-black border border-black shadow-sm font-black">
+            <ShieldCheck className="w-5 h-5 stroke-[2.5]" />
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-teal-950 text-teal-300 border border-teal-500/30">
-                Guardian Escort Active
+              <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-black text-yellow-400">
+                Guardian Net
               </span>
-              <span className="text-xs text-slate-400">Nairobi CBD Guard Net</span>
+              <span className="text-xs text-zinc-600 font-bold">Nairobi CBD Commuter Safety</span>
             </div>
-            <h2 className="text-base sm:text-lg font-bold text-white mt-0.5">
+            <h2 className="text-base sm:text-lg font-black text-black mt-0.5">
               Verified Safe Haven Guide
             </h2>
           </div>
@@ -100,85 +94,83 @@ export default function EmergencyCard({
 
         <button
           onClick={onClose}
-          className="p-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-white transition"
+          className="p-1.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-600 hover:text-black border border-zinc-300 transition"
           aria-label="Close safe haven guide"
         >
           <X className="w-5 h-5" />
         </button>
       </div>
 
-      {/* Safe Zone Highlight Box */}
-      <div className="mt-4 bg-slate-950/70 border border-slate-800 rounded-2xl p-4">
+      {/* Safe Stage Highlight Box */}
+      <div className="mt-4 bg-zinc-50 border-2 border-zinc-200 rounded-2xl p-4">
         <div className="flex items-center justify-between mb-1.5">
-          <div className="flex items-center space-x-2 text-teal-400 text-xs font-semibold uppercase tracking-wider">
+          <div className="flex items-center space-x-2 text-black text-xs font-black uppercase tracking-wider">
             <MapPin className="w-3.5 h-3.5" />
-            <span>Nearest Lit & Guarded Haven</span>
+            <span>Nearest Streetlit & Guarded Haven</span>
           </div>
-          <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-950/60 text-emerald-300 border border-emerald-600/30 font-semibold">
-            24/7 Guarded
+          <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-yellow-400 text-black border border-black font-extrabold">
+            24/7 Monitored
           </span>
         </div>
 
-        <p className="text-base font-bold text-slate-100 mb-1">
+        <p className="text-base font-black text-black mb-1">
           {safeZoneName}
         </p>
 
-        <p className="text-xs text-slate-400 mb-3">
+        <p className="text-xs text-zinc-600 font-medium mb-3">
           Corridor: {stageName}
         </p>
 
         {/* Physical Safety Features Checklist */}
-        <div className="flex flex-wrap gap-2 pt-2 border-t border-slate-800/80 text-xs">
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 text-[11px]">
-            <Lightbulb className="w-3.5 h-3.5 text-amber-400" />
+        <div className="flex flex-wrap gap-2 pt-2 border-t border-zinc-200 text-xs">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-zinc-300 text-zinc-800 font-bold text-[11px]">
+            <Lightbulb className="w-3.5 h-3.5 text-yellow-600 stroke-[2.5]" />
             High-Mast Floodlit
           </span>
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 text-[11px]">
-            <Eye className="w-3.5 h-3.5 text-cyan-400" />
-            Active CCTV
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-zinc-300 text-zinc-800 font-bold text-[11px]">
+            <Eye className="w-3.5 h-3.5 text-black stroke-[2.5]" />
+            Active CCTV Coverage
           </span>
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 text-[11px]">
-            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-zinc-300 text-zinc-800 font-bold text-[11px]">
+            <CheckCircle2 className="w-3.5 h-3.5 text-black stroke-[2.5]" />
             Police Post Proximity (&lt;100m)
           </span>
         </div>
 
-        {/* Primary Hero Action: Map Navigation */}
+        {/* Primary Action: Map Navigation */}
         {onFocusSafeZone && (
           <button
             onClick={onFocusSafeZone}
-            className="mt-3.5 w-full py-2.5 px-4 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition shadow-lg shadow-teal-950/60 active:scale-95"
+            className="mt-3.5 w-full py-3 px-4 rounded-xl bg-yellow-400 hover:bg-yellow-300 text-black text-xs sm:text-sm font-black flex items-center justify-center gap-2 border border-black transition shadow-sm active:scale-95"
           >
-            <Navigation className="w-4 h-4" />
-            Guide Me to Safe Zone on Live Map
+            <Navigation className="w-4 h-4 stroke-[2.5]" />
+            Guide Me to Safe Stage on Map
           </button>
         )}
       </div>
 
-      {/* Secondary Protective Actions: SMS & Hotlines */}
+      {/* Secondary Quick Dial Actions */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-        {/* SMS Broadcast Button */}
         <a
           href={`sms:?body=${smsBody}`}
-          className="flex items-center justify-center space-x-2 py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700/70 text-slate-200 hover:text-white font-semibold text-xs transition active:scale-95"
+          className="flex items-center justify-center space-x-2 py-2.5 px-3 rounded-xl bg-zinc-100 hover:bg-zinc-200 border border-zinc-300 text-black font-bold text-xs transition active:scale-95"
         >
-          <Send className="w-3.5 h-3.5 text-teal-400" />
+          <Send className="w-3.5 h-3.5" />
           <span>Share Location via SMS</span>
         </a>
 
-        {/* Call Police Dispatch */}
         <a
           href="tel:999"
-          className="flex items-center justify-center space-x-2 py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-rose-950/40 border border-slate-700/70 hover:border-rose-500/40 text-slate-200 hover:text-rose-200 font-semibold text-xs transition active:scale-95"
+          className="flex items-center justify-center space-x-2 py-2.5 px-3 rounded-xl bg-black hover:bg-zinc-800 border border-black text-yellow-400 font-black text-xs transition active:scale-95 shadow-sm"
         >
-          <Phone className="w-3.5 h-3.5 text-rose-400" />
+          <Phone className="w-3.5 h-3.5 stroke-[2.5]" />
           <span>Call Police Dispatch (999)</span>
         </a>
       </div>
 
       {/* Discreet Web Beacon Signal Form */}
-      <form onSubmit={handleSendBeacon} className="mt-4 bg-slate-950/60 rounded-2xl p-3 border border-slate-800">
-        <label className="block text-[11px] font-semibold text-slate-300 mb-1.5">
+      <form onSubmit={handleSendBeacon} className="mt-4 bg-zinc-50 rounded-2xl p-3 border border-zinc-200">
+        <label className="block text-[11px] font-bold text-zinc-800 mb-1.5">
           Request Silent Commuter Escort Signal:
         </label>
         <div className="flex gap-2">
@@ -187,12 +179,12 @@ export default function EmergencyCard({
             placeholder="Your phone # (e.g. 0712345678)"
             value={phoneInput}
             onChange={(e) => setPhoneInput(e.target.value)}
-            className="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-teal-400 font-mono"
+            className="flex-1 bg-white border border-zinc-300 rounded-lg px-3 py-1.5 text-xs text-black placeholder-zinc-400 focus:outline-none focus:border-black font-mono font-medium"
           />
           <button
             type="submit"
             disabled={isSubmitting}
-            className="px-3.5 py-1.5 bg-slate-800 hover:bg-teal-600 disabled:opacity-50 text-slate-200 hover:text-white text-xs font-bold rounded-lg border border-slate-700 hover:border-teal-500 transition shrink-0"
+            className="px-3.5 py-1.5 bg-black hover:bg-zinc-800 disabled:opacity-50 text-white hover:text-yellow-400 text-xs font-black rounded-lg transition shrink-0"
           >
             {isSubmitting ? 'Sending...' : 'Signal Haven'}
           </button>
@@ -200,10 +192,10 @@ export default function EmergencyCard({
 
         {beaconStatus && (
           <div
-            className={`mt-2 p-2 rounded-lg text-xs flex items-center gap-2 ${
+            className={`mt-2 p-2.5 rounded-lg text-xs font-semibold flex items-center gap-2 border ${
               beaconStatus.type === 'success'
-                ? 'bg-teal-950/60 border border-teal-500/40 text-teal-300'
-                : 'bg-amber-950/60 border border-amber-600/40 text-amber-300'
+                ? 'bg-yellow-50 border-yellow-400 text-black'
+                : 'bg-zinc-100 border-black text-black'
             }`}
           >
             <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
@@ -213,8 +205,8 @@ export default function EmergencyCard({
       </form>
 
       {/* Practical Ground Protocol */}
-      <p className="mt-3 text-[11px] text-slate-400 leading-normal">
-        <strong className="text-slate-300">Safety Practice:</strong> Keep to continuous high-mast illumination. In case of sudden surge or darkness, proceed inside lit banking halls, petrol station lobbies, or manned security desks.
+      <p className="mt-3 text-[11px] text-zinc-600 leading-normal">
+        <strong className="text-black font-bold">Safety Directive:</strong> Stick to continuous high-mast streetlights. In case of dark stretches, enter lit banking halls, 24/7 petrol station lobbies, or manned security desks along the avenue.
       </p>
     </div>
   );
