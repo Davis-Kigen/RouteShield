@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Circle, Polyline, Tooltip, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
@@ -66,7 +66,6 @@ export default function MapView({
 
   const markerRefs = useRef({});
 
-  // Auto-open active route stage popup when focused
   useEffect(() => {
     if (selectedRoute && markerRefs.current[selectedRoute.id]) {
       markerRefs.current[selectedRoute.id].openPopup();
@@ -74,7 +73,7 @@ export default function MapView({
   }, [selectedRoute, focusedLocation]);
 
   return (
-    <div className="relative w-full h-[540px] lg:h-[580px] rounded-2xl overflow-hidden border-2 border-zinc-900 shadow-xl bg-zinc-100">
+    <div className="relative w-full h-[540px] lg:h-[580px] rounded-2xl overflow-hidden border-2 border-black shadow-xl bg-zinc-100">
       <MapContainer
         center={defaultCenter}
         zoom={14}
@@ -92,6 +91,8 @@ export default function MapView({
 
         {routes.map((route) => {
           const isSelected = selectedRoute?.id === route.id;
+          const hasBothCoords =
+            route.cbd_lat && route.cbd_lng && route.safe_zone_lat && route.safe_zone_lng;
 
           return (
             <React.Fragment key={route.id}>
@@ -138,7 +139,7 @@ export default function MapView({
                 </Marker>
               )}
 
-              {/* Safe Boarding Point Marker */}
+              {/* Lit Safe Stage Marker */}
               {route.safe_zone_lat && route.safe_zone_lng && (
                 <Marker
                   position={[route.safe_zone_lat, route.safe_zone_lng]}
@@ -149,34 +150,69 @@ export default function MapView({
                     <div className="p-1 min-w-[220px] bg-white text-zinc-900 font-sans">
                       <div className="flex items-center space-x-1.5 text-black text-xs font-black mb-1">
                         <span className="w-2.5 h-2.5 rounded-full bg-yellow-400 border border-black"></span>
-                        <span>VERIFIED SAFE BOARDING POINT</span>
+                        <span>VERIFIED LIT SAFE STAGE</span>
                       </div>
                       <h4 className="text-sm font-black text-black mb-1">{route.safe_zone}</h4>
                       <p className="text-xs text-zinc-600 mb-2">
-                        Designated refuge zone for {route.route_name} commuters.
+                        Lit boarding and refuge zone for {route.route_name} commuters.
                       </p>
                       <div className="text-[11px] text-zinc-700 space-y-1 border-t border-zinc-200 pt-2 font-semibold">
-                        <div>✓ High-Mast Floodlight Coverage</div>
-                        <div>✓ Active Police / Patrol Point</div>
-                        <div>✓ 24-Hour Public Visibility</div>
+                        <div>✓ High-Mast Streetlight Coverage</div>
+                        <div>✓ Patrol Post Proximity</div>
+                        <div>✓ Continuous 24/7 Foot Traffic</div>
                       </div>
                     </div>
                   </Popup>
                 </Marker>
               )}
 
-              {isSelected && route.safe_zone_lat && route.safe_zone_lng && (
-                <Circle
-                  center={[route.safe_zone_lat, route.safe_zone_lng]}
-                  radius={180}
-                  pathOptions={{
-                    color: '#000000',
-                    fillColor: '#facc15',
-                    fillOpacity: 0.25,
-                    weight: 2,
-                    dashArray: '5, 5'
-                  }}
-                />
+              {/* Connected Corridor Path & Radial Zone for Selected Route */}
+              {isSelected && hasBothCoords && (
+                <>
+                  {/* Outer Glow Polyline */}
+                  <Polyline
+                    positions={[
+                      [route.cbd_lat, route.cbd_lng],
+                      [route.safe_zone_lat, route.safe_zone_lng]
+                    ]}
+                    pathOptions={{
+                      color: '#000000',
+                      weight: 6,
+                      opacity: 0.85
+                    }}
+                  />
+
+                  {/* Inner Signal Yellow Dashed Corridor */}
+                  <Polyline
+                    positions={[
+                      [route.cbd_lat, route.cbd_lng],
+                      [route.safe_zone_lat, route.safe_zone_lng]
+                    ]}
+                    pathOptions={{
+                      color: '#facc15',
+                      weight: 4,
+                      opacity: 1,
+                      dashArray: '8, 8'
+                    }}
+                  >
+                    <Tooltip sticky direction="top" className="font-mono text-xs font-bold">
+                      Safe Lit Transit Walkway
+                    </Tooltip>
+                  </Polyline>
+
+                  {/* Safe Zone Radial Buffer */}
+                  <Circle
+                    center={[route.safe_zone_lat, route.safe_zone_lng]}
+                    radius={160}
+                    pathOptions={{
+                      color: '#000000',
+                      fillColor: '#facc15',
+                      fillOpacity: 0.25,
+                      weight: 2,
+                      dashArray: '4, 4'
+                    }}
+                  />
+                </>
               )}
             </React.Fragment>
           );
@@ -184,14 +220,18 @@ export default function MapView({
       </MapContainer>
 
       {/* Floating High-Contrast Legend */}
-      <div className="absolute bottom-4 left-4 z-[400] bg-white/95 backdrop-blur-md border-2 border-black rounded-xl px-4 py-2 text-xs shadow-lg flex items-center gap-4">
+      <div className="absolute bottom-4 left-4 z-[400] bg-white/95 backdrop-blur-md border-2 border-black rounded-xl px-4 py-2.5 text-xs shadow-lg flex items-center gap-4">
         <div className="flex items-center gap-2">
           <span className="w-3 h-3 rounded-full bg-black"></span>
           <span className="text-black font-black">CBD Stage</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="w-3 h-3 rounded-full bg-yellow-400 border border-black"></span>
-          <span className="text-black font-black">Safe Stage</span>
+          <span className="text-black font-black">Lit Stage</span>
+        </div>
+        <div className="hidden sm:flex items-center gap-2 border-l border-zinc-300 pl-3">
+          <span className="w-5 h-0.5 border-t-2 border-dashed border-black"></span>
+          <span className="text-zinc-700 font-bold">Safe Walkway</span>
         </div>
       </div>
     </div>
