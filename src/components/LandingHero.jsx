@@ -6,9 +6,9 @@ export default function LandingHero({ onExplore, onOpenUssd }) {
     <section className="relative bg-white pt-12 pb-14 sm:pt-16 sm:pb-20 border-b border-zinc-200">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="max-w-3xl space-y-6">
-          <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-black leading-[1.08] font-sans">
+          <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-black leading-[1.1] font-sans">
             Fair fares. <br />
-            Safe stages <span className="underline decoration-yellow-400 decoration-4">after dark.</span>
+            <span className="bg-yellow-400 px-2.5 py-0.5 rounded-lg inline-block my-1 shadow-sm">Safe stages</span> after dark.
           </h1>
 
           <p className="text-base sm:text-lg text-zinc-600 leading-relaxed max-w-2xl font-normal">

@@ -254,7 +254,9 @@ export default function App() {
 
       {isReportModalOpen && (
         <FareReportModal
+          isOpen={isReportModalOpen}
           route={selectedRoute}
+          routes={routes}
           onClose={() => setIsReportModalOpen(false)}
           onSuccess={() => {
             fetchLiveRoutes();

@@ -1,27 +1,28 @@
 import React, { useState } from 'react';
-import { X, CheckCircle, AlertCircle, TrendingUp, Bus, MapPin } from 'lucide-react';
+import { X, CheckCircle2, AlertCircle, Coins, MapPin } from 'lucide-react';
 
 export default function FareReportModal({
-  isOpen,
+  isOpen = true,
   onClose,
   route,
-  routes,
+  routes = [],
+  onSuccess,
   onFareReported
 }) {
-  if (!isOpen) return null;
+  if (isOpen === false) return null;
 
-  const [selectedRouteId, setSelectedRouteId] = useState(route?.id || routes[0]?.id || '125');
+  const routeList = routes.length > 0 ? routes : (route ? [route] : []);
+  const [selectedRouteId, setSelectedRouteId] = useState(route?.id || routeList[0]?.id || '125');
   const [fareAmount, setFareAmount] = useState('');
   const [stageNote, setStageNote] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [statusMessage, setStatusMessage] = useState(null);
 
-  const activeRoute = routes.find(r => r.id === selectedRouteId) || route;
-
+  const activeRoute = routeList.find((r) => r.id === selectedRouteId) || route;
   const quickFares = [50, 70, 80, 100, 120, 150, 200];
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     if (!fareAmount || isNaN(fareAmount) || parseInt(fareAmount, 10) <= 0) {
       setStatusMessage({ type: 'error', text: 'Please enter a valid fare amount.' });
       return;
@@ -48,12 +49,11 @@ export default function FareReportModal({
 
       setStatusMessage({
         type: 'success',
-        text: `Fare logged! Current average for ${activeRoute?.route_name}: KES ${data.averageFare}`
+        text: `Fare logged! Current average for ${activeRoute?.route_name || 'Corridor'}: KES ${data.averageFare}`
       });
 
-      if (onFareReported) {
-        onFareReported(selectedRouteId, payload.reported_fare, data.averageFare);
-      }
+      if (onSuccess) onSuccess(payload.reported_fare, data.averageFare);
+      if (onFareReported) onFareReported(selectedRouteId, payload.reported_fare, data.averageFare);
 
       setTimeout(() => {
         onClose();
@@ -63,20 +63,18 @@ export default function FareReportModal({
       }, 1500);
 
     } catch (err) {
-      // Offline fallback queuing
-      console.warn('Backend unavailable, queuing report locally:', err);
+      console.warn('Backend offline, queuing report locally:', err);
       const pending = JSON.parse(localStorage.getItem('routeshield_pending_fares') || '[]');
       pending.push({ ...payload, created_at: new Date().toISOString() });
       localStorage.setItem('routeshield_pending_fares', JSON.stringify(pending));
 
       setStatusMessage({
         type: 'success',
-        text: 'Saved offline! RouteShield will sync this report once network connection is restored.'
+        text: 'Saved offline! RouteShield will sync automatically when back online.'
       });
 
-      if (onFareReported) {
-        onFareReported(selectedRouteId, payload.reported_fare);
-      }
+      if (onSuccess) onSuccess(payload.reported_fare);
+      if (onFareReported) onFareReported(selectedRouteId, payload.reported_fare);
 
       setTimeout(() => {
         onClose();
@@ -88,22 +86,23 @@ export default function FareReportModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-fadeIn">
-      <div className="relative w-full max-w-md bg-slate-900 border border-slate-700 rounded-2xl p-6 shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-150">
+      <div className="relative w-full max-w-md bg-white border-2 border-black rounded-3xl p-6 shadow-2xl">
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-          <div className="flex items-center space-x-2.5">
-            <div className="p-2 rounded-xl bg-emerald-600/20 text-emerald-400 border border-emerald-500/30">
-              <TrendingUp className="w-5 h-5" />
+        <div className="flex items-center justify-between pb-3.5 border-b-2 border-zinc-200">
+          <div className="flex items-center space-x-3">
+            <div className="p-2.5 rounded-xl bg-yellow-400 border border-black text-black">
+              <Coins className="w-5 h-5 stroke-[2.5]" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-white">Report Live Matatu Fare</h3>
-              <p className="text-xs text-slate-400">Crowdsource real-time rates for commuters</p>
+              <h3 className="text-base font-black text-black">Report Live Matatu Fare</h3>
+              <p className="text-xs text-zinc-500">Crowdsource real-time prices for commuters</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition"
+            className="p-1.5 rounded-lg text-zinc-500 hover:text-black hover:bg-zinc-100 transition"
+            aria-label="Close modal"
           >
             <X className="w-5 h-5" />
           </button>
@@ -113,37 +112,37 @@ export default function FareReportModal({
         <form onSubmit={handleSubmit} className="mt-4 space-y-4">
           {/* Corridor Selection */}
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+            <label className="block text-xs font-bold text-zinc-800 mb-1.5">
               Select Nairobi Corridor:
             </label>
             <select
               value={selectedRouteId}
               onChange={(e) => setSelectedRouteId(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500"
+              className="w-full bg-zinc-50 border-2 border-zinc-300 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-black font-semibold focus:outline-none focus:border-black transition"
             >
-              {routes.map((r) => (
+              {routeList.map((r) => (
                 <option key={r.id} value={r.id}>
-                  {r.route_name} - {r.corridor}
+                  {r.route_name} — {r.corridor}
                 </option>
               ))}
             </select>
           </div>
 
-          {/* Current Stage Indicator */}
+          {/* Active Boarding Stage Info */}
           {activeRoute && (
-            <div className="flex items-center gap-1.5 text-xs text-slate-400 bg-slate-950/50 p-2 rounded-lg border border-slate-800/80">
-              <MapPin className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-              <span>Standard Stage: {activeRoute.cbd_stage}</span>
+            <div className="flex items-center gap-2 text-xs text-zinc-700 bg-zinc-100 p-2.5 rounded-xl border border-zinc-200">
+              <MapPin className="w-4 h-4 text-black shrink-0" />
+              <span>Standard CBD Stage: <strong className="text-black">{activeRoute.cbd_stage}</strong></span>
             </div>
           )}
 
           {/* Fare Amount Input */}
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+            <label className="block text-xs font-bold text-zinc-800 mb-1.5">
               Reported Fare (KES):
             </label>
             <div className="relative">
-              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">
+              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500 font-black text-sm">
                 KES
               </span>
               <input
@@ -154,77 +153,80 @@ export default function FareReportModal({
                 placeholder="e.g. 80"
                 value={fareAmount}
                 onChange={(e) => setFareAmount(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-700 rounded-xl pl-14 pr-4 py-2.5 text-white font-bold text-base focus:outline-none focus:border-emerald-500"
+                className="w-full bg-zinc-50 border-2 border-zinc-300 rounded-xl pl-14 pr-4 py-2.5 text-black font-black text-lg focus:outline-none focus:border-black transition"
                 required
               />
             </div>
 
-            {/* Quick Fare Presets */}
-            <div className="flex flex-wrap gap-1.5 mt-2">
-              {quickFares.map((amt) => (
-                <button
-                  type="button"
-                  key={amt}
-                  onClick={() => setFareAmount(amt.toString())}
-                  className={`text-xs px-2.5 py-1 rounded-lg border transition ${
-                    fareAmount === amt.toString()
-                      ? 'bg-emerald-600 text-white border-emerald-500 font-bold'
-                      : 'bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700'
-                  }`}
-                >
-                  KES {amt}
-                </button>
-              ))}
+            {/* Quick Fare Pills */}
+            <div className="flex flex-wrap gap-1.5 mt-2.5">
+              {quickFares.map((amt) => {
+                const isSelected = fareAmount === amt.toString();
+                return (
+                  <button
+                    type="button"
+                    key={amt}
+                    onClick={() => setFareAmount(amt.toString())}
+                    className={`text-xs px-3 py-1.5 rounded-lg font-bold border transition active:scale-95 ${
+                      isSelected
+                        ? 'bg-yellow-400 text-black border-black shadow-sm'
+                        : 'bg-zinc-100 text-zinc-700 border-zinc-300 hover:border-black hover:text-black'
+                    }`}
+                  >
+                    KES {amt}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
           {/* Stage / Operator Note */}
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-              Stage / Operator Notes (Optional):
+            <label className="block text-xs font-bold text-zinc-800 mb-1.5">
+              Stage Notes (Optional):
             </label>
             <input
               type="text"
-              placeholder="e.g. Super Metro Bay 2, peak queue moving fast"
+              placeholder="e.g. Haile Selassie bay clear, matatus loading fast"
               value={stageNote}
               onChange={(e) => setStageNote(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+              className="w-full bg-zinc-50 border-2 border-zinc-300 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-black placeholder-zinc-400 focus:outline-none focus:border-black transition"
             />
           </div>
 
-          {/* Status Message */}
+          {/* Status Alert Banner */}
           {statusMessage && (
             <div
-              className={`p-3 rounded-xl text-xs flex items-center gap-2 ${
+              className={`p-3 rounded-xl text-xs font-semibold flex items-center gap-2 border-2 ${
                 statusMessage.type === 'success'
-                  ? 'bg-emerald-950/60 border border-emerald-600/40 text-emerald-300'
-                  : 'bg-rose-950/60 border border-rose-600/40 text-rose-300'
+                  ? 'bg-yellow-50 border-yellow-400 text-black'
+                  : 'bg-zinc-100 border-black text-black'
               }`}
             >
               {statusMessage.type === 'success' ? (
-                <CheckCircle className="w-4 h-4 shrink-0 text-emerald-400" />
+                <CheckCircle2 className="w-4 h-4 shrink-0 text-black" />
               ) : (
-                <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
+                <AlertCircle className="w-4 h-4 shrink-0 text-black" />
               )}
               <span>{statusMessage.text}</span>
             </div>
           )}
 
-          {/* Submit Button */}
-          <div className="flex gap-2 pt-2">
+          {/* Modal Action Buttons */}
+          <div className="flex gap-2.5 pt-2">
             <button
               type="button"
               onClick={onClose}
-              className="w-1/3 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-semibold transition"
+              className="w-1/3 py-3 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-black text-xs font-bold border border-zinc-300 transition"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-2/3 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-bold text-sm shadow-lg shadow-emerald-900/30 transition active:scale-95"
+              className="w-2/3 py-3 rounded-xl bg-black hover:bg-zinc-800 disabled:opacity-50 text-yellow-400 font-black text-xs uppercase tracking-wider transition active:scale-95 shadow-md"
             >
-              {isSubmitting ? 'Logging...' : 'Submit Live Fare'}
+              {isSubmitting ? 'Submitting...' : 'Submit Live Fare'}
             </button>
           </div>
         </form>
@@ -232,4 +234,3 @@ export default function FareReportModal({
     </div>
   );
 }
-
