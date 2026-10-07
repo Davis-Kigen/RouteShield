@@ -265,6 +265,7 @@ export default function App() {
 
       {isUssdModalOpen && (
         <UssdSimulatorModal
+          isOpen={isUssdModalOpen}
           onClose={() => setIsUssdModalOpen(false)}
         />
       )}
