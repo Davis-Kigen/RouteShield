@@ -109,6 +109,7 @@ export default function App() {
   const handleFocusSafeZone = () => {
     if (selectedRoute?.safe_zone_lat && selectedRoute?.safe_zone_lng) {
       setFocusedLocation([selectedRoute.safe_zone_lat, selectedRoute.safe_zone_lng]);
+      mapSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   };
 
