@@ -61,7 +61,7 @@ export default function RouteCard({ route, onOpenReportModal, onFocusMap }) {
         <div className="bg-zinc-50 border border-zinc-200 p-3.5 rounded-xl flex items-start space-x-3">
           <ShieldCheck className="w-4 h-4 text-yellow-600 shrink-0 mt-0.5" />
           <div className="text-xs">
-            <span className="text-zinc-500 font-semibold block mb-0.5">Nearest Monitored Haven</span>
+            <span className="text-zinc-500 font-semibold block mb-0.5">Nearest Lit Safe Stage</span>
             <span className="text-black font-bold text-sm">{route.safe_zone}</span>
           </div>
         </div>

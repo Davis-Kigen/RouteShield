@@ -32,7 +32,7 @@ export default function Navbar({ emergencyActive, onToggleEmergency, onOpenUssd 
             }`}
           >
             <AlertCircle className="w-3.5 h-3.5 stroke-[2.5]" />
-            <span>{emergencyActive ? 'Close Guide' : 'Safe Haven Guide'}</span>
+            <span>{emergencyActive ? 'Close Guide' : 'Safe Stage Guide'}</span>
           </button>
         </div>
       </div>

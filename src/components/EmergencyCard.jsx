@@ -2,7 +2,6 @@ import React, { useState, useMemo } from 'react';
 import { 
   ShieldCheck, 
   MapPin, 
-  Send, 
   Phone, 
   CheckCircle2, 
   Navigation, 
@@ -10,14 +9,13 @@ import {
   X,
   Eye,
   Radio,
-  Clock,
-  ExternalLink
+  MessageCircle
 } from 'lucide-react';
 
-// Haversine formula for walking distance estimation
+// Haversine formula for distance estimation
 function calculateDistance(lat1, lon1, lat2, lon2) {
   if (!lat1 || !lon1 || !lat2 || !lon2) return null;
-  const R = 6371; // Earth's radius in km
+  const R = 6371;
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
   const dLon = ((lon2 - lon1) * Math.PI) / 180;
   const a =
@@ -27,7 +25,7 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
       Math.sin(dLon / 2) *
       Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const d = R * c; // in km
+  const d = R * c;
   return d < 1 ? `${Math.round(d * 1000)}m away` : `${d.toFixed(1)}km away`;
 }
 
@@ -42,7 +40,7 @@ export default function EmergencyCard({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [activeSignalCode, setActiveSignalCode] = useState(null);
 
-  const safeZoneName = currentRoute?.safe_zone || 'Co-op Bank House / Green Park Walkway (Haile Selassie Ave)';
+  const safeStageName = currentRoute?.safe_zone || 'Co-op Bank House / Green Park Walkway (Haile Selassie Ave)';
   const stageName = currentRoute?.cbd_stage || 'Railways Bus Station / Haile Selassie';
 
   const defaultCBDLat = -1.286389;
@@ -57,8 +55,14 @@ export default function EmergencyCard({
     return calculateDistance(currentLat, currentLng, targetLat, targetLng) || 'approx ~250m away';
   }, [currentLat, currentLng, targetLat, targetLng]);
 
-  const smsBody = encodeURIComponent(
-    `ROUTE SHIELD ASSIST: I am near ${stageName}. Moving toward lit Safe Haven: ${safeZoneName} (${proximityText}). Live Map: https://maps.google.com/?q=${targetLat},${targetLng}. Sent via RouteShield Nairobi.`
+  // Clean WhatsApp broadcast message
+  const whatsappText = encodeURIComponent(
+    `🚨 *ROUTE SHIELD SAFETY UPDATE*\n\n` +
+    `I am boarding near *${stageName}*.\n` +
+    `Moving to verified lit safe stage:\n` +
+    `📍 *${safeStageName}* (${proximityText})\n\n` +
+    `Live Map Location: https://maps.google.com/?q=${targetLat},${targetLng}\n\n` +
+    `_Sent via RouteShield Nairobi_`
   );
 
   const handleSendBeacon = async (e) => {
@@ -80,7 +84,7 @@ export default function EmergencyCard({
           route_id: currentRoute?.id || 'CBD_ACTIVE',
           latitude: targetLat,
           longitude: targetLng,
-          details: `Active Web Haven Beacon near ${stageName}`
+          details: `Active Signal near ${stageName}`
         })
       });
 
@@ -119,12 +123,12 @@ export default function EmergencyCard({
           <div>
             <div className="flex items-center space-x-2">
               <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-black text-yellow-400">
-                GUARDIAN NET ACTIVE
+                MONITORED STAGES
               </span>
               <span className="text-xs text-zinc-600 font-bold">Nairobi CBD Commuter Safety</span>
             </div>
             <h2 className="text-base sm:text-lg font-black text-black mt-0.5">
-              Verified Safe Haven Guide
+              Verified Safe Boarding Guide
             </h2>
           </div>
         </div>
@@ -132,18 +136,18 @@ export default function EmergencyCard({
         <button
           onClick={onClose}
           className="p-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-600 hover:text-black border border-zinc-300 transition"
-          aria-label="Close safe haven guide"
+          aria-label="Close safe boarding guide"
         >
           <X className="w-5 h-5" />
         </button>
       </div>
 
-      {/* Safe Stage Highlight Box */}
+      {/* Safe Stage Box */}
       <div className="mt-4 bg-zinc-50 border-2 border-zinc-300 rounded-2xl p-4 sm:p-5">
         <div className="flex items-center justify-between gap-2 mb-2">
           <div className="flex items-center space-x-2 text-black text-xs font-black uppercase tracking-wider">
             <MapPin className="w-4 h-4 text-black" />
-            <span>Nearest Streetlit & Guarded Haven</span>
+            <span>Nearest Verified Lit Stage</span>
           </div>
           <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-yellow-400 text-black border border-black font-extrabold text-[11px] shadow-sm">
             <Radio className="w-3 h-3 animate-pulse" />
@@ -152,14 +156,14 @@ export default function EmergencyCard({
         </div>
 
         <p className="text-base sm:text-lg font-black text-black mb-1">
-          {safeZoneName}
+          {safeStageName}
         </p>
 
         <p className="text-xs text-zinc-600 font-medium mb-3">
-          Stage: <strong className="text-black">{stageName}</strong>
+          Corridor Pickup: <strong className="text-black">{stageName}</strong>
         </p>
 
-        {/* Physical Safety Features Checklist */}
+        {/* Physical Features Checklist */}
         <div className="flex flex-wrap gap-2 pt-2 border-t border-zinc-200 text-xs">
           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-zinc-300 text-black font-bold text-[11px]">
             <Lightbulb className="w-3.5 h-3.5 text-yellow-500 stroke-[2.5]" />
@@ -167,7 +171,7 @@ export default function EmergencyCard({
           </span>
           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-zinc-300 text-black font-bold text-[11px]">
             <Eye className="w-3.5 h-3.5 text-black stroke-[2.5]" />
-            Active CCTV Coverage
+            Active Street CCTV
           </span>
           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-zinc-300 text-black font-bold text-[11px]">
             <CheckCircle2 className="w-3.5 h-3.5 text-black stroke-[2.5]" />
@@ -175,36 +179,38 @@ export default function EmergencyCard({
           </span>
         </div>
 
-        {/* Primary Action Button: Triggers fly-to & opens map */}
+        {/* Focus on map */}
         <button
           onClick={onFocusSafeZone}
           className="mt-4 w-full py-3.5 px-4 rounded-xl bg-yellow-400 hover:bg-yellow-300 text-black text-xs sm:text-sm font-black flex items-center justify-center gap-2 border-2 border-black transition shadow-md active:scale-95"
         >
           <Navigation className="w-4 h-4 stroke-[2.5]" />
-          <span>Guide Me to Safe Stage on Live Map</span>
+          <span>Show Safe Stage on Map</span>
         </button>
       </div>
 
-      {/* Secondary Quick Dial Actions */}
+      {/* Primary Actions: WhatsApp Broadcast & Emergency Dial */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
         <a
-          href={`sms:?body=${smsBody}`}
-          className="flex items-center justify-center space-x-2 py-3 px-3 rounded-xl bg-zinc-100 hover:bg-zinc-200 border-2 border-zinc-300 text-black font-bold text-xs transition active:scale-95"
+          href={`https://wa.me/?text=${whatsappText}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center space-x-2 py-3 px-3 rounded-xl bg-black hover:bg-zinc-800 border-2 border-black text-white font-bold text-xs transition active:scale-95 shadow-sm"
         >
-          <Send className="w-3.5 h-3.5" />
-          <span>Share Location via SMS</span>
+          <MessageCircle className="w-4 h-4 text-yellow-400 stroke-[2.5]" />
+          <span>Share Stage via WhatsApp</span>
         </a>
 
         <a
           href="tel:999"
-          className="flex items-center justify-center space-x-2 py-3 px-3 rounded-xl bg-black hover:bg-zinc-800 border-2 border-black text-yellow-400 font-black text-xs transition active:scale-95 shadow-sm"
+          className="flex items-center justify-center space-x-2 py-3 px-3 rounded-xl bg-zinc-100 hover:bg-zinc-200 border-2 border-zinc-300 text-black font-black text-xs transition active:scale-95"
         >
           <Phone className="w-3.5 h-3.5 stroke-[2.5]" />
           <span>Call Police Dispatch (999)</span>
         </a>
       </div>
 
-      {/* Discreet Web Beacon Signal Form */}
+      {/* Escort signal form */}
       <form onSubmit={handleSendBeacon} className="mt-4 bg-zinc-50 rounded-2xl p-3.5 border-2 border-zinc-200">
         <div className="flex items-center justify-between mb-1.5">
           <label className="block text-[11px] font-bold text-zinc-900">
@@ -229,7 +235,7 @@ export default function EmergencyCard({
             disabled={isSubmitting}
             className="px-4 py-2 bg-black hover:bg-zinc-800 disabled:opacity-50 text-yellow-400 text-xs font-black rounded-xl transition shrink-0 active:scale-95 shadow-sm"
           >
-            {isSubmitting ? 'Transmitting...' : 'Signal Haven'}
+            {isSubmitting ? 'Transmitting...' : 'Signal Stage'}
           </button>
         </div>
 
