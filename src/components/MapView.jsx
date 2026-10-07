@@ -92,44 +92,51 @@ export default function MapView({
   }, [selectedRoute, focusedLocation]);
 
   const handleLocateMe = () => {
-    if (!navigator.geolocation) {
-      setLocationError('Geolocation not supported by this browser.');
-      return;
-    }
-
     setIsLocating(true);
     setLocationError(null);
 
+    const applyLocation = (coords, isSimulated = false) => {
+      setUserLocation(coords);
+      setIsLocating(false);
+
+      let nearest = null;
+      let minDistance = Infinity;
+
+      routes.forEach((r) => {
+        if (r.cbd_lat && r.cbd_lng) {
+          const d = Math.hypot(r.cbd_lat - coords[0], r.cbd_lng - coords[1]);
+          if (d < minDistance) {
+            minDistance = d;
+            nearest = r;
+          }
+        }
+      });
+
+      if (nearest && onSelectRoute) {
+        onSelectRoute(nearest);
+      }
+
+      if (isSimulated) {
+        setLocationError('Set to Nairobi CBD center (Railways/Kencom)');
+        setTimeout(() => setLocationError(null), 4000);
+      }
+    };
+
+    if (!navigator.geolocation) {
+      applyLocation([-1.286389, 36.823611], true);
+      return;
+    }
+
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        const coords = [pos.coords.latitude, pos.coords.longitude];
-        setUserLocation(coords);
-        setIsLocating(false);
-
-        // Find nearest route CBD stage
-        let nearest = null;
-        let minDistance = Infinity;
-
-        routes.forEach((r) => {
-          if (r.cbd_lat && r.cbd_lng) {
-            const d = Math.hypot(r.cbd_lat - coords[0], r.cbd_lng - coords[1]);
-            if (d < minDistance) {
-              minDistance = d;
-              nearest = r;
-            }
-          }
-        });
-
-        if (nearest && onSelectRoute) {
-          onSelectRoute(nearest);
-        }
+        applyLocation([pos.coords.latitude, pos.coords.longitude], false);
       },
       (err) => {
-        console.warn('Geolocation error:', err.message);
-        setLocationError('Could not fetch GPS. Ensure location access is allowed.');
-        setIsLocating(false);
+        console.warn('GPS unavailable, using CBD baseline:', err.message);
+        // Fallback to central CBD commuter anchor
+        applyLocation([-1.286389, 36.823611], true);
       },
-      { enableHighAccuracy: true, timeout: 8000 }
+      { enableHighAccuracy: false, timeout: 5000, maximumAge: 60000 }
     );
   };
 
