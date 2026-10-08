@@ -105,23 +105,7 @@ export default function MapWorkspace({
 
         {/* Action controls */}
         <div className="flex items-center gap-2 shrink-0">
-          <button
-            onClick={onRefreshRoutes}
-            disabled={isRefreshing}
-            className="px-3.5 py-2 rounded-xl bg-[#09090b] border border-zinc-800 hover:border-zinc-700 text-zinc-300 hover:text-white text-xs font-bold transition flex items-center gap-2 active:scale-95 shadow-md"
-            title="Refresh routes and fare telemetry"
-          >
-            <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin text-emerald-400' : ''}`} />
-            <span>{isRefreshing ? 'Updating...' : 'Sync Telemetry'}</span>
-          </button>
-
-          <button
-            onClick={onOpenUssd}
-            className="px-3.5 py-2 rounded-xl bg-[#09090b] border border-emerald-500/30 text-emerald-300 hover:text-white text-xs font-bold transition flex items-center gap-1.5 active:scale-95 shadow-md"
-          >
-            <Radio className="w-3.5 h-3.5 text-emerald-400" />
-            <span>USSD: *384*123#</span>
-          </button>
+          
         </div>
       </div>
 

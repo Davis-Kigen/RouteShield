@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowDown, PhoneCall } from 'lucide-react';
+import { ArrowDown, } from 'lucide-react';
 
 export default function LandingHero({ onExplore, onOpenUssd }) {
   return (
@@ -16,21 +16,7 @@ export default function LandingHero({ onExplore, onOpenUssd }) {
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2 w-full">
-            <button
-              onClick={onExplore}
-              className="px-6 py-3.5 rounded-xl bg-black hover:bg-zinc-800 text-white font-extrabold text-sm tracking-wide transition active:scale-95 flex items-center space-x-2 shadow-md"
-            >
-              <span>View Route Fares & Map</span>
-              <ArrowDown className="w-4 h-4 text-yellow-400 stroke-[2.5]" />
-            </button>
-
-            <button
-              onClick={onOpenUssd}
-              className="px-5 py-3.5 rounded-xl bg-yellow-400 hover:bg-yellow-300 text-black font-mono text-sm font-bold transition active:scale-95 flex items-center space-x-2.5 shadow-sm"
-            >
-              <PhoneCall className="w-4 h-4 text-black stroke-[2.5]" />
-              <span>Dial *384*123# (Free)</span>
-            </button>
+            
           </div>
         </div>
 
@@ -55,7 +41,7 @@ export default function LandingHero({ onExplore, onOpenUssd }) {
             <div className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-500 mb-1">03 / Zero Data Required</div>
             <div className="text-black font-bold text-base mb-1">Kabambe USSD Support</div>
             <p className="text-xs text-zinc-600 leading-normal">
-              Dial *384*123# on any mobile phone without an internet connection or airtime.
+              on any mobile phone without an internet connection or airtime.
             </p>
           </div>
         </div>

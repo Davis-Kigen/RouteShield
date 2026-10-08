@@ -6,7 +6,7 @@ import EmergencyCard from './components/EmergencyCard';
 import RouteCard from './components/RouteCard';
 import MapView from './components/MapView';
 import FareReportModal from './components/FareReportModal';
-import UssdSimulatorModal from './components/UssdSimulatorModal';
+'./components/UssdSimulatorModal';
 import fallbackRoutes from './data/routes.json';
 import { Search, RefreshCw, AlertTriangle, ShieldCheck } from 'lucide-react';
 

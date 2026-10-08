@@ -38,29 +38,7 @@ export default function Footer({ onOpenUssd, onOpenReportModal }) {
             <h5 className="font-bold text-white uppercase tracking-wider text-xs">Transit Tools</h5>
             <ul className="space-y-2 text-xs">
               <li>
-                <button onClick={() => scrollTo('top')} className="hover:text-white transition">
-                  Commuter Home
-                </button>
-              </li>
-              <li>
-                <button onClick={() => scrollTo('workspace')} className="hover:text-white transition">
-                  Live Fare Intelligence
-                </button>
-              </li>
-              <li>
-                <button onClick={() => scrollTo('safety')} className="hover:text-white transition">
-                  24/7 Lit Safe Zones
-                </button>
-              </li>
-              <li>
-                <button onClick={onOpenReportModal} className="hover:text-emerald-400 transition">
-                  Submit Crowdsourced Fare
-                </button>
-              </li>
-              <li>
-                <button onClick={onOpenUssd} className="hover:text-emerald-400 transition font-mono">
-                  Dial USSD (*384*123#)
-                </button>
+                
               </li>
             </ul>
           </div>
@@ -109,7 +87,7 @@ export default function Footer({ onOpenUssd, onOpenReportModal }) {
           <div className="flex items-center gap-3">
             <span>Workbox 30-Day OSM Cache</span>
             <span>•</span>
-            <span>Africa's Talking Gateway (*384*123#)</span>
+            <span>Africa's Talking Gateway ()</span>
             <span>•</span>
             <span>SQLite WAL Engine</span>
           </div>

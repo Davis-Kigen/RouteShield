@@ -146,57 +146,7 @@ export default function ValueSections({
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-            <button
-              onClick={() => onOpenReportModal()}
-              className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-black text-sm shadow-xl shadow-emerald-500/25 active:scale-95 transition flex items-center justify-center gap-2"
-            >
-              <PlusCircle className="w-4 h-4 text-slate-950" />
-              <span>Submit Stage Fare</span>
-            </button>
-
-            <button
-              onClick={onFindRoute}
-              className="px-5 py-3.5 rounded-2xl bg-[#09090b]/90 hover:bg-[#18181b] text-zinc-200 border border-zinc-700 font-bold text-sm transition flex items-center justify-center gap-1.5"
-            >
-              <span>Explore Corridors</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
-
-        </div>
-      </section>
-
-      {/* SECTION 3: Africa's Talking USSD Showcase Banner */}
-      <section className="glass-card rounded-3xl p-6 sm:p-8 border border-zinc-800 flex flex-col md:flex-row items-center justify-between gap-6">
-        <div className="flex items-start gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center shrink-0">
-            <Radio className="w-6 h-6 animate-pulse" />
-          </div>
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-black uppercase text-emerald-400 font-mono tracking-wider">
-                *384*123#
-              </span>
-              <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-[#18181b] text-zinc-300">
-                2G / EDGE Telemetry
-              </span>
-            </div>
-            <h4 className="text-lg sm:text-xl font-bold text-white">
-              Africa's Talking USSD Protocol for Zero-Smartphone Equity
-            </h4>
-            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed max-w-2xl">
-              Equipped with a standard 'Mulika Mwizi' feature phone or out of internet bundle units? Dial our dedicated USSD code anytime on Safaricom or Airtel KE to query stages, live fares, and trigger an emergency SOS beacon.
-            </p>
-          </div>
-        </div>
-
-        <button
-          onClick={onOpenUssd}
-          className="px-5 py-3 rounded-2xl bg-[#18181b] hover:bg-slate-700 text-emerald-300 border border-emerald-500/30 text-xs sm:text-sm font-bold whitespace-nowrap transition active:scale-95 flex items-center gap-2 shrink-0"
-        >
-          <Phone className="w-4 h-4 text-emerald-400" />
-          <span>Launch Interactive USSD Dialer</span>
-        </button>
+            
       </section>
 
       {/* SECTION 4: Verified Nairobi Sacco Fleet Standards */}

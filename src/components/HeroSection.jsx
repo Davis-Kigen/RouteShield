@@ -42,7 +42,7 @@ export default function HeroSection({
 
           <div className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#09090b]/80 border border-zinc-800 text-xs text-zinc-400 font-medium">
             <Radio className="w-3 h-3 text-emerald-400" />
-            <span>USSD Fallback: <b className="text-white font-mono">*384*123#</b></span>
+            <span>USSD Fallback: <b className="text-white font-mono"></b></span>
           </div>
         </div>
 
@@ -61,22 +61,7 @@ export default function HeroSection({
 
           {/* Dual Call-To-Action Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-3 sm:pt-4">
-            <button
-              onClick={onFindRoute}
-              className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-slate-950 font-black text-sm sm:text-base shadow-xl shadow-emerald-500/25 hover:shadow-emerald-500/40 active:scale-95 transition-all flex items-center justify-center gap-2 group cursor-pointer"
-            >
-              <Search className="w-5 h-5 text-slate-950" />
-              <span>Find Safe Route & Fares</span>
-              <ArrowRight className="w-4 h-4 text-slate-950 group-hover:translate-x-1 transition-transform" />
-            </button>
-
-            <button
-              onClick={onOpenUssd}
-              className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-[#09090b]/90 hover:bg-[#18181b] text-emerald-300 hover:text-white border border-emerald-500/40 hover:border-emerald-400 text-sm sm:text-base font-bold shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2.5 cursor-pointer"
-            >
-              <Radio className="w-5 h-5 text-emerald-400 animate-pulse" />
-              <span>Test USSD Fallback (*384*123#)</span>
-            </button>
+            
           </div>
         </div>
 
@@ -115,7 +100,7 @@ export default function HeroSection({
               <Zap className="w-4 h-4" />
             </div>
             <div className="text-base sm:text-lg font-black text-white">Zero-Data Ready</div>
-            <div className="text-[11px] text-zinc-400">Offline PWA + *384*123#</div>
+            <div className="text-[11px] text-zinc-400">Offline PWA + </div>
           </div>
         </div>
 
