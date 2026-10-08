@@ -1,3 +1,4 @@
+import CorridorStats from './components/CorridorStats';
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Navbar from './components/Navbar';
 import LandingHero from './components/LandingHero';
@@ -247,6 +248,7 @@ export default function App() {
               onSelectRoute={handleSelectRoute}
               focusedLocation={focusedLocation}
             />
+      <CorridorStats />
           </div>
         </div>
       </main>
