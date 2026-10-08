@@ -1,7 +1,7 @@
 import React from 'react';
 import { PhoneCall, AlertCircle } from 'lucide-react';
 
-export default function Navbar({ emergencyActive, onToggleEmergency, onOpenUssd }) {
+export default function Navbar({ emergencyActive, onToggleEmergency,  }) {
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-zinc-200">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
@@ -15,13 +15,7 @@ export default function Navbar({ emergencyActive, onToggleEmergency, onOpenUssd 
         </div>
 
         <div className="flex items-center space-x-3">
-          <button
-            onClick={onOpenUssd}
-            className="flex items-center space-x-2 px-3.5 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-900 border border-zinc-300 text-xs font-mono font-bold transition"
-          >
-            <PhoneCall className="w-3.5 h-3.5 text-zinc-900" />
-            <span>*384*123#</span>
-          </button>
+          
 
           <button
             onClick={onToggleEmergency}

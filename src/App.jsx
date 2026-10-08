@@ -122,12 +122,12 @@ export default function App() {
       <Navbar
         emergencyActive={emergencyActive}
         onToggleEmergency={() => setEmergencyActive(!emergencyActive)}
-        onOpenUssd={() => setIsUssdModalOpen(true)}
+        
       />
 
       <LandingHero
         onExplore={scrollToTerminal}
-        onOpenUssd={() => setIsUssdModalOpen(true)}
+        
       />
 
       <main ref={terminalRef} className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 space-y-6">
@@ -269,10 +269,7 @@ export default function App() {
       )}
 
       {isUssdModalOpen && (
-        <UssdSimulatorModal
-          isOpen={isUssdModalOpen}
-          onClose={() => setIsUssdModalOpen(false)}
-        />
+        
       )}
     </div>
   );

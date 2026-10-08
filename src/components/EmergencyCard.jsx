@@ -9,10 +9,10 @@ import {
   X,
   Eye,
   Radio,
-  MessageCircle
+  MessageCircle,
+  AlertTriangle
 } from 'lucide-react';
 
-// Haversine formula for distance estimation
 function calculateDistance(lat1, lon1, lat2, lon2) {
   if (!lat1 || !lon1 || !lat2 || !lon2) return null;
   const R = 6371;
@@ -55,7 +55,6 @@ export default function EmergencyCard({
     return calculateDistance(currentLat, currentLng, targetLat, targetLng) || 'approx ~250m away';
   }, [currentLat, currentLng, targetLat, targetLng]);
 
-  // Clean WhatsApp broadcast message
   const whatsappText = encodeURIComponent(
     `🚨 *ROUTE SHIELD SAFETY UPDATE*\n\n` +
     `I am boarding near *${stageName}*.\n` +
@@ -97,11 +96,9 @@ export default function EmergencyCard({
       });
       setPhoneInput('');
     } catch (err) {
-      const offlineCode = `OFFLINE-${Math.floor(1000 + Math.random() * 9000)}`;
-      setActiveSignalCode(offlineCode);
       setBeaconStatus({
-        type: 'success',
-        message: `Signal queued locally (${offlineCode}). Dial *384*123# if zero data is available.`
+        type: 'error',
+        message: 'Could not reach server. Call police dispatch (999) directly for urgent assistance.'
       });
     } finally {
       setIsSubmitting(false);
@@ -110,7 +107,6 @@ export default function EmergencyCard({
 
   return (
     <div className="relative overflow-hidden rounded-3xl bg-white border-2 border-black p-5 sm:p-6 shadow-2xl transition-all duration-300">
-      {/* Top Banner */}
       <div className="flex items-center justify-between gap-4 pb-4 border-b-2 border-zinc-200">
         <div className="flex items-center space-x-3">
           <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-yellow-400 text-black border-2 border-black shadow-sm font-black">
@@ -142,7 +138,6 @@ export default function EmergencyCard({
         </button>
       </div>
 
-      {/* Safe Stage Box */}
       <div className="mt-4 bg-zinc-50 border-2 border-zinc-300 rounded-2xl p-4 sm:p-5">
         <div className="flex items-center justify-between gap-2 mb-2">
           <div className="flex items-center space-x-2 text-black text-xs font-black uppercase tracking-wider">
@@ -155,7 +150,7 @@ export default function EmergencyCard({
           </div>
         </div>
 
-        <p className="text-base sm:text-lg font-black text-black mb-1">
+        <p className="text-base sm:lg font-black text-black mb-1">
           {safeStageName}
         </p>
 
@@ -163,7 +158,6 @@ export default function EmergencyCard({
           Corridor Pickup: <strong className="text-black">{stageName}</strong>
         </p>
 
-        {/* Physical Features Checklist */}
         <div className="flex flex-wrap gap-2 pt-2 border-t border-zinc-200 text-xs">
           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-zinc-300 text-black font-bold text-[11px]">
             <Lightbulb className="w-3.5 h-3.5 text-yellow-500 stroke-[2.5]" />
@@ -179,7 +173,6 @@ export default function EmergencyCard({
           </span>
         </div>
 
-        {/* Focus on map */}
         <button
           onClick={onFocusSafeZone}
           className="mt-4 w-full py-3.5 px-4 rounded-xl bg-yellow-400 hover:bg-yellow-300 text-black text-xs sm:text-sm font-black flex items-center justify-center gap-2 border-2 border-black transition shadow-md active:scale-95"
@@ -189,7 +182,6 @@ export default function EmergencyCard({
         </button>
       </div>
 
-      {/* Primary Actions: WhatsApp Broadcast & Emergency Dial */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
         <a
           href={`https://wa.me/?text=${whatsappText}`}
@@ -210,7 +202,6 @@ export default function EmergencyCard({
         </a>
       </div>
 
-      {/* Escort signal form */}
       <form onSubmit={handleSendBeacon} className="mt-4 bg-zinc-50 rounded-2xl p-3.5 border-2 border-zinc-200">
         <div className="flex items-center justify-between mb-1.5">
           <label className="block text-[11px] font-bold text-zinc-900">
@@ -247,13 +238,16 @@ export default function EmergencyCard({
                 : 'bg-zinc-100 border-black text-black'
             }`}
           >
-            <CheckCircle2 className="w-4 h-4 shrink-0 text-black" />
+            {beaconStatus.type === 'success' ? (
+              <CheckCircle2 className="w-4 h-4 shrink-0 text-black" />
+            ) : (
+              <AlertTriangle className="w-4 h-4 shrink-0 text-black" />
+            )}
             <span>{beaconStatus.message}</span>
           </div>
         )}
       </form>
 
-      {/* Safety Directive */}
       <p className="mt-3 text-[11px] text-zinc-600 leading-normal">
         <strong className="text-black font-bold">Safety Directive:</strong> Stick to continuous high-mast streetlights. In case of dark stretches, enter lit banking halls, 24/7 petrol station lobbies, or manned security desks along the avenue.
       </p>
