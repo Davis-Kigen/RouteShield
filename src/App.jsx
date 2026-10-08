@@ -268,9 +268,7 @@ export default function App() {
         />
       )}
 
-      {isUssdModalOpen && (
-        
-      )}
+      
     </div>
   );
 }
