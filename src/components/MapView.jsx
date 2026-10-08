@@ -1,19 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polyline, Tooltip, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { 
-  Compass, 
-  Camera, 
   Play, 
   Pause, 
   RotateCcw, 
   AlertTriangle, 
   ShieldCheck, 
-  Bus, 
-  CheckCircle2, 
   ExternalLink, 
   X,
-  Navigation
+  Compass
 } from 'lucide-react';
 import { DEMO_CORRIDOR } from '../data/demoCorridor';
 import 'leaflet/dist/leaflet.css';
@@ -27,8 +23,8 @@ const createLandmarkIcon = (emoji, label, isCaution = false) => {
     className: 'custom-landmark-pin',
     html: `
       <div style="display:flex; flex-direction:column; align-items:center; transform: translate(-50%, -100%);">
-        <div style="background:${bg}; color:${text}; border:2px solid #000000; border-radius:8px; padding:3px 7px; font-weight:800; font-size:11px; white-space:nowrap; box-shadow:0 4px 12px rgba(0,0,0,0.25); display:flex; align-items:center; gap:4px;">
-          <span style="font-size:12px;">${emoji}</span>
+        <div style="background:${bg}; color:${text}; border:2px solid #000000; border-radius:8px; padding:3px 8px; font-weight:800; font-size:11px; white-space:nowrap; box-shadow:0 4px 12px rgba(0,0,0,0.25); display:flex; align-items:center; gap:5px;">
+          <span>${emoji}</span>
           <span style="font-family:ui-monospace, monospace;">${label}</span>
         </div>
         <div style="width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-top:6px solid #000000;"></div>
@@ -45,7 +41,7 @@ const createMatatuIcon = (saccoName) => {
     className: 'custom-matatu-pin',
     html: `
       <div style="position:relative; display:flex; align-items:center; justify-content:center; transform: translate(-50%, -50%);">
-        <div style="position:absolute; width:44px; height:44px; background:rgba(250,204,21,0.4); border-radius:50%; animation:ping 1.5s cubic-bezier(0,0,0.2,1) infinite;"></div>
+        <div style="position:absolute; width:44px; height:44px; background:rgba(250,204,21,0.45); border-radius:50%; animation:ping 1.5s cubic-bezier(0,0,0.2,1) infinite;"></div>
         <div style="position:relative; background:#facc15; border:2px solid #000000; color:#000000; width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900; box-shadow:0 6px 16px rgba(0,0,0,0.4);">
           🚐
         </div>
@@ -64,16 +60,15 @@ function MapController({ targetCenter, targetZoom }) {
   useEffect(() => {
     map.invalidateSize();
     if (targetCenter) {
-      map.flyTo(targetCenter, targetZoom || 14, { duration: 0.8 });
+      map.flyTo(targetCenter, targetZoom || 13.5, { duration: 0.8 });
     }
   }, [targetCenter, targetZoom, map]);
   return null;
 }
 
-export default function MapView({ onSelectLandmark }) {
+export default function MapView() {
   const [selectedRouteId, setSelectedRouteId] = useState('main');
   const [activeInspectLandmark, setActiveInspectLandmark] = useState(null);
-  const [viewMode, setViewMode] = useState('photo');
 
   // Simulation State
   const [isSimulating, setIsSimulating] = useState(false);
@@ -81,12 +76,11 @@ export default function MapView({ onSelectLandmark }) {
   const [activeSacco, setActiveSacco] = useState('Naboka Sacco');
   const [simAlert, setSimAlert] = useState(null);
 
-  const defaultCenter = [-1.3250, 36.7850];
+  const defaultCenter = [-1.3280, 36.7850];
 
   const currentRouteData = DEMO_CORRIDOR.routes.find(r => r.id === selectedRouteId) || DEMO_CORRIDOR.routes[0];
   const routePoints = currentRouteData.coordinates;
 
-  // Real-time waypoint notifications along the path
   const stepFeedback = [
     {
       step: 0,
@@ -132,7 +126,6 @@ export default function MapView({ onSelectLandmark }) {
     }
   ];
 
-  // Simulation timer tick
   useEffect(() => {
     let interval = null;
     if (isSimulating) {
@@ -144,9 +137,7 @@ export default function MapView({ onSelectLandmark }) {
           }
           const nextIndex = prevIndex + 1;
           const match = stepFeedback.find(s => s.step === nextIndex);
-          if (match) {
-            setSimAlert(match);
-          }
+          if (match) setSimAlert(match);
           return nextIndex;
         });
       }, 1600);
@@ -173,22 +164,22 @@ export default function MapView({ onSelectLandmark }) {
   const currentMatatuCoords = routePoints[simStepIndex] || routePoints[0];
 
   return (
-    <div className="relative w-full h-[640px] lg:h-[700px] rounded-3xl overflow-hidden border-2 border-black shadow-2xl bg-zinc-100 flex flex-col">
-      {/* Top Header & Simulation Dashboard */}
-      <div className="bg-white border-b-2 border-black px-4 py-3 flex flex-wrap items-center justify-between gap-3 z-[400]">
+    <div className="relative w-full h-[580px] rounded-3xl overflow-hidden border-2 border-black shadow-2xl bg-zinc-100 flex flex-col">
+      {/* Top Header & Simulation Controls */}
+      <div className="bg-white border-b-2 border-black px-4 py-2.5 flex items-center justify-between gap-3 z-[400]">
         <div>
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-yellow-400 border border-black animate-pulse"></span>
             <span className="text-xs font-mono font-black uppercase text-black">
-              Corridor Simulation: {DEMO_CORRIDOR.name}
+              Lang'ata Corridor Simulation
             </span>
           </div>
-          <p className="text-[11px] text-zinc-600 font-semibold mt-0.5">
-            Active Operator: <strong>{activeSacco}</strong> | Status: <strong>In Transit</strong>
+          <p className="text-[11px] text-zinc-600 font-semibold">
+            Operator: <strong className="text-black">{activeSacco}</strong> | Route: <strong>{currentRouteData.name.split(':')[0]}</strong>
           </p>
         </div>
 
-        {/* Simulator Playback Controls */}
+        {/* Playback Controls */}
         <div className="flex items-center gap-2">
           {!isSimulating ? (
             <button
@@ -238,7 +229,7 @@ export default function MapView({ onSelectLandmark }) {
             maxZoom={19}
           />
 
-          {/* Render Route Polylines */}
+          {/* Route Polylines */}
           {DEMO_CORRIDOR.routes.map((rt) => (
             <React.Fragment key={rt.id}>
               <Polyline
@@ -269,23 +260,22 @@ export default function MapView({ onSelectLandmark }) {
             position={currentMatatuCoords}
             icon={createMatatuIcon(activeSacco.split(' ')[0])}
             zIndexOffset={1000}
-          >
-            <Popup>
-              <div className="p-1 font-sans text-xs">
-                <span className="font-black text-black block">{activeSacco} Live Matatu</span>
-                <span className="text-zinc-600">Speed: 42 km/h • Fare locked: KES 70</span>
-              </div>
-            </Popup>
-          </Marker>
+          />
 
-          {/* Static Landmark Waypoints */}
+          {/* Landmarks with Descriptive Labels */}
           {DEMO_CORRIDOR.landmarks.map((lm) => {
             const isCaution = lm.id === 'cemetery';
+            const displayLabel = lm.id === 'cemetery' 
+              ? 'Lang\'ata Cemetery (Caution)' 
+              : lm.id === 'cbd_railways'
+              ? 'Railways (Lit Safe Haven)'
+              : lm.name.split(' ')[0];
+
             return (
               <Marker
                 key={lm.id}
                 position={lm.coords}
-                icon={createLandmarkIcon(lm.icon, lm.name.split(' ')[0], isCaution)}
+                icon={createLandmarkIcon(lm.icon, displayLabel, isCaution)}
                 eventHandlers={{ click: () => setActiveInspectLandmark(lm) }}
               >
                 <Popup>
@@ -311,9 +301,9 @@ export default function MapView({ onSelectLandmark }) {
           })}
         </MapContainer>
 
-        {/* Live Journey Telemetry & Waypoint Alert Toast (Floating Top-Left) */}
+        {/* Live Journey Telemetry Banner */}
         {simAlert && (
-          <div className="absolute top-4 left-4 z-[400] max-w-sm w-[calc(100%-2rem)] bg-white/95 backdrop-blur-md border-2 border-black rounded-2xl p-3.5 shadow-2xl transition-all">
+          <div className="absolute top-3 left-3 z-[400] max-w-sm w-[calc(100%-1.5rem)] bg-white/95 backdrop-blur-md border-2 border-black rounded-2xl p-3 shadow-2xl transition-all">
             <div className="flex items-start gap-2.5">
               {simAlert.alertType === 'warning' ? (
                 <div className="p-1.5 bg-yellow-400 border border-black rounded-xl shrink-0 mt-0.5">
@@ -327,14 +317,14 @@ export default function MapView({ onSelectLandmark }) {
               <div className="flex-1">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-mono font-black uppercase text-zinc-500">
-                    Waypoint Telemetry
+                    Live Telemetry
                   </span>
                   <span className="text-[10px] font-bold bg-zinc-100 px-1.5 py-0.5 rounded border border-zinc-300">
                     Step {simStepIndex + 1}/{routePoints.length}
                   </span>
                 </div>
                 <h4 className="text-xs font-black text-black mt-0.5">{simAlert.title}</h4>
-                <p className="text-[11px] text-zinc-600 font-semibold mt-1 leading-snug">
+                <p className="text-[11px] text-zinc-600 font-semibold mt-0.5 leading-snug">
                   {simAlert.desc}
                 </p>
               </div>
@@ -343,22 +333,22 @@ export default function MapView({ onSelectLandmark }) {
         )}
 
         {/* Sacco Operator Selector Drawer (Bottom-Left) */}
-        <div className="absolute bottom-4 left-4 z-[400] max-w-xs bg-white/95 backdrop-blur-md border-2 border-black rounded-2xl p-3 shadow-xl">
-          <span className="text-[10px] font-black tracking-wider uppercase bg-black text-yellow-400 px-2 py-0.5 rounded-md inline-block mb-2">
+        <div className="absolute bottom-3 left-3 z-[400] bg-white/95 backdrop-blur-md border-2 border-black rounded-2xl p-2.5 shadow-xl">
+          <span className="text-[10px] font-black tracking-wider uppercase bg-black text-yellow-400 px-2 py-0.5 rounded-md inline-block mb-1.5">
             Switch Operator
           </span>
-          <div className="grid grid-cols-2 gap-1.5 text-xs">
+          <div className="flex gap-1.5 text-xs">
             {DEMO_CORRIDOR.saccos.map((sacco) => (
               <button
                 key={sacco.id}
                 onClick={() => setActiveSacco(sacco.name)}
-                className={`p-2 rounded-xl text-left border transition ${
+                className={`px-3 py-1.5 rounded-xl text-left border transition ${
                   activeSacco.includes(sacco.name.split(' ')[0])
                     ? 'border-black bg-yellow-400 font-black text-black'
                     : 'border-zinc-300 bg-zinc-50 text-zinc-700 hover:border-black'
                 }`}
               >
-                <div className="text-[11px] font-bold truncate">{sacco.name}</div>
+                <div className="text-[11px] font-bold">{sacco.name}</div>
                 <div className="text-[10px] opacity-80">{sacco.peak_ceiling}</div>
               </button>
             ))}
@@ -366,63 +356,56 @@ export default function MapView({ onSelectLandmark }) {
         </div>
       </div>
 
-      {/* Ground Inspection Modal */}
+      {/* Accurate Ground Inspection Modal */}
       {activeInspectLandmark && (
         <div className="fixed inset-0 z-[1000] bg-black/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5">
-          <div className="bg-white border-3 border-black rounded-3xl w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
-            <div className="bg-black text-white px-5 py-3.5 flex items-center justify-between border-b-2 border-black">
-              <div className="flex items-center gap-2.5">
-                <span className="text-xl">{activeInspectLandmark.icon}</span>
+          <div className="bg-white border-3 border-black rounded-3xl w-full max-w-xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
+            <div className="bg-black text-white px-5 py-3 flex items-center justify-between border-b-2 border-black">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">{activeInspectLandmark.icon}</span>
                 <div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-mono font-black uppercase px-1.5 py-0.5 rounded bg-yellow-400 text-black">
-                      LANDMARK CUE
-                    </span>
-                    <span className="text-xs text-zinc-300 font-bold">{activeInspectLandmark.type}</span>
-                  </div>
-                  <h3 className="text-base font-black text-white">{activeInspectLandmark.name}</h3>
+                  <span className="text-[10px] font-mono font-black uppercase px-1.5 py-0.5 rounded bg-yellow-400 text-black mr-2">
+                    VERIFIED WAYPOINT
+                  </span>
+                  <span className="text-xs text-zinc-300 font-bold">{activeInspectLandmark.name}</span>
                 </div>
               </div>
               <button
                 onClick={() => setActiveInspectLandmark(null)}
-                className="p-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white transition"
+                className="p-1 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white transition"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="relative w-full h-[280px] sm:h-[340px] bg-zinc-900">
-              <img
-                src={activeInspectLandmark.image_url}
-                alt={activeInspectLandmark.name}
-                className="w-full h-full object-cover"
+            {/* Embedded OSM Map centered on actual coords */}
+            <div className="relative w-full h-[260px] bg-zinc-900 overflow-hidden">
+              <iframe
+                title="Ground Map Inspection"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                src={`https://www.openstreetmap.org/export/embed.html?bbox=${activeInspectLandmark.coords[1]-0.003}%2C${activeInspectLandmark.coords[0]-0.002}%2C${activeInspectLandmark.coords[1]+0.003}%2C${activeInspectLandmark.coords[0]+0.002}&layer=mapnik&marker=${activeInspectLandmark.coords[0]}%2C${activeInspectLandmark.coords[1]}`}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent flex items-end p-4">
-                <p className="text-white text-xs font-bold leading-relaxed">
-                  {activeInspectLandmark.visual_cue}
-                </p>
+              <div className="absolute bottom-2 left-2 right-2 bg-black/90 backdrop-blur-md text-white p-2.5 rounded-xl border border-zinc-700 text-xs">
+                <span className="text-[10px] uppercase font-mono text-yellow-400 font-bold block">Physical Landmark Cue</span>
+                <p className="font-bold text-white text-[11px] mt-0.5">{activeInspectLandmark.visual_cue}</p>
               </div>
             </div>
 
-            <div className="p-4 sm:p-5 bg-zinc-50 border-t-2 border-black flex flex-col gap-3">
-              <p className="text-xs text-zinc-700 leading-relaxed">
+            <div className="p-4 bg-zinc-50 border-t-2 border-black flex flex-col gap-2.5">
+              <p className="text-xs text-zinc-700 leading-relaxed font-medium">
                 {activeInspectLandmark.hint}
               </p>
               <div className="flex items-center justify-between pt-2 border-t border-zinc-200">
-                <a
-                  href={`https://www.google.com/maps/search/?api=1&query=${activeInspectLandmark.map_query}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-black text-black hover:text-zinc-700 underline"
-                >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                  <span>Open Coordinates in Google Maps</span>
-                </a>
+                <span className="text-[11px] font-mono font-bold text-zinc-500">
+                  GPS: {activeInspectLandmark.coords[0].toFixed(4)}, {activeInspectLandmark.coords[1].toFixed(4)}
+                </span>
                 <button
                   onClick={() => setActiveInspectLandmark(null)}
-                  className="px-4 py-2 rounded-xl bg-black hover:bg-zinc-800 text-yellow-400 font-black text-xs transition"
+                  className="px-4 py-1.5 rounded-xl bg-black hover:bg-zinc-800 text-yellow-400 font-black text-xs transition"
                 >
-                  Back to Journey
+                  Close Inspection
                 </button>
               </div>
             </div>
