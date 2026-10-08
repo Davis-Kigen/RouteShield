@@ -1,50 +1,25 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Circle, Polyline, Tooltip, useMap } from 'react-leaflet';
+import React, { useState, useEffect } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, Tooltip, useMap } from 'react-leaflet';
 import L from 'leaflet';
-import { Crosshair, Loader2 } from 'lucide-react';
+import { Crosshair, MapPin, Eye, Compass, Layers } from 'lucide-react';
+import { DEMO_CORRIDOR } from '../data/demoCorridor';
 import 'leaflet/dist/leaflet.css';
 
-const createStageIcon = (label) => {
+// Custom Landmark Icon
+const createLandmarkIcon = (emoji, label, isCaution = false) => {
+  const bg = isCaution ? '#000000' : '#ffffff';
+  const text = isCaution ? '#facc15' : '#000000';
+  const border = '#000000';
+
   return L.divIcon({
-    className: 'custom-stage-marker',
+    className: 'custom-landmark-pin',
     html: `
       <div style="display:flex; flex-direction:column; align-items:center; transform: translate(-50%, -100%);">
-        <div style="background:#000000; color:#ffffff; border:2px solid #000000; border-radius:6px; padding:4px 9px; font-weight:800; font-size:11px; font-family:monospace; white-space:nowrap; box-shadow:0 6px 16px rgba(0,0,0,0.25); display:flex; align-items:center; gap:6px;">
-          <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#facc15;"></span>
-          <span>${label}</span>
+        <div style="background:${bg}; color:${text}; border:2px solid ${border}; border-radius:8px; padding:3px 7px; font-weight:800; font-size:11px; white-space:nowrap; box-shadow:0 4px 12px rgba(0,0,0,0.25); display:flex; align-items:center; gap:4px;">
+          <span style="font-size:12px;">${emoji}</span>
+          <span style="font-family:ui-monospace, monospace;">${label}</span>
         </div>
         <div style="width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-top:6px solid #000000;"></div>
-      </div>
-    `,
-    iconSize: [0, 0],
-    iconAnchor: [0, 0]
-  });
-};
-
-const createSafeZoneIcon = (label) => {
-  return L.divIcon({
-    className: 'custom-safe-marker',
-    html: `
-      <div style="display:flex; flex-direction:column; align-items:center; transform: translate(-50%, -100%);">
-        <div style="background:#facc15; color:#000000; border:2px solid #000000; border-radius:6px; padding:4px 9px; font-weight:900; font-size:11px; font-family:monospace; white-space:nowrap; box-shadow:0 6px 16px rgba(250,204,21,0.35); display:flex; align-items:center; gap:5px;">
-          <span>★</span>
-          <span>SAFE: ${label}</span>
-        </div>
-        <div style="width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-top:6px solid #000000;"></div>
-      </div>
-    `,
-    iconSize: [0, 0],
-    iconAnchor: [0, 0]
-  });
-};
-
-const createUserLocationIcon = () => {
-  return L.divIcon({
-    className: 'custom-user-marker',
-    html: `
-      <div style="position:relative; width:22px; height:22px; transform: translate(-50%, -50%); display:flex; align-items:center; justify-content:center;">
-        <div style="position:absolute; width:22px; height:22px; border-radius:50%; background:#000000; opacity:0.25; animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;"></div>
-        <div style="width:14px; height:14px; border-radius:50%; background:#000000; border:3px solid #facc15; box-shadow:0 0 10px rgba(0,0,0,0.5);"></div>
       </div>
     `,
     iconSize: [0, 0],
@@ -54,295 +29,207 @@ const createUserLocationIcon = () => {
 
 function MapController({ targetCenter, targetZoom }) {
   const map = useMap();
-
   useEffect(() => {
     map.invalidateSize();
-    if (targetCenter && targetCenter[0] && targetCenter[1]) {
-      map.flyTo(targetCenter, targetZoom || 16, {
-        duration: 1.0,
-        easeLinearity: 0.25
-      });
+    if (targetCenter) {
+      map.flyTo(targetCenter, targetZoom || 14, { duration: 1.0 });
     }
   }, [targetCenter, targetZoom, map]);
-
   return null;
 }
 
-export default function MapView({
-  routes,
-  selectedRoute,
-  onSelectRoute,
-  focusedLocation
-}) {
-  const defaultCenter = [-1.286389, 36.823611];
-  const [userLocation, setUserLocation] = useState(null);
-  const [isLocating, setIsLocating] = useState(false);
-  const [locationError, setLocationError] = useState(null);
+export default function MapView({ onSelectLandmark }) {
+  const [selectedRouteId, setSelectedRouteId] = useState('all');
+  const [focusedLocation, setFocusedLocation] = useState(null);
+  const [selectedSacco, setSelectedSacco] = useState(null);
 
-  const currentCenter = userLocation || focusedLocation || (
-    selectedRoute ? [selectedRoute.cbd_lat, selectedRoute.cbd_lng] : defaultCenter
-  );
+  const defaultCenter = [-1.3250, 36.7850]; // Center around Langata corridor
 
-  const markerRefs = useRef({});
-
-  useEffect(() => {
-    if (selectedRoute && markerRefs.current[selectedRoute.id]) {
-      markerRefs.current[selectedRoute.id].openPopup();
-    }
-  }, [selectedRoute, focusedLocation]);
+  const handleLandmarkClick = (lm) => {
+    setFocusedLocation(lm.coords);
+    if (onSelectLandmark) onSelectLandmark(lm);
+  };
 
   const handleLocateMe = () => {
-    setIsLocating(true);
-    setLocationError(null);
-
-    const applyLocation = (coords, isSimulated = false) => {
-      setUserLocation(coords);
-      setIsLocating(false);
-
-      let nearest = null;
-      let minDistance = Infinity;
-
-      routes.forEach((r) => {
-        if (r.cbd_lat && r.cbd_lng) {
-          const d = Math.hypot(r.cbd_lat - coords[0], r.cbd_lng - coords[1]);
-          if (d < minDistance) {
-            minDistance = d;
-            nearest = r;
-          }
-        }
-      });
-
-      if (nearest && onSelectRoute) {
-        onSelectRoute(nearest);
-      }
-
-      if (isSimulated) {
-        setLocationError('Set to Nairobi CBD center (Railways/Kencom)');
-        setTimeout(() => setLocationError(null), 4000);
-      }
-    };
-
-    if (!navigator.geolocation) {
-      applyLocation([-1.286389, 36.823611], true);
-      return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        applyLocation([pos.coords.latitude, pos.coords.longitude], false);
-      },
-      (err) => {
-        console.warn('GPS unavailable, using CBD baseline:', err.message);
-        // Fallback to central CBD commuter anchor
-        applyLocation([-1.286389, 36.823611], true);
-      },
-      { enableHighAccuracy: false, timeout: 5000, maximumAge: 60000 }
-    );
+    // Default to Bomas landmark for demoway wayfinding demonstration
+    setFocusedLocation([-1.3392, 36.7698]);
   };
 
   return (
-    <div className="relative w-full h-[540px] lg:h-[580px] rounded-2xl overflow-hidden border-2 border-black shadow-xl bg-zinc-100">
-      <MapContainer
-        center={defaultCenter}
-        zoom={14}
-        scrollWheelZoom={true}
-        style={{ width: '100%', height: '100%' }}
-        className="w-full h-full z-10"
-      >
-        <MapController targetCenter={currentCenter} targetZoom={userLocation ? 16 : (focusedLocation ? 16 : 15)} />
-
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          maxZoom={19}
-        />
-
-        {/* Current User GPS Marker */}
-        {userLocation && (
-          <>
-            <Marker position={userLocation} icon={createUserLocationIcon()}>
-              <Popup>
-                <div className="p-1 font-sans text-xs">
-                  <strong className="text-black block mb-0.5 font-black">Your Current Location</strong>
-                  <span className="text-zinc-600">Showing nearest transit corridor & lit stage</span>
-                </div>
-              </Popup>
-            </Marker>
-            <Circle
-              center={userLocation}
-              radius={80}
-              pathOptions={{
-                color: '#000000',
-                fillColor: '#facc15',
-                fillOpacity: 0.15,
-                weight: 1.5,
-                dashArray: '3, 3'
-              }}
-            />
-          </>
-        )}
-
-        {routes.map((route) => {
-          const isSelected = selectedRoute?.id === route.id;
-          const hasBothCoords =
-            route.cbd_lat && route.cbd_lng && route.safe_zone_lat && route.safe_zone_lng;
-
-          return (
-            <React.Fragment key={route.id}>
-              {/* CBD Boarding Stage Marker */}
-              {route.cbd_lat && route.cbd_lng && (
-                <Marker
-                  ref={(ref) => {
-                    if (ref) markerRefs.current[route.id] = ref;
-                  }}
-                  position={[route.cbd_lat, route.cbd_lng]}
-                  icon={createStageIcon(route.route_name)}
-                  eventHandlers={{ click: () => onSelectRoute(route) }}
-                >
-                  <Popup>
-                    <div className="p-1 min-w-[210px] bg-white text-zinc-900 font-sans">
-                      <div className="flex items-center justify-between gap-2 mb-1.5">
-                        <span className="text-xs font-mono font-black text-black bg-yellow-400 px-1.5 py-0.5 rounded">
-                          {route.route_name}
-                        </span>
-                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-800 font-bold border border-zinc-300">
-                          CBD Pickup
-                        </span>
-                      </div>
-                      <h4 className="text-sm font-black text-black mb-1">{route.cbd_stage}</h4>
-                      <p className="text-xs text-zinc-600 mb-2">{route.corridor}</p>
-                      <div className="text-xs bg-zinc-100 border border-zinc-300 p-2.5 rounded-lg mb-2 space-y-1">
-                        <div className="text-zinc-700 flex justify-between">
-                          <span>Off-Peak:</span>
-                          <b className="text-black">KES {route.off_peak_min}–{route.off_peak_max}</b>
-                        </div>
-                        <div className="text-zinc-950 flex justify-between font-bold">
-                          <span>Peak Ceiling:</span>
-                          <b className="text-black">KES {route.peak_min}–{route.peak_max}</b>
-                        </div>
-                      </div>
-                      <button
-                        onClick={() => onSelectRoute(route)}
-                        className="w-full py-1.5 text-xs bg-black hover:bg-zinc-800 text-yellow-400 font-black rounded-md transition shadow"
-                      >
-                        Active Corridor
-                      </button>
-                    </div>
-                  </Popup>
-                </Marker>
-              )}
-
-              {/* Lit Safe Stage Marker */}
-              {route.safe_zone_lat && route.safe_zone_lng && (
-                <Marker
-                  position={[route.safe_zone_lat, route.safe_zone_lng]}
-                  icon={createSafeZoneIcon(route.route_name)}
-                  eventHandlers={{ click: () => onSelectRoute(route) }}
-                >
-                  <Popup>
-                    <div className="p-1 min-w-[220px] bg-white text-zinc-900 font-sans">
-                      <div className="flex items-center space-x-1.5 text-black text-xs font-black mb-1">
-                        <span className="w-2.5 h-2.5 rounded-full bg-yellow-400 border border-black"></span>
-                        <span>VERIFIED LIT SAFE STAGE</span>
-                      </div>
-                      <h4 className="text-sm font-black text-black mb-1">{route.safe_zone}</h4>
-                      <p className="text-xs text-zinc-600 mb-2">
-                        Lit boarding and refuge zone for {route.route_name} commuters.
-                      </p>
-                      <div className="text-[11px] text-zinc-700 space-y-1 border-t border-zinc-200 pt-2 font-semibold">
-                        <div>✓ High-Mast Streetlight Coverage</div>
-                        <div>✓ Patrol Post Proximity</div>
-                        <div>✓ Continuous 24/7 Foot Traffic</div>
-                      </div>
-                    </div>
-                  </Popup>
-                </Marker>
-              )}
-
-              {/* Connected Corridor Path & Radial Zone */}
-              {isSelected && hasBothCoords && (
-                <>
-                  <Polyline
-                    positions={[
-                      [route.cbd_lat, route.cbd_lng],
-                      [route.safe_zone_lat, route.safe_zone_lng]
-                    ]}
-                    pathOptions={{
-                      color: '#000000',
-                      weight: 6,
-                      opacity: 0.85
-                    }}
-                  />
-                  <Polyline
-                    positions={[
-                      [route.cbd_lat, route.cbd_lng],
-                      [route.safe_zone_lat, route.safe_zone_lng]
-                    ]}
-                    pathOptions={{
-                      color: '#facc15',
-                      weight: 4,
-                      opacity: 1,
-                      dashArray: '8, 8'
-                    }}
-                  >
-                    <Tooltip sticky direction="top" className="font-mono text-xs font-bold">
-                      Safe Lit Transit Walkway
-                    </Tooltip>
-                  </Polyline>
-                  <Circle
-                    center={[route.safe_zone_lat, route.safe_zone_lng]}
-                    radius={160}
-                    pathOptions={{
-                      color: '#000000',
-                      fillColor: '#facc15',
-                      fillOpacity: 0.25,
-                      weight: 2,
-                      dashArray: '4, 4'
-                    }}
-                  />
-                </>
-              )}
-            </React.Fragment>
-          );
-        })}
-      </MapContainer>
-
-      {/* Floating GPS 'Locate Me' Button */}
-      <div className="absolute top-4 right-4 z-[400] flex flex-col items-end gap-2">
-        <button
-          onClick={handleLocateMe}
-          disabled={isLocating}
-          className="flex items-center gap-2 bg-white hover:bg-zinc-100 text-black font-black text-xs px-3.5 py-2.5 rounded-xl border-2 border-black shadow-lg transition active:scale-95 disabled:opacity-75"
-          title="Find nearest safe stage using current GPS"
-        >
-          {isLocating ? (
-            <Loader2 className="w-4 h-4 animate-spin text-black" />
-          ) : (
-            <Crosshair className="w-4 h-4 text-black stroke-[2.5]" />
-          )}
-          <span>{isLocating ? 'Locating...' : 'Locate Me'}</span>
-        </button>
-
-        {locationError && (
-          <div className="bg-black text-white text-[10px] px-2.5 py-1 rounded-lg border border-yellow-400 max-w-[200px] text-right font-medium">
-            {locationError}
+    <div className="relative w-full h-[600px] lg:h-[640px] rounded-3xl overflow-hidden border-2 border-black shadow-2xl bg-zinc-100 flex flex-col">
+      {/* Top Corridor Status Bar */}
+      <div className="bg-white border-b-2 border-black px-4 py-3 flex flex-wrap items-center justify-between gap-3 z-[400]">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-yellow-400 border border-black animate-pulse"></span>
+            <span className="text-xs font-mono font-black uppercase text-black">
+              Demo Corridor: {DEMO_CORRIDOR.name}
+            </span>
           </div>
-        )}
+          <p className="text-[11px] text-zinc-600 font-semibold mt-0.5">
+            Operating SACCOs: <strong>Naboka Sacco</strong> (CUK/Railways) & <strong>G-City</strong> (Karen/Ambassador)
+          </p>
+        </div>
+
+        {/* Route Variant Filter */}
+        <div className="flex items-center gap-1.5 bg-zinc-100 p-1 rounded-xl border border-zinc-300 text-xs font-bold">
+          <button
+            onClick={() => setSelectedRouteId('all')}
+            className={`px-2.5 py-1 rounded-lg transition ${
+              selectedRouteId === 'all' ? 'bg-black text-yellow-400 font-black' : 'text-zinc-700 hover:text-black'
+            }`}
+          >
+            All Corridors
+          </button>
+          <button
+            onClick={() => setSelectedRouteId('main')}
+            className={`px-2.5 py-1 rounded-lg transition ${
+              selectedRouteId === 'main' ? 'bg-black text-yellow-400 font-black' : 'text-zinc-700 hover:text-black'
+            }`}
+          >
+            Lang'ata Rd (Direct)
+          </button>
+          <button
+            onClick={() => setSelectedRouteId('diversion')}
+            className={`px-2.5 py-1 rounded-lg transition ${
+              selectedRouteId === 'diversion' ? 'bg-black text-yellow-400 font-black' : 'text-zinc-700 hover:text-black'
+            }`}
+          >
+            Mbagathi Bypass
+          </button>
+        </div>
       </div>
 
-      {/* Floating High-Contrast Legend */}
-      <div className="absolute bottom-4 left-4 z-[400] bg-white/95 backdrop-blur-md border-2 border-black rounded-xl px-4 py-2.5 text-xs shadow-lg flex items-center gap-4">
-        <div className="flex items-center gap-2">
-          <span className="w-3 h-3 rounded-full bg-black"></span>
-          <span className="text-black font-black">CBD Stage</span>
+      {/* Map Body */}
+      <div className="relative flex-1 w-full h-full">
+        <MapContainer
+          center={defaultCenter}
+          zoom={13}
+          scrollWheelZoom={true}
+          style={{ width: '100%', height: '100%' }}
+          className="w-full h-full z-10"
+        >
+          <MapController targetCenter={focusedLocation || defaultCenter} targetZoom={focusedLocation ? 15 : 13} />
+
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            maxZoom={19}
+          />
+
+          {/* Render Route Polylines */}
+          {DEMO_CORRIDOR.routes.map((rt) => {
+            if (selectedRouteId !== 'all' && selectedRouteId !== rt.id) return null;
+
+            return (
+              <React.Fragment key={rt.id}>
+                {/* Outliner stroke */}
+                <Polyline
+                  positions={rt.coordinates}
+                  pathOptions={{
+                    color: '#ffffff',
+                    weight: rt.weight + 4,
+                    opacity: 0.9
+                  }}
+                />
+                {/* Main line */}
+                <Polyline
+                  positions={rt.coordinates}
+                  pathOptions={{
+                    color: rt.color,
+                    weight: rt.weight,
+                    dashArray: rt.dashArray
+                  }}
+                >
+                  <Tooltip sticky direction="top" className="font-mono text-xs font-bold">
+                    {rt.name}
+                  </Tooltip>
+                </Polyline>
+              </React.Fragment>
+            );
+          })}
+
+          {/* Render Landmarks & Waypoints */}
+          {DEMO_CORRIDOR.landmarks.map((lm) => {
+            const isCaution = lm.id === 'cemetery';
+            return (
+              <Marker
+                key={lm.id}
+                position={lm.coords}
+                icon={createLandmarkIcon(lm.icon, lm.name.split(' ')[0], isCaution)}
+                eventHandlers={{ click: () => handleLandmarkClick(lm) }}
+              >
+                <Popup>
+                  <div className="p-1 min-w-[220px] font-sans">
+                    <div className="flex items-center justify-between gap-1 mb-1">
+                      <span className="text-[10px] font-black uppercase px-1.5 py-0.5 rounded bg-zinc-100 border border-zinc-300 text-black">
+                        {lm.type}
+                      </span>
+                      <span className="text-base">{lm.icon}</span>
+                    </div>
+                    <h4 className="text-sm font-black text-black mb-1">{lm.name}</h4>
+                    <p className="text-xs text-zinc-600 mb-2 leading-relaxed">{lm.hint}</p>
+                    <div className="text-[11px] bg-yellow-50 border border-yellow-300 p-2 rounded-lg font-bold text-black">
+                      Wayfinding Indicator: Matches Naboka & G-City transit tracking.
+                    </div>
+                  </div>
+                </Popup>
+              </Marker>
+            );
+          })}
+        </MapContainer>
+
+        {/* Floating Controls: Locate Me */}
+        <div className="absolute top-4 right-4 z-[400] flex flex-col gap-2">
+          <button
+            onClick={handleLocateMe}
+            className="flex items-center gap-2 bg-white hover:bg-zinc-100 text-black font-black text-xs px-3.5 py-2.5 rounded-xl border-2 border-black shadow-lg transition active:scale-95"
+            title="Locate demo at Bomas landmark"
+          >
+            <Compass className="w-4 h-4 text-black stroke-[2.5]" />
+            <span>Test Waypoint (Bomas)</span>
+          </button>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="w-3 h-3 rounded-full bg-yellow-400 border border-black"></span>
-          <span className="text-black font-black">Lit Stage</span>
-        </div>
-        <div className="hidden sm:flex items-center gap-2 border-l border-zinc-300 pl-3">
-          <span className="w-5 h-0.5 border-t-2 border-dashed border-black"></span>
-          <span className="text-zinc-700 font-bold">Safe Walkway</span>
+
+        {/* Sacco Comparison Overlay Card (Bottom-Left) */}
+        <div className="absolute bottom-4 left-4 z-[400] max-w-sm w-[calc(100%-2rem)] bg-white/95 backdrop-blur-md border-2 border-black rounded-2xl p-3.5 shadow-2xl">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[10px] font-black tracking-wider uppercase bg-black text-yellow-400 px-2 py-0.5 rounded-md">
+              Corridor Operators
+            </span>
+            <span className="text-[10px] text-zinc-500 font-bold">CUK ➔ Nairobi CBD</span>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2 text-xs">
+            {DEMO_CORRIDOR.saccos.map((sacco) => (
+              <div
+                key={sacco.id}
+                onClick={() => setSelectedSacco(sacco)}
+                className="cursor-pointer p-2.5 rounded-xl border border-zinc-300 hover:border-black bg-zinc-50 transition"
+              >
+                <div className="flex items-center justify-between mb-1">
+                  <span className="font-black text-black text-xs">{sacco.name}</span>
+                </div>
+                <div className="text-[11px] text-zinc-600 font-semibold mb-1 truncate">
+                  {sacco.tagline}
+                </div>
+                <div className="text-[11px] font-mono font-bold text-black bg-yellow-400/30 px-1.5 py-0.5 rounded border border-yellow-400">
+                  Peak: {sacco.peak_ceiling}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-2.5 pt-2 border-t border-zinc-200 flex items-center justify-between text-[11px]">
+            <span className="flex items-center gap-1.5 font-bold text-black">
+              <span className="w-4 h-1 bg-black inline-block rounded"></span>
+              Direct Lang'ata Rd
+            </span>
+            <span className="flex items-center gap-1.5 font-bold text-zinc-800">
+              <span className="w-4 h-0.5 border-t-2 border-dashed border-yellow-500 inline-block"></span>
+              Mbagathi Bypass
+            </span>
+          </div>
         </div>
       </div>
     </div>
