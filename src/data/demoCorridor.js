@@ -32,79 +32,65 @@ export const DEMO_CORRIDOR = {
     {
       id: 'cuk',
       name: 'Co-operative University (CUK)',
-      type: 'Origin / Student Stage',
-      coords: [-1.3601, 36.7455],
-      hint: 'Origin terminal & student boarding gate. Well-lit campus barrier with 24/7 security watch.',
-      visual_cue: 'CUK Main Gate barrier, stone gatehouse, student bodaboda shed',
-      icon: '🎓',
-      image_url: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=800&q=80',
-      map_query: '-1.3601,36.7455'
+      type: 'Origin / Stage',
+      coords: [-1.3653, 36.7441],
+      hint: 'Origin terminal & student boarding gate. Well lit near security post.',
+      visual_cue: 'CUK Ushirika Rd entrance gate & bodaboda stage',
+      icon: '🎓'
     },
     {
       id: 'galleria',
       name: 'Galleria Mall Junction',
-      type: 'Major Interchange',
-      coords: [-1.3486, 36.7592],
-      hint: 'Major illuminated transfer point between Karen and Rongai. High pedestrian density.',
-      visual_cue: 'Pedestrian overpass, Shell petrol station, perimeter security lights',
-      icon: '🏬',
-      image_url: 'https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=800&q=80',
-      map_query: '-1.3486,36.7592'
+      type: 'Key Interchange',
+      coords: [-1.3503, 36.7601],
+      hint: 'Major transfer hub to Ongata Rongai / Magadi Road. High foot traffic.',
+      visual_cue: 'Galleria roundabout, pedestrian flyover & Shell station',
+      icon: '🏬'
     },
     {
       id: 'bomas',
       name: 'Bomas of Kenya Landmark',
-      type: 'Primary Navigation Waypoint',
-      coords: [-1.3392, 36.7698],
-      hint: 'Key milestone: Confirms matatu is on the main Langata dual carriageway heading towards CBD.',
-      visual_cue: 'Monumental arch entrance, Forest Edge junction, highway police post nearby',
-      icon: '🏛️',
-      image_url: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=800&q=80',
-      map_query: '-1.3392,36.7698'
+      type: 'Primary Waypoint',
+      coords: [-1.3364, 36.7708],
+      hint: 'Major navigational landmark. Indicates matatu is on Langata Road spine.',
+      visual_cue: 'Bomas monumental entrance arch & Forest Edge junction',
+      icon: '🏛️'
     },
     {
       id: 'cemetery',
       name: 'Langata Cemetery / Barracks Stretch',
       type: 'Night Caution Zone',
       coords: [-1.3282, 36.7865],
-      hint: 'Isolated forest section. Poor streetlighting; commuters advised to stay inside vehicle and not alight on this shoulder.',
-      visual_cue: 'Dense forest canopy, absence of shops or open premises, military barracks fence',
-      icon: '🌲',
-      image_url: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=800&q=80',
-      map_query: '-1.3282,36.7865'
+      hint: 'Unlit forest section. Stay inside vehicle; verified safe transit corridor only.',
+      visual_cue: 'Dense forest canopy & Langata perimeter wall, zero lit shops',
+      icon: '🌲'
     },
     {
       id: 'tmall',
       name: 'T-Mall / Mbagathi Junction',
-      type: 'Route Split Point',
-      coords: [-1.3106, 36.8115],
-      hint: 'Decision node: Driver either continues toward Nyayo or diverts left into Mbagathi (Raila Odinga Way).',
-      visual_cue: 'T-Mall overpass flyover, major junction traffic lights, busy commercial lighting',
-      icon: '🚦',
-      image_url: 'https://images.unsplash.com/photo-1508873696983-2df5293cb395?auto=format&fit=crop&w=800&q=80',
-      map_query: '-1.3106,36.8115'
+      type: 'Split Junction',
+      coords: [-1.3115, 36.8122],
+      hint: 'Diversion point: Straight to Nyayo Stadium, or turn into Raila Odinga Way.',
+      visual_cue: 'T-Mall overpass flyover & Mbagathi Way turnoff',
+      icon: '🚦'
     },
     {
       id: 'nyayo',
       name: 'Nyayo Stadium Roundabout',
-      type: 'CBD Gateway',
-      coords: [-1.3032, 36.8223],
-      hint: 'Approaching city core. High-mast county lighting, traffic police post, and constant vehicle flow.',
-      visual_cue: 'Nyayo National Stadium floodlight towers & Aerodrome Rd intersection',
-      icon: '🏟️',
-      image_url: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
-      map_query: '-1.3032,36.8223'
+      type: 'CBD Approach',
+      coords: [-1.3038, 36.8228],
+      hint: 'Entering central urban core. Traffic police post & round-the-clock lighting.',
+      visual_cue: 'Nyayo Stadium floodlights & Aerodrome Rd roundabout',
+      icon: '🏟️'
     },
     {
       id: 'cbd_railways',
       name: 'Railways Bus Terminal (CBD Lit Zone)',
-      type: 'Verified Lit Safe Terminal',
-      coords: [-1.2905, 36.8256],
-      hint: 'Verified Safe Haven: Kenya Railways Police Unit, high-mast floodlights, 24/7 tea kiosks & active security.',
-      visual_cue: 'Historic clock tower, illuminated passenger concourse, visible transit marshals',
-      icon: '★',
-      image_url: 'https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&w=800&q=80',
-      map_query: '-1.2905,36.8256'
+      type: 'Destination Terminal',
+      coords: [-1.2908, 36.8266],
+      hint: 'Verified Lit Safe Haven: 24/7 Police Post, CCTV concourse, High-mast floodlight.',
+      visual_cue: 'Railways terminal platforms & Haile Selassie Ave concourse',
+      icon: '★'
     }
   ],
   routes: [
@@ -115,35 +101,35 @@ export const DEMO_CORRIDOR = {
       color: '#000000',
       dashArray: null,
       weight: 5,
-      description: "Standard route via Bomas -> Lang'ata Rd -> Nyayo Stadium -> Haile Selassie",
+      description: "Standard daily route via Bomas -> Lang'ata Rd -> Nyayo Stadium -> Haile Selassie",
       coordinates: [
-        [-1.3601, 36.7455],
-        [-1.3486, 36.7592],
-        [-1.3392, 36.7698],
-        [-1.3325, 36.7790],
-        [-1.3282, 36.7865],
-        [-1.3195, 36.7995],
-        [-1.3106, 36.8115],
-        [-1.3032, 36.8223],
-        [-1.2950, 36.8245],
-        [-1.2905, 36.8256]
+        [-1.3653, 36.7441], // CUK Gate
+        [-1.3503, 36.7601], // Galleria Roundabout
+        [-1.3364, 36.7708], // Bomas Gate
+        [-1.3320, 36.7790], // Otiende turn
+        [-1.3282, 36.7865], // Lang'ata Cemetery stretch
+        [-1.3195, 36.7995], // Wilson Airport
+        [-1.3115, 36.8122], // T-Mall
+        [-1.3038, 36.8228], // Nyayo Roundabout
+        [-1.2950, 36.8245], // Haile Selassie roundabout
+        [-1.2908, 36.8266]  // Railways Bus Terminal
       ]
     },
     {
       id: 'diversion',
       name: "Peak Bypass: Mbagathi / Raila Odinga Way",
-      saccos: ['Naboka (Traffic Bypass)', 'G-City Express'],
+      saccos: ['Naboka Sacco (Peak traffic avoid)', 'G-City Express'],
       color: '#eab308',
       dashArray: '8, 8',
       weight: 4,
-      description: "Diverts at T-Mall -> City Mortuary Roundabout -> Ngong Rd -> CBD",
+      description: "Used during heavy Nyayo gridlock: branches off at T-Mall -> City Mortuary -> Community -> CBD",
       coordinates: [
-        [-1.3106, 36.8115],
-        [-1.3045, 36.8085],
-        [-1.2985, 36.8062],
-        [-1.2925, 36.8130],
-        [-1.2885, 36.8190],
-        [-1.2905, 36.8256]
+        [-1.3115, 36.8122], // T-Mall
+        [-1.3045, 36.8085], // Raila Odinga Way
+        [-1.2985, 36.8062], // City Mortuary Roundabout
+        [-1.2925, 36.8130], // Kenyatta National Hospital / Ngong Rd
+        [-1.2885, 36.8190], // Haile Selassie / Uhuru Highway
+        [-1.2908, 36.8266]  // Railways Terminal
       ]
     }
   ]

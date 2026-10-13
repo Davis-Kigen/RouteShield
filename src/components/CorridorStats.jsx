@@ -1,10 +1,10 @@
 import React from 'react';
-import { ShieldCheck, AlertCircle, TrendingUp, Navigation, ArrowRight, Zap, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { DEMO_CORRIDOR } from '../data/demoCorridor';
 
 export default function CorridorStats() {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-6">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
       {/* Sacco Price Transparency Comparison */}
       <div className="lg:col-span-2 bg-white rounded-3xl border-2 border-black p-5 sm:p-6 shadow-xl flex flex-col justify-between">
         <div>
@@ -27,7 +27,7 @@ export default function CorridorStats() {
                 className="rounded-2xl border-2 border-zinc-200 p-4 bg-zinc-50 hover:border-black transition flex flex-col justify-between"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center justify-between mb-1.5">
                     <span className="font-black text-black text-sm">{sacco.name}</span>
                     <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
                       Regulated
@@ -38,14 +38,16 @@ export default function CorridorStats() {
                     {sacco.tagline}
                   </p>
 
-                  <div className="space-y-1.5 text-xs font-mono bg-white p-2.5 rounded-xl border border-zinc-200">
+                  <div className="space-y-2 text-xs font-mono bg-white p-3 rounded-xl border border-zinc-200">
                     <div className="flex justify-between items-center">
                       <span className="text-zinc-500 font-bold">Standard Fare:</span>
-                      <strong className="text-black">{sacco.off_peak}</strong>
+                      <strong className="text-black text-xs font-black">{sacco.off_peak}</strong>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-zinc-500 font-bold">Peak Ceiling:</span>
-                      <strong className="text-black bg-yellow-400/40 px-1 rounded">{sacco.peak_ceiling}</strong>
+                      <strong className="text-black font-black bg-yellow-400/50 px-2 py-0.5 rounded border border-yellow-400">
+                        {sacco.peak_ceiling}
+                      </strong>
                     </div>
                   </div>
                 </div>
@@ -63,7 +65,7 @@ export default function CorridorStats() {
 
         <div className="mt-4 pt-3 border-t border-zinc-200 flex items-center gap-2 text-xs text-zinc-700 font-medium">
           <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 stroke-[2.5]" />
-          <span>Fares monitored against commuter community alerts to prevent informal tout exploitation.</span>
+          <span>Fares monitored against community reports to prevent informal tout exploitation.</span>
         </div>
       </div>
 
